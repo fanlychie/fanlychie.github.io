@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="fanlychie,范忠云,範宗雲,java,技术,博客"><meta name="keywords" content="fanlychie,范忠云,java,技术,博客,spring,mvc,cloud"><title>範宗雲 | 面朝大海，望眼欲穿</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">範宗雲</h1><a id="logo" href="/.">範宗雲</a><p class="description">面朝大海，望眼欲穿</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="请输入搜索关键字 ..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h2 class="post-title"><a href="/post/spring-boot-properties.html">Spring Boot 属性文件配置</a></h2><div class="post-meta"><span class="date">2017-04-16</span><a href="/post/spring-boot-properties.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/spring-boot-properties.html"></i>留言</a></div><div class="post-content"><p>Spring Boot 允许我们通过<code>*.properties</code>文件、<code>*.yml</code>文件、环境变量、命令行参数等来外部化应用程序的配置，以便我们在不同的环境可以使用同一套程序代码。</p></div><p class="readmore"><a href="/post/spring-boot-properties.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/thymeleaf.html">Thymeleaf 教程</a></h2><div class="post-meta"><span class="date">2017-04-04</span><a href="/post/thymeleaf.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/thymeleaf.html"></i>留言</a></div><div class="post-content"><p>Thymeleaf 是一个服务器端 Java 模板引擎，能够处理 HTML、XML、CSS、JAVASCRIPT 等模板文件。Thymeleaf 模板可以直接当作静态原型来使用，它主要目标是为开发者的开发工作流程带来优雅的自然模板，也是 Java 服务器端 HTML5 开发的理想选择。</p></div><p class="readmore"><a href="/post/thymeleaf.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/spring-boot-with-thymeleaf.html">Spring Boot 添加 Thymeleaf 支持</a></h2><div class="post-meta"><span class="date">2017-04-03</span><a href="/post/spring-boot-with-thymeleaf.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/spring-boot-with-thymeleaf.html"></i>留言</a></div><div class="post-content"><p>Spring Boot 对 Thymeleaf 模板引擎提供了自配置的良好支持。Spring Boot 1.5.2.RELEASE 版本默认使用的是 Thymeleaf 2.0+，本文使用 Thymeleaf 3.0+ 版本，在 pom.xml 中添加以下声明：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">thymeleaf.version</span>&gt;</span>3.0.5.RELEASE<span class="tag">&lt;/<span class="name">thymeleaf.version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span>2.2.1<span class="tag">&lt;/<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后添加 Thymeleaf 依赖声明：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></div><p class="readmore"><a href="/post/spring-boot-with-thymeleaf.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html">解决 IntelliJ IDEA 无法热加载 Spring Boot 模板文件和静态资源文件</a></h2><div class="post-meta"><span class="date">2017-04-03</span><a href="/post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html"></i>留言</a></div><div class="post-content"><h3 id="1-IntelliJ-IDEA-配置"><a href="#1-IntelliJ-IDEA-配置" class="headerlink" title="1. IntelliJ IDEA 配置"></a>1. IntelliJ IDEA 配置</h3><p>快捷键<code>Ctrl + Alt + S</code>打开设置面板，勾选<code>Build project automatically</code>选项：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/idea-settings.png" alt="idea-settings"></p></div><p class="readmore"><a href="/post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/spring-boot-with-jsp.html">Spring Boot 添加 JSP 支持</a></h2><div class="post-meta"><span class="date">2017-04-02</span><a href="/post/spring-boot-with-jsp.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/spring-boot-with-jsp.html"></i>留言</a></div><div class="post-content"><p>Spring MVC 支持多种模板技术，如 JSP、FreeMarker、Thymeleaf 等。Spring Boot 官方并不推荐使用 JSP 模板引擎，如果有可能，应尽量避免使用 JSP，因为当使用嵌入式 Servlet 容器时，对使用 JSP 模板引擎有几个已知的限制，以下是 Spring Boot 支持自动配置的模板引擎（其中并不包含 JSP）：</p>
+<ul>
+<li>FreeMarker</li>
+<li>Groovy</li>
+<li>Thymeleaf</li>
+<li>Mustache</li>
+</ul></div><p class="readmore"><a href="/post/spring-boot-with-jsp.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/spring-boot-quick-start.html">Spring Boot 快速入门 - 1 分钟搭建 Web 应用</a></h2><div class="post-meta"><span class="date">2017-04-02</span><a href="/post/spring-boot-quick-start.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/spring-boot-quick-start.html"></i>留言</a></div><div class="post-content"><p>Spring Boot 不是一个新的框架，它是提供一种使我们更易于创建基于 Spring 的最小或零配置的独立应用和服务的方式。</p>
+<p>Spring 对于 Java 开发者来说一定都并不陌生，它作为目前非常流行的一个 Java 应用开发的基础框架，应用非常广泛。然而，由于其配置繁杂，各样格式的XML配置文件，着实让人头疼。</p>
+<p>Spring Boot 的出现，可以让我们只需要非常简单的几步就可以搭建起一个基于 Sprign 框架的 Web 应用程序。Spring Boot的主要目标：</p>
+<ul>
+<li>为所有的Spring开发提供一个更快，更广泛的入门体验。</li>
+<li>开箱即用，以最小或零配置的方式，使我们更专注于解决应用程序的功能需求。</li>
+<li>提供一些非功能性的常见的大型项目类特性（如内嵌服务器、安全、度量、健康检查、外部化配置）。</li>
+<li>绝对没有代码生成，也不需要XML配置，可以完全避免XML配置</li>
+<li>为了避免定义更多的注释配置（它将一些现有的 Spring 框架注释组合成一个简单的单个注释）</li>
+<li>提供一些默认值，以便在任何时间内快速启动新项目。</li>
+</ul></div><p class="readmore"><a href="/post/spring-boot-quick-start.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-many-to-many-annotation.html">JPA 多对多注解</a></h2><div class="post-meta"><span class="date">2017-02-18</span><a href="/post/jpa-many-to-many-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-many-to-many-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@ManyToMany</code> 是属性或方法级别的注解，用于定义<a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#source-target-entity" target="_blank" rel="external"><strong>源实体</strong></a>与<a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#source-target-entity" target="_blank" rel="external"><strong>目标实体</strong></a>是多对多的关系。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetEntity</td>
+<td>Class</td>
+<td><strong>源实体</strong>关联的<strong>目标实体</strong>类型，默认是该成员属性对应的集合类型的泛型的参数化类型。</td>
+</tr>
+<tr>
+<td>mappedBy</td>
+<td>String</td>
+<td>用在双向关联中。如果关系是双向的，则需定义此参数（与 <a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#JoinColumn" target="_blank" rel="external">@JoinColumn</a> 互斥，如果标注了 <a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#JoinColumn" target="_blank" rel="external">@JoinColumn</a> 注解，不需要再定义此参数）。</td>
+</tr>
+<tr>
+<td>cascade</td>
+<td>CascadeType[]</td>
+<td>定义<strong>源实体</strong>和关联的<strong>目标实体</strong>间的级联关系。当对<strong>源实体</strong>进行操作时，是否对关联的<strong>目标实体</strong>也做相同的操作。默认没有级联操作。该参数的可选值有：<br>CascadeType.PERSIST（级联新建）<br>CascadeType.REMOVE（级联删除）<br>CascadeType.REFRESH（级联刷新）<br>CascadeType.MERGE（级联更新）<br>CascadeType.ALL（包含以上四项）</td>
+</tr>
+<tr>
+<td>fetch</td>
+<td>FetchType</td>
+<td>定义关联的<strong>目标实体</strong>的数据的加载方式。<br>可选值：<br>FetchType.LAZY（延迟加载，默认）<br>FetchType.EAGER（立即加载）<br>延迟加载：只有在第一次访问<strong>源实体</strong>关联的<strong>目标实体</strong>的时候才去加载。<br>立即加载：在加载<strong>源实体</strong>数据的时候同时去加载好关联的<strong>目标实体</strong>的数据。</td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-many-to-many-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-one-to-many-many-to-one-annotation.html">JPA 一对多、多对一注解</a></h2><div class="post-meta"><span class="date">2017-02-14</span><a href="/post/jpa-one-to-many-many-to-one-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-one-to-many-many-to-one-annotation.html"></i>留言</a></div><div class="post-content"><h3 id="1-OneToMany"><a href="#1-OneToMany" class="headerlink" title="1. @OneToMany"></a>1. @OneToMany</h3><p><code>@OneToMany</code> 是属性或方法级别的注解，用于定义<a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#source-target-entity" target="_blank" rel="external"><strong>源实体</strong></a>与<a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#source-target-entity" target="_blank" rel="external"><strong>目标实体</strong></a>是一对多的关系。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetEntity</td>
+<td>Class</td>
+<td><strong>源实体</strong>关联的<strong>目标实体</strong>类型，默认是该成员属性对应的集合类型的泛型的参数化类型。</td>
+</tr>
+<tr>
+<td>mappedBy</td>
+<td>String</td>
+<td>用在双向关联中。如果关系是双向的，则需定义此参数（与 <a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#JoinColumn" target="_blank" rel="external">@JoinColumn</a> 互斥，如果标注了 <a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#JoinColumn" target="_blank" rel="external">@JoinColumn</a> 注解，不需要再定义此参数）。</td>
+</tr>
+<tr>
+<td>cascade</td>
+<td>CascadeType[]</td>
+<td>定义<strong>源实体</strong>和关联的<strong>目标实体</strong>间的级联关系。当对<strong>源实体</strong>进行操作时，是否对关联的<strong>目标实体</strong>也做相同的操作。默认没有级联操作。该参数的可选值有：<br>CascadeType.PERSIST（级联新建）<br>CascadeType.REMOVE（级联删除）<br>CascadeType.REFRESH（级联刷新）<br>CascadeType.MERGE（级联更新）<br>CascadeType.ALL（包含以上四项）</td>
+</tr>
+<tr>
+<td>fetch</td>
+<td>FetchType</td>
+<td>定义关联的<strong>目标实体</strong>的数据的加载方式。<br>可选值：<br>FetchType.LAZY（延迟加载，默认）<br>FetchType.EAGER（立即加载）<br>延迟加载：只有在第一次访问<strong>源实体</strong>关联的<strong>目标实体</strong>的时候才去加载。<br>立即加载：在加载<strong>源实体</strong>数据的时候同时去加载好关联的<strong>目标实体</strong>的数据。</td>
+</tr>
+<tr>
+<td>orphanRemoval</td>
+<td>boolean</td>
+<td>当<strong>源实体</strong>关联的<strong>目标实体</strong>被断开（如给该属性赋予另外一个实例，或该属性的值被设为 null。被断开的实例称为孤值，因为已经找不到任何一个实例与之发生关联）时，是否自动删除断开的实例（在数据库中表现为删除表示该实例的行记录），默认为 false。<br>可参考：<a href="http://fanlychie.github.io/post/jpa-one-to-one-annotation.html#orphanRemoval-%E4%B8%8E-CascadeType-REMOVE-%E7%9A%84%E5%8C%BA%E5%88%AB" target="_blank" rel="external">orphanRemoval 与 CascadeType.REMOVE 的区别</a></td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-one-to-many-many-to-one-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-one-to-one-annotation.html">JPA 一对一注解</a></h2><div class="post-meta"><span class="date">2017-02-14</span><a href="/post/jpa-one-to-one-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-one-to-one-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@OneToOne</code> 是属性或方法级别的注解，用于定义<strong>源实体</strong>与<strong>目标实体</strong>是一对一的关系。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetEntity</td>
+<td>Class</td>
+<td><strong>源实体</strong>关联的<strong>目标实体</strong>类型，默认是该成员属性对应的类型，因此该参数通常可以缺省。</td>
+</tr>
+<tr>
+<td>mappedBy</td>
+<td>String</td>
+<td>用在双向关联中。如果关系是双向的，只能有一方作为主体端，另一方则需声明此参数以表明将表间的这种关联关系转交给对方来维护。</td>
+</tr>
+<tr>
+<td>cascade</td>
+<td>CascadeType[]</td>
+<td>定义<strong>源实体</strong>和关联的<strong>目标实体</strong>间的级联关系。当对<strong>源实体</strong>进行操作时，是否对关联的<strong>目标实体</strong>也做相同的操作。默认没有级联操作。该参数的可选值有：<br>CascadeType.PERSIST（级联新建）<br>CascadeType.REMOVE（级联删除）<br>CascadeType.REFRESH（级联刷新）<br>CascadeType.MERGE（级联更新）<br>CascadeType.ALL（包含以上四项）</td>
+</tr>
+<tr>
+<td>fetch</td>
+<td>FetchType</td>
+<td>定义关联的<strong>目标实体</strong>的数据的加载方式。<br>可选值：<br>FetchType.LAZY（延迟加载）<br>FetchType.EAGER（立即加载，默认）<br>延迟加载：只有在第一次访问<strong>源实体</strong>关联的<strong>目标实体</strong>的时候才去加载。<br>立即加载：在加载<strong>源实体</strong>数据的时候同时去加载好关联的<strong>目标实体</strong>的数据。</td>
+</tr>
+<tr>
+<td>optional</td>
+<td>boolean</td>
+<td><strong>源实体</strong>关联的<strong>目标实体</strong>是否允许为 null，默认为 true。</td>
+</tr>
+<tr>
+<td>orphanRemoval</td>
+<td>boolean</td>
+<td>当<strong>源实体</strong>关联的<strong>目标实体</strong>被断开（如给该属性赋予另外一个实例，或该属性的值被设为 null。被断开的实例称为孤值，因为已经找不到任何一个实例与之发生关联）时，是否自动删除断开的实例（在数据库中表现为删除表示该实例的行记录），默认为 false。</td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-one-to-one-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-column-annotation.html">JPA @Column 注解</a></h2><div class="post-meta"><span class="date">2017-02-13</span><a href="/post/jpa-column-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-column-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@Column</code> 是属性或方法级别的注解，用于指定持久化属性映射到数据库表的列。如果没有指定列注释，则使用其默认值。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>列的名称，默认为属性的名称（Hibernate 映射列时，若遇到驼峰拼写，会自动添加 <code>_</code> 连接并将大写字母改成小写）。</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>boolean</td>
+<td>列的值是否是唯一的。这是 <a href="http://fanlychie.github.io/post/jpa-table-annotation.html#UniqueConstraint" target="_blank" rel="external">@UniqueConstraint</a> 注解的一个快捷方式， 实质上是在声明唯一约束。默认值为 false。</td>
+</tr>
+<tr>
+<td>nullable</td>
+<td>boolean</td>
+<td>列的值是否允许为 null。默认为 true。</td>
+</tr>
+<tr>
+<td>insertable</td>
+<td>boolean</td>
+<td>列是否包含在 <code>INSERT</code> 语句中，默认为 true。</td>
+</tr>
+<tr>
+<td>updatable</td>
+<td>boolean</td>
+<td>列是否包含在 <code>UPDATE</code> 语句中，默认为 true。</td>
+</tr>
+<tr>
+<td>columnDefinition</td>
+<td>String</td>
+<td>生成列的 DDL 时使用的 SQL 片段。默认使用推断的类型来生成 SQL 片段以创建此列。</td>
+</tr>
+<tr>
+<td>table</td>
+<td>String</td>
+<td>当前列所属的表的名称。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>int</td>
+<td>列的长度，仅对字符串类型的列生效。默认为255。</td>
+</tr>
+<tr>
+<td>precision</td>
+<td>int</td>
+<td>列的精度，仅对十进制数值有效，表示有效数值的总位数。默认为0。</td>
+</tr>
+<tr>
+<td>scale</td>
+<td>int</td>
+<td>列的精度，仅对十进制数值有效，表示小数位的总位数。默认为0。</td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-column-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-temporal-annotation.html">JPA @Temporal 注解</a></h2><div class="post-meta"><span class="date">2017-02-13</span><a href="/post/jpa-temporal-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-temporal-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@Temporal</code> 是属性或方法级别的注解，用于声明属性持久化到数据库时所使用的时间精度。该注解可以应用于任何以下类型的实体类属性：</p>
+<ul>
+<li>java.util.Date</li>
+<li>java.util.Calendar</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td>TemporalType</td>
+<td>存储的类型，可选值：<br>TemporalType.DATE（日期）<br>TemporalType.TIME（时间）<br>TemporalType.TIMESTAMP（日期和时间）</td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-temporal-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-transient-annotation.html">JPA @Transient 注解</a></h2><div class="post-meta"><span class="date">2017-02-13</span><a href="/post/jpa-transient-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-transient-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@Transient</code> 是属性或方法级别的注解，该注解没有参数，用于标注属性是瞬态而非持久的。</p></div><p class="readmore"><a href="/post/jpa-transient-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-generatedvalue-annotation.html">JPA @GeneratedValue 注解</a></h2><div class="post-meta"><span class="date">2017-02-13</span><a href="/post/jpa-generatedvalue-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-generatedvalue-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@GeneratedValue</code> 是属性或方法级别的注解，它结合 <code>@Id</code> 注解为主键的值提供生成策略的规范。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>strategy</td>
+<td>GenerationType</td>
+<td>主键生成策略。可选值：<br>GenerationType.TABLE<br>GenerationType.SEQUENCE<br>GenerationType.IDENTITY<br>GenerationType.AUTO<br>默认是 GenerationType.AUTO。</td>
+</tr>
+<tr>
+<td>generator</td>
+<td>String</td>
+<td>主键生成器的名称。该名称为 <code>@TableGenerator</code> 或 <code>@SequenceGenerator</code> 注解中 name 参数的值。默认为持久化提供者（如 Hibernate）提供的id生成器。</td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-generatedvalue-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-id-annotation.html">JPA @Id 注解</a></h2><div class="post-meta"><span class="date">2017-02-13</span><a href="/post/jpa-id-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-id-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@Id</code> 是属性或方法级别的注解，该注解没有参数，用于标注实体的主键（映射到数据库表的主键）。</p></div><p class="readmore"><a href="/post/jpa-id-annotation.html">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/post/jpa-basic-annotation.html">JPA @Basic 注解</a></h2><div class="post-meta"><span class="date">2017-02-13</span><a href="/post/jpa-basic-annotation.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/jpa-basic-annotation.html"></i>留言</a></div><div class="post-content"><p><code>@Basic</code> 是属性或方法级别的注解，该注解可以应用于任何以下类型的实体类属性：</p>
+<ul>
+<li>Java 原始类型</li>
+<li>原始类型的包装类型</li>
+<li>String</li>
+<li>java.math.BigInteger</li>
+<li>java.math.BigDecimal</li>
+<li>java.util.Date</li>
+<li>java.util.Calendar</li>
+<li>java.sql.Date</li>
+<li>java.sql.Time</li>
+<li>java.sql.Timestamp</li>
+<li>byte[]</li>
+<li>Byte[]</li>
+<li>char[]</li>
+<li>Character[]</li>
+<li>枚举</li>
+<li>任意实现 java.io.Serializable 接口的类型</li>
+</ul>
+<p>在实体类中，对以上这些类型的属性，如果没有标注 <code>@Basic</code> 注解，则将使用 <code>@Basic</code> 注解的默认值。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fetch</td>
+<td>FetchType</td>
+<td>属性值的加载策略。可选值：<br>FetchType.EAGER：即时加载；<br>FetchType.LAZY：延迟加载，当第一次访问属性时才进行数据的加载；<br>默认为 FetchType.EAGER。</td>
+</tr>
+<tr>
+<td>optional</td>
+<td>boolean</td>
+<td>是否允许为 null，默认为 true。</td>
+</tr>
+</tbody>
+</table></div><p class="readmore"><a href="/post/jpa-basic-annotation.html">阅读更多</a></p></div><nav class="page-navigator"><a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页</a></nav></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/post/spring-cloud-netflix-eureka.html">Spring Cloud Eureka — 服务发现</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-testing.html">Spring Boot Test</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-servlet-filter-listener-usage.html">Spring Boot 使用 Servlet、Filter、Listener</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-exception-handler.html">Spring Boot 异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-error-page.html">Spring Boot 错误页面</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-tomcat-context-path.html">Spring Boot Tomcat 上下文路径</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-tomcat-port.html">Spring Boot Tomcat 端口</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-logo-banner.html">Spring Boot Banner</a></li><li class="post-list-item"><a class="post-list-link" href="/post/jpql-usage.html">JPQL 语言语法</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-jpa.html">Spring Boot Jpa</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/开发工具包/" style="font-size: 15px;">开发工具包</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Java8/" style="font-size: 15px;">Java8</a> <a href="/tags/CAS/" style="font-size: 15px;">CAS</a> <a href="/tags/Eclipse/" style="font-size: 15px;">Eclipse</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/工具类/" style="font-size: 15px;">工具类</a> <a href="/tags/Tomcat/" style="font-size: 15px;">Tomcat</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/ActiveMQ/" style="font-size: 15px;">ActiveMQ</a> <a href="/tags/缓存/" style="font-size: 15px;">缓存</a> <a href="/tags/Memcached/" style="font-size: 15px;">Memcached</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/网络爬虫/" style="font-size: 15px;">网络爬虫</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Solr/" style="font-size: 15px;">Solr</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 15px;">Thymeleaf</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">06月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">05月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">04月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">02月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">01月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">09月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">01月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">12月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">11月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">10月 2015</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> | <a href="/atom.xml">订阅</a> |<span>主题<a rel="nofollow" target="_blank" href="https://hexo.io/zh-cn/"> Hexo</a><a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake</a> |</span><span>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4e375539c063ce29112e53dea9f27aae";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/totop.js?v=2.0.1" async></script></body></html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="fanlychie,范忠云,範宗雲,java,技术,博客"><meta name="keywords" content="fanlychie,范忠云,java,技术,博客,spring,mvc,cloud"><title>nginx 负载均衡配置 | 範宗雲</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">nginx 负载均衡配置</h1><a id="logo" href="/.">範宗雲</a><p class="description">面朝大海，望眼欲穿</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="请输入搜索关键字 ..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">nginx 负载均衡配置</h1><div class="post-meta"><span class="date">2015-11-13</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/post/nginx-slb.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/nginx-slb.html"></i>留言</a></div><div class="post-content"><p>配置文件的位置：/usr/local/nginx/conf/nginx.conf</p>
+<h1 id="user"><a href="#user" class="headerlink" title="user"></a>user</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#user  www www;</div></pre></td></tr></table></figure>
+<p>nginx 运行的用户和用户组，默认为 nobody</p>
+<a id="more"></a>
+<h1 id="pid"><a href="#pid" class="headerlink" title="pid"></a>pid</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pid  logs/nginx.pid;</div></pre></td></tr></table></figure>
+<p>进程文件配置，默认为 logs/nginx.pid</p>
+<h1 id="error-log"><a href="#error-log" class="headerlink" title="error_log"></a>error_log</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error_log  logs/error.log  warn;</div></pre></td></tr></table></figure>
+<p>错误日志配置。</p>
+<p>日志级别可选：debug &lt; info &lt; notice &lt; warn &lt; error &lt; crit</p>
+<p>日志级别越高，记录的日志信息越少</p>
+<h1 id="worker-processes"><a href="#worker-processes" class="headerlink" title="worker_processes"></a>worker_processes</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">worker_processes  1;</div></pre></td></tr></table></figure>
+<p>nginx 对外提供 web 服务的 worder 进程数。通常设置和 cpu 核数的数量相等</p>
+<h1 id="worker-rlimit-nofile"><a href="#worker-rlimit-nofile" class="headerlink" title="worker_rlimit_nofile"></a>worker_rlimit_nofile</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">worker_rlimit_nofile 1024;</div></pre></td></tr></table></figure>
+<p>一个 worker 进程能打开的文件的最大数目。</p>
+<p>理论值应该是系统最多能打开的文件数（在 linux 中执行 ulimit -n 可得到值）与 worker 进程数相</p>
+<p>除得到的值，但是 nginx 分配请求并不均匀，建议与 ulimit -n 的值保持一致</p>
+<h1 id="events"><a href="#events" class="headerlink" title="events"></a>events</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">events &#123;</div><div class="line"></div><div class="line">    worker_connections  1024;</div><div class="line"></div><div class="line">    use epoll;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="worker-connections"><a href="#worker-connections" class="headerlink" title="worker_connections"></a>worker_connections</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">worker_connections  1024;</div></pre></td></tr></table></figure>
+<p>设置单个 worker 进程最大连接数</p>
+<h2 id="use"><a href="#use" class="headerlink" title="use"></a>use</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">use epoll;</div></pre></td></tr></table></figure>
+<p>设置复用客户端线程的轮询方法</p>
+<p>use &nbsp;[ &nbsp;kqueue&nbsp; | &nbsp;rtsig&nbsp; | &nbsp;epoll&nbsp; | &nbsp;select&nbsp; | &nbsp;poll&nbsp; ] </p>
+<p>epoll 是 linux 2.6 以上版本内核中的高性能网络 I / O 模型</p>
+<p>如果不设置，nginx 会选择一个最适合你操作系统的模型</p>
+<h1 id="http"><a href="#http" class="headerlink" title="http"></a>http</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>http 服务器配置</p>
+<h2 id="include"><a href="#include" class="headerlink" title="include"></a>include</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include  mime.types;</div></pre></td></tr></table></figure>
+<p>设置 MIME 类型（资源的媒体类型），通过 http 协议由 web 服务器返回给客户端浏览器，浏览器会自动使用指定应用程序来打开资源文件</p>
+<p>mime.types 文件位于 /usr/local/nginx/conf/mime.types</p>
+<h2 id="default-type"><a href="#default-type" class="headerlink" title="default_type"></a>default_type</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">default_type  application/octet-stream;</div></pre></td></tr></table></figure>
+<p>默认的资源文件的媒体类型，application/octet-stream 为任意的二进制数据流传输</p>
+<h2 id="log-format"><a href="#log-format" class="headerlink" title="log_format"></a>log_format</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div></pre></td></tr></table></figure>
+<p>日志格式。&quot;log_format &nbsp;main&quot;&nbsp;  这里的 main 是日志格式的名称，通过不同名称来定义多种日志格式</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$remote_addr</td>
+<td>客户端 IP 地址</td>
+</tr>
+<tr>
+<td>$http_x_forwarded_for</td>
+<td>客户端 IP 地址</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端用户名</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>访问时间和时区</td>
+</tr>
+<tr>
+<td>$http_host</td>
+<td>请求主机（域名）</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>请求的 uri 和 http 协议</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>url 跳转来源（从哪个页面链接访问过来的）</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>http 请求状态</td>
+</tr>
+<tr>
+<td>$request_time</td>
+<td>处理请求的时间</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端文件的主体内容大小</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>客户端浏览器信息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="access-log"><a href="#access-log" class="headerlink" title="access_log"></a>access_log</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">access_log  logs/access.log  main;</div></pre></td></tr></table></figure>
+<p>配置访问日志。可以指定使用的日志格式，如这里的 main</p>
+<h2 id="charset"><a href="#charset" class="headerlink" title="charset"></a>charset</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">charset  UTF-8;</div></pre></td></tr></table></figure>
+<p>使用的字符集编码</p>
+<h2 id="sendfile"><a href="#sendfile" class="headerlink" title="sendfile"></a>sendfile</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sendfile  on;</div></pre></td></tr></table></figure>
+<p>通过调用 sendfile 函数（sendfile 是一个系统调用，在内核空间中完成），可以高效的发送静态文件</p>
+<h2 id="tcp-nopush"><a href="#tcp-nopush" class="headerlink" title="tcp_nopush"></a>tcp_nopush</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcp_nopush  on;</div></pre></td></tr></table></figure>
+<p>一次性发送数据包。与 tcp_nodelay 配置项互斥，与 sendfile 配合工作</p>
+<h2 id="tcp-nodelay"><a href="#tcp-nodelay" class="headerlink" title="tcp_nodelay"></a>tcp_nodelay</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcp_nodelay  on;</div></pre></td></tr></table></figure>
+<p>每 0.2 秒后立即发送一个数据包，可以有效的防止网络阻塞，当需要及时发送数据时，应该开启它</p>
+<h2 id="keepalive-timeout"><a href="#keepalive-timeout" class="headerlink" title="keepalive_timeout"></a>keepalive_timeout</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keepalive_timeout  60;</div></pre></td></tr></table></figure>
+<p>配置长连接的超时时间。服务器将在这个超时时间过后关闭链接</p>
+<h2 id="client-header-timeout"><a href="#client-header-timeout" class="headerlink" title="client_header_timeout"></a>client_header_timeout</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client_header_timeout  120;</div></pre></td></tr></table></figure>
+<p>等待客户端发送一个请求头的超时时间，超时 Nginx 返回一个请求超时的状态码（408，Request Timeout）</p>
+<h2 id="client-body-timeout"><a href="#client-body-timeout" class="headerlink" title="client_body_timeout"></a>client_body_timeout</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client_body_timeout  120;</div></pre></td></tr></table></figure>
+<p>等待客户端发送一个请求体的超时时间，超时 Nginx 返回一个请求超时的状态码（408，Request Timeout）</p>
+<h2 id="send-timeout"><a href="#send-timeout" class="headerlink" title="send_timeout"></a>send_timeout</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">send_timeout 120;</div></pre></td></tr></table></figure>
+<p>客户端读取数据的超时时间，超时 Nginx 就会关闭该连接</p>
+<h2 id="client-header-buffer-size"><a href="#client-header-buffer-size" class="headerlink" title="client_header_buffer_size"></a>client_header_buffer_size</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client_header_buffer_size  16k;</div></pre></td></tr></table></figure>
+<p>缓存客户端请求头的大小</p>
+<h2 id="large-client-header-buffers"><a href="#large-client-header-buffers" class="headerlink" title="large_client_header_buffers"></a>large_client_header_buffers</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">large_client_header_buffers  4 32k;</div></pre></td></tr></table></figure>
+<p>缓存客户端请求头的最大大小，此处为 4 个 32K 的大小</p>
+<h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip  on;</div></pre></td></tr></table></figure>
+<p>采用 gzip 压缩的形式发送数据，可以减少发送的数据量</p>
+<h2 id="gzip-min-length"><a href="#gzip-min-length" class="headerlink" title="gzip_min_length"></a>gzip_min_length</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip_min_length  1k;</div></pre></td></tr></table></figure>
+<p>大于该值的内容才压缩，0 表示所有的内容都压缩</p>
+<h2 id="gzip-buffers"><a href="#gzip-buffers" class="headerlink" title="gzip_buffers"></a>gzip_buffers</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip_buffers  4 16k;</div></pre></td></tr></table></figure>
+<p>缓存 gzip 压缩数据的空间大小，此处为 4 个 16K 的大小</p>
+<h2 id="gzip-types"><a href="#gzip-types" class="headerlink" title="gzip_types"></a>gzip_types</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip_types  text/plain text/css application/x-javascript application/xml;</div></pre></td></tr></table></figure>
+<p>只有匹配配置的 MIME 类型的文档内容才会被压缩</p>
+<p>nginx 默认会对 text/html 类型进行压缩，此处无需再配，若配置 text/html，nginx 会发出警告：</p>
+<p>nginx: [ warn ] duplicate MIME type &quot;text/html&quot;</p>
+<h2 id="server-names-hash-bucket-size"><a href="#server-names-hash-bucket-size" class="headerlink" title="server_names_hash_bucket_size"></a>server_names_hash_bucket_size</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server_names_hash_bucket_size 128;</div></pre></td></tr></table></figure>
+<p>服务器名称的 hash 表大小，如果太小，Nginx 无法启动</p>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>虚拟主机配置</p>
+<h3 id="listen"><a href="#listen" class="headerlink" title="listen"></a>listen</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">listen  80;</div></pre></td></tr></table></figure>
+<p>监听端口</p>
+<h3 id="server-name"><a href="#server-name" class="headerlink" title="server_name"></a>server_name</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server_name  fanlychie.com www.fanlychie.com;</div></pre></td></tr></table></figure>
+<p>域名，可以配置多个，以空格分开</p>
+<h3 id="access-log-1"><a href="#access-log-1" class="headerlink" title="access_log"></a>access_log</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">access_log  logs/fanlychie.access.log  main;</div></pre></td></tr></table></figure>
+<p>虚拟主机访问日志。</p>
+<h3 id="root"><a href="#root" class="headerlink" title="root"></a>root</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root  www.fanlychie.com;</div></pre></td></tr></table></figure>
+<p>网站根目录，用于存放网站静态资源文件。若为相对路径，则是相对于 nginx 安装的目录。如此处的物理路径为 /usr/local/nginx/www.fanlychie.com</p>
+<h3 id="location"><a href="#location" class="headerlink" title="location"></a>location</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>配置请求处理的方式</p>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/</td>
+<td>通用配置，可匹配任意请求的 url 地址</td>
+</tr>
+<tr>
+<td>=</td>
+<td>精确匹配 url 地址</td>
+</tr>
+<tr>
+<td>~</td>
+<td>区分大小写的正则表达式匹配 url 地址</td>
+</tr>
+<tr>
+<td>~*</td>
+<td>不区分大小写的正则表达式匹配 url 地址</td>
+</tr>
+<tr>
+<td>^~</td>
+<td>禁止正则表达式的普通字串匹配 url 地址</td>
+</tr>
+</tbody>
+</table>
+<p>多个 location 匹配 url 地址的优先级：</p>
+<ol>
+<li><p>&quot;=&quot; 被匹配，停止搜索其他匹配</p>
+</li>
+<li><p>&quot;^~&quot; 被匹配，停止搜索其他匹配</p>
+</li>
+<li><p>&quot;~&quot; 和 &quot;~*&quot; 按配置文件中出现的先后顺序，一旦匹配，停止搜索其他匹配</p>
+</li>
+<li><p>若以上都没有匹配到，则交给 &quot;/&quot; 处理请求</p>
+</li>
+</ol>
+<h4 id="expires"><a href="#expires" class="headerlink" title="expires"></a>expires</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location ~ \.(js|css)$ &#123;</div><div class="line"></div><div class="line">    expires  1d;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>js 和 css 文件由 nginx 直接提供，缓存一天</p>
+<p>如客户端访问 <a href="http://www.fanlychie.com/styles/main.css" target="_blank" rel="external">http://www.fanlychie.com/styles/main.css</a></p>
+<p>由于上面已经配置 root &nbsp;www.fanlychie.com，nginx 会将 </p>
+<p>/usr/local/nginx/www.fanlychie.com/styles/main.css 文件直接返回给客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location ~ \.(gif|jpg|jpeg|png|ico)$ &#123;</div><div class="line"></div><div class="line">    expires  7d;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同上面，图片文件缓存 7 天</p>
+<h4 id="deny"><a href="#deny" class="headerlink" title="deny"></a>deny</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location ~* \.jsp &#123;</div><div class="line"></div><div class="line">    deny  all;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>禁止直接访问 *.jsp 文件（返回 403 状态码给客户端）</p>
+<h4 id="proxy-pass"><a href="#proxy-pass" class="headerlink" title="proxy_pass"></a>proxy_pass</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">location = / &#123;</div><div class="line"></div><div class="line">    proxy_set_header        Host             $host;</div><div class="line"></div><div class="line">    proxy_set_header        X-Real-IP        $remote_addr;</div><div class="line"></div><div class="line">    proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;</div><div class="line"></div><div class="line">    proxy_pass  http://www.fanlychie.com/index;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>proxy_pass 配置反向代理</p>
+<p>即通过域名访问网站首页，nginx 将请求转发给真实的运用服务器处理，即</p>
+<p><a href="http://www.fanlychie.com/index&nbsp;（www.fanlychie.com" target="_blank" rel="external">http://www.fanlychie.com/index&nbsp;（www.fanlychie.com</a> 是上面配置的 server_name 的名称）</p>
+<h4 id="proxy-set-header"><a href="#proxy-set-header" class="headerlink" title="proxy_set_header"></a>proxy_set_header</h4><p>设置请求报头域的值</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Host</td>
+<td>指定请求的服务器的域名和端口号</td>
+</tr>
+<tr>
+<td>X-Forwarded-For&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>用于记录代理 IP 信息<br>每经过一级代理（匿名代理除外），代理服务器都会把这次请求的来源 IP<br>追加在 X-Forwarded-For 中。<br>一个 IP 来自 4.4.4.4 的请求，请求头中可能包含这样一行<br>X-Forwarded-For&nbsp; : &nbsp;1.1.1.1, &nbsp;2.2.2.2, &nbsp;3.3.3.3</td>
+</tr>
+<tr>
+<td>X-Real-IP</td>
+<td>用于记录真实发出请求的客户端 IP<br>上面的例子，如果配置了 X-Read-IP，将会是<br>X-Real-IP&nbsp; : &nbsp;1.1.1.1</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>url 跳转来源（从哪个页面链接访问过来的）</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line"></div><div class="line">    proxy_pass  http://www.fanlychie.com;</div><div class="line"></div><div class="line">    proxy_redirect          off;</div><div class="line"></div><div class="line">    proxy_set_header        Host             $host;</div><div class="line"></div><div class="line">    proxy_set_header        X-Real-IP        $remote_addr;</div><div class="line"></div><div class="line">    proxy_set_header        X-Forwarded-For  $proxy_add_x_forwarded_for;</div><div class="line"></div><div class="line">    client_max_body_size    10m;</div><div class="line"></div><div class="line">    client_body_buffer_size 128k;</div><div class="line"></div><div class="line">    proxy_connect_timeout   90;</div><div class="line"></div><div class="line">    proxy_send_timeout      90;</div><div class="line"></div><div class="line">    proxy_read_timeout      90;</div><div class="line"></div><div class="line">    proxy_buffers           32 4k;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="proxy-redirect"><a href="#proxy-redirect" class="headerlink" title="proxy_redirect"></a>proxy_redirect</h4><p>proxy_redirect 与 proxy_pass 用法类似，proxy_pass 是转发请求，客户端 url 地址不变；</p>
+<p>proxy_redirect 是请求重定向，客户端 url 地址发生变化。</p>
+<h4 id="client-max-body-size"><a href="#client-max-body-size" class="headerlink" title="client_max_body_size"></a>client_max_body_size</h4><p>允许客户端请求的最大单文件字节数</p>
+<h4 id="client-body-buffer-size"><a href="#client-body-buffer-size" class="headerlink" title="client_body_buffer_size"></a>client_body_buffer_size</h4><p>代理缓冲用户端请求的缓冲区最大字节数</p>
+<h4 id="proxy-connect-timeout"><a href="#proxy-connect-timeout" class="headerlink" title="proxy_connect_timeout"></a>proxy_connect_timeout</h4><p>代理连接超时时间（nginx 跟后端服务器连接超时时间）</p>
+<h4 id="proxy-send-timeout"><a href="#proxy-send-timeout" class="headerlink" title="proxy_send_timeout"></a>proxy_send_timeout</h4><p>代理发送超时时间（后端服务器数据回传时间）</p>
+<h4 id="proxy-read-timeout"><a href="#proxy-read-timeout" class="headerlink" title="proxy_read_timeout"></a>proxy_read_timeout</h4><p>代理接收超时时间（连接成功后，后端服务器响应时间）</p>
+<h4 id="proxy-buffers"><a href="#proxy-buffers" class="headerlink" title="proxy_buffers"></a>proxy_buffers</h4><p>代理缓冲区的大小</p>
+<h3 id="error-page"><a href="#error-page" class="headerlink" title="error_page"></a>error_page</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">location = /403.html &#123;</div><div class="line"></div><div class="line">    root  html;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">location = /404.html &#123;</div><div class="line"></div><div class="line">    root  html;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">location = /50x.html &#123;</div><div class="line"></div><div class="line">    root  html;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">error_page  403              /403.html;</div><div class="line"></div><div class="line">error_page  404              /404.html;</div><div class="line"></div><div class="line">error_page  500 502 503 504  /50x.html;</div></pre></td></tr></table></figure>
+<p>错误页面配置。</p>
+<h2 id="upstream"><a href="#upstream" class="headerlink" title="upstream"></a>upstream</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">upstream www.fanlychie.com &#123;</div><div class="line"></div><div class="line">    server 192.168.1.102:8080;</div><div class="line"></div><div class="line">    server 192.168.1.103:8080;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>负载均衡配置</p>
+<p>upstream &nbsp;www.fanlychie.com，此处的 www.fanlychie.com 是上面 server 模块配置的 </p>
+<p>server_name。server 指定真实的运用服务主机地址，可以配置多个。</p>
+<p>nginx 默认采用轮询的策略，将请求平均的分配到各个运用服务主机中，当其中一台服务主机宕机</p>
+<p>后，会自动的被剔除，另外一台服务主机仍然能正常提供服务。</p>
+<h3 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">upstream www.fanlychie.com &#123;</div><div class="line"></div><div class="line">    server 192.168.1.102:8080 weight=1;</div><div class="line"></div><div class="line">    server 192.168.1.103:8080 weight=2;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在轮询的基础上加上权重，数值越大，表示权值越大，nginx 分发的请求越多</p>
+<p>用于运用服务器性能不均的情况。当其中一台服务主机宕机后，会自动的被剔除，另外一台服务主</p>
+<p>机仍然能正常提供服务</p>
+<h3 id="ip-hash"><a href="#ip-hash" class="headerlink" title="ip_hash"></a>ip_hash</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">upstream www.fanlychie.com &#123;</div><div class="line"></div><div class="line">    ip_hash;</div><div class="line">    </div><div class="line">    server 192.168.1.102:8080;</div><div class="line"></div><div class="line">    server 192.168.1.103:8080;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>每个请求按访问 ip 的 hash 结果分配服务主机</p>
+<p>当新的请求到达时，先将用户 ip 通过哈希算法求值，在随后的请求客户端 ip 的哈希值只要相同，</p>
+<p>就会被分配至同一个后端服务器，这种调度可以解决 session 共享的问题，但有时会导致分配不均</p>
+<p>即无法保证负载均衡</p>
+<h1 id="附完整配置"><a href="#附完整配置" class="headerlink" title="附完整配置"></a>附完整配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div></pre></td><td class="code"><pre><div class="line">#user  nobody;</div><div class="line"></div><div class="line">pid  logs/nginx.pid;</div><div class="line"></div><div class="line">worker_processes  1;</div><div class="line"></div><div class="line">worker_rlimit_nofile 1024;</div><div class="line"></div><div class="line">error_log  logs/error.log  warn;</div><div class="line"></div><div class="line"></div><div class="line">events &#123;</div><div class="line"></div><div class="line">    worker_connections  1024;</div><div class="line"></div><div class="line">    use epoll;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">http &#123;</div><div class="line"></div><div class="line">    include       mime.types;</div><div class="line"></div><div class="line">    default_type  application/octet-stream;</div><div class="line"></div><div class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div><div class="line"></div><div class="line">    #access_log  logs/access.log  main;</div><div class="line"></div><div class="line">    charset UTF-8;</div><div class="line"></div><div class="line">    sendfile       on;</div><div class="line"></div><div class="line">    tcp_nopush     on;</div><div class="line"></div><div class="line">    #tcp_nodelay   on;</div><div class="line"></div><div class="line">    keepalive_timeout  60;</div><div class="line"></div><div class="line">    client_header_timeout  120;</div><div class="line"></div><div class="line">    client_body_timeout    120;</div><div class="line"></div><div class="line">    send_timeout           120;</div><div class="line"></div><div class="line">    client_header_buffer_size    16k;</div><div class="line"></div><div class="line">    large_client_header_buffers  4 32k;</div><div class="line"></div><div class="line">    gzip  on;</div><div class="line"></div><div class="line">    gzip_min_length  1k;</div><div class="line"></div><div class="line">    gzip_buffers     4 16k;</div><div class="line"></div><div class="line">    gzip_types       text/plain text/css application/x-javascript application/xml;</div><div class="line"></div><div class="line">    server_names_hash_bucket_size 128;</div><div class="line"></div><div class="line">    upstream www.fanlychie.com &#123;</div><div class="line"></div><div class="line">        server 192.168.1.102:8080;</div><div class="line"></div><div class="line">        server 192.168.1.103:8080;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line"></div><div class="line">        listen       80;</div><div class="line"></div><div class="line">        server_name  fanlychie.com www.fanlychie.com;</div><div class="line"></div><div class="line">        access_log   logs/fanlychie.access.log  main;</div><div class="line"></div><div class="line">        root         www.fanlychie.com;</div><div class="line"></div><div class="line">        location = / &#123;</div><div class="line"></div><div class="line">            proxy_set_header        Host            $host;</div><div class="line"></div><div class="line">            proxy_set_header        X-Real-IP       $remote_addr;</div><div class="line"></div><div class="line">            proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;</div><div class="line"></div><div class="line">            proxy_pass  http://www.fanlychie.com/index;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location ~ \.(js|css)$ &#123;</div><div class="line"></div><div class="line">            expires  1d;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location ~ \.(gif|jpg|jpeg|png|ico)$ &#123;</div><div class="line"></div><div class="line">            expires  7d;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location ~* \.jsp &#123;</div><div class="line"></div><div class="line">            deny  all;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line"></div><div class="line">             proxy_pass  http://www.fanlychie.com;</div><div class="line"></div><div class="line">             proxy_redirect          off;</div><div class="line"></div><div class="line">             proxy_set_header        Host            $host;</div><div class="line"></div><div class="line">             proxy_set_header        X-Real-IP       $remote_addr;</div><div class="line"></div><div class="line">             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;</div><div class="line"></div><div class="line">             client_max_body_size    10m;</div><div class="line"></div><div class="line">             client_body_buffer_size 128k;</div><div class="line"></div><div class="line">             proxy_connect_timeout   90;</div><div class="line"></div><div class="line">             proxy_send_timeout      90;</div><div class="line"></div><div class="line">             proxy_read_timeout      90;</div><div class="line"></div><div class="line">             proxy_buffers           32 4k;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location = /403.html &#123;</div><div class="line"></div><div class="line">            root  html;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location = /404.html &#123;</div><div class="line"></div><div class="line">            root  html;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location = /50x.html &#123;</div><div class="line"></div><div class="line">            root  html;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page  404              /404.html;</div><div class="line"></div><div class="line">        error_page  403              /403.html;</div><div class="line"></div><div class="line">        error_page  500 502 503 504  /50x.html;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="附全局变量表"><a href="#附全局变量表" class="headerlink" title="附全局变量表"></a>附全局变量表</h1><table>
+<thead>
+<tr>
+<th>变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$args</td>
+<td>请求的参数</td>
+</tr>
+<tr>
+<td>$content_length</td>
+<td>请求头中的 Content-length 域的值</td>
+</tr>
+<tr>
+<td>$content_type</td>
+<td>请求头中的 Content-Type 域的值</td>
+</tr>
+<tr>
+<td>$host</td>
+<td>请求主机域的值，否则为服务器名称</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>客户端 agent 信息</td>
+</tr>
+<tr>
+<td>$http_cookie</td>
+<td>客户端 cookie 信息</td>
+</tr>
+<tr>
+<td>$request_method</td>
+<td>客户端请求的动作，通常为 GET 或 POST</td>
+</tr>
+<tr>
+<td>$remote_addr</td>
+<td>客户端的 IP 地址</td>
+</tr>
+<tr>
+<td>$remote_port</td>
+<td>客户端的端口</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>已经经过 Auth Basic Module 验证的用户名</td>
+</tr>
+<tr>
+<td>$request_filename</td>
+<td>当前请求的文件路径</td>
+</tr>
+<tr>
+<td>$query_string</td>
+<td>与 $args 同</td>
+</tr>
+<tr>
+<td>$scheme</td>
+<td>HTTP 方法（如 http，https）</td>
+</tr>
+<tr>
+<td>$server_protocol</td>
+<td>请求使用的协议，通常是 HTTP/1.0 或 HTTP/1.1</td>
+</tr>
+<tr>
+<td>$server_addr</td>
+<td>服务器地址，在完成一次系统调用后可以确定这个值</td>
+</tr>
+<tr>
+<td>$server_name</td>
+<td>服务器名称</td>
+</tr>
+<tr>
+<td>$server_port</td>
+<td>请求到达服务器的端口号</td>
+</tr>
+<tr>
+<td>$request_uri</td>
+<td>包含请求参数的原始 URI，不包含主机名，如：&quot;/foo/bar.php?arg=baz&quot;</td>
+</tr>
+<tr>
+<td>$uri</td>
+<td>不带请求参数的当前 URI，$uri 不包含主机名，如 &quot;/foo/bar.html&quot;</td>
+</tr>
+<tr>
+<td>$document_uri</td>
+<td>与 $uri 同</td>
+</tr>
+</tbody>
+</table>
+<h1 id="附表达式列表"><a href="#附表达式列表" class="headerlink" title="附表达式列表"></a>附表达式列表</h1><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>表达式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-f</td>
+<td>!-f</td>
+<td>判断文件是否存在</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>!-d</td>
+<td>判断目录是否存在</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>!-e</td>
+<td>判断文件或目录是否存在</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>!-x</td>
+<td>判断文件是否可执行</td>
+</tr>
+</tbody>
+</table>
+</div><div class="tags"><a href="/tags/Nginx/">Nginx</a></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/post/nginx-anti-theft-chain.html" class="pre">nginx 防盗链配置</a><a href="/post/nginx-setup.html" class="next">nginx 安装</a></div><div id="comments"><div id="SOHUCS" sid="post/nginx-slb.html"></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#user"><span class="toc-text">user</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pid"><span class="toc-text">pid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#error-log"><span class="toc-text">error_log</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#worker-processes"><span class="toc-text">worker_processes</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#worker-rlimit-nofile"><span class="toc-text">worker_rlimit_nofile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#events"><span class="toc-text">events</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#worker-connections"><span class="toc-text">worker_connections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#use"><span class="toc-text">use</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http"><span class="toc-text">http</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#include"><span class="toc-text">include</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#default-type"><span class="toc-text">default_type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#log-format"><span class="toc-text">log_format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#access-log"><span class="toc-text">access_log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#charset"><span class="toc-text">charset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sendfile"><span class="toc-text">sendfile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcp-nopush"><span class="toc-text">tcp_nopush</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcp-nodelay"><span class="toc-text">tcp_nodelay</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keepalive-timeout"><span class="toc-text">keepalive_timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#client-header-timeout"><span class="toc-text">client_header_timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#client-body-timeout"><span class="toc-text">client_body_timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#send-timeout"><span class="toc-text">send_timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#client-header-buffer-size"><span class="toc-text">client_header_buffer_size</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#large-client-header-buffers"><span class="toc-text">large_client_header_buffers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip"><span class="toc-text">gzip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip-min-length"><span class="toc-text">gzip_min_length</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip-buffers"><span class="toc-text">gzip_buffers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip-types"><span class="toc-text">gzip_types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server-names-hash-bucket-size"><span class="toc-text">server_names_hash_bucket_size</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server"><span class="toc-text">server</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#listen"><span class="toc-text">listen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#server-name"><span class="toc-text">server_name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#access-log-1"><span class="toc-text">access_log</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#root"><span class="toc-text">root</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#location"><span class="toc-text">location</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#expires"><span class="toc-text">expires</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#deny"><span class="toc-text">deny</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-pass"><span class="toc-text">proxy_pass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-set-header"><span class="toc-text">proxy_set_header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-redirect"><span class="toc-text">proxy_redirect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#client-max-body-size"><span class="toc-text">client_max_body_size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#client-body-buffer-size"><span class="toc-text">client_body_buffer_size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-connect-timeout"><span class="toc-text">proxy_connect_timeout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-send-timeout"><span class="toc-text">proxy_send_timeout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-read-timeout"><span class="toc-text">proxy_read_timeout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxy-buffers"><span class="toc-text">proxy_buffers</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#error-page"><span class="toc-text">error_page</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#upstream"><span class="toc-text">upstream</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#weight"><span class="toc-text">weight</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-hash"><span class="toc-text">ip_hash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#附完整配置"><span class="toc-text">附完整配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#附全局变量表"><span class="toc-text">附全局变量表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#附表达式列表"><span class="toc-text">附表达式列表</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/post/spring-cloud-netflix-eureka.html">Spring Cloud Eureka — 服务发现</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-testing.html">Spring Boot Test</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-servlet-filter-listener-usage.html">Spring Boot 使用 Servlet、Filter、Listener</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-exception-handler.html">Spring Boot 异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-error-page.html">Spring Boot 错误页面</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-tomcat-context-path.html">Spring Boot Tomcat 上下文路径</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-tomcat-port.html">Spring Boot Tomcat 端口</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-logo-banner.html">Spring Boot Banner</a></li><li class="post-list-item"><a class="post-list-link" href="/post/jpql-usage.html">JPQL 语言语法</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-jpa.html">Spring Boot Jpa</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/开发工具包/" style="font-size: 15px;">开发工具包</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Java8/" style="font-size: 15px;">Java8</a> <a href="/tags/CAS/" style="font-size: 15px;">CAS</a> <a href="/tags/Eclipse/" style="font-size: 15px;">Eclipse</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/工具类/" style="font-size: 15px;">工具类</a> <a href="/tags/Tomcat/" style="font-size: 15px;">Tomcat</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/ActiveMQ/" style="font-size: 15px;">ActiveMQ</a> <a href="/tags/缓存/" style="font-size: 15px;">缓存</a> <a href="/tags/Memcached/" style="font-size: 15px;">Memcached</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/网络爬虫/" style="font-size: 15px;">网络爬虫</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Solr/" style="font-size: 15px;">Solr</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 15px;">Thymeleaf</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">06月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">05月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">04月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">02月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">01月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">09月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">01月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">12月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">11月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">10月 2015</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> | <a href="/atom.xml">订阅</a> |<span>主题<a rel="nofollow" target="_blank" href="https://hexo.io/zh-cn/"> Hexo</a><a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake</a> |</span><span>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4e375539c063ce29112e53dea9f27aae";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script><script>window._config = { showScore: true };
+(function(){ 
+  var appid = 'cyt5nPNL8'; 
+  var conf = '5fe2e421f26b9cd1b7c459f7417c85b6'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+  if (width < 960) { 
+    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } 
+  else { 
+    var loadJs=function(d,a){
+      var b=document.createElement("script");b.setAttribute("type","text/javascript");
+      b.setAttribute("charset","UTF-8");
+      b.setAttribute("src",d);
+      if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+      nodes.appendChild(b)
+    };
+    loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+  } 
+  var loadCss = function(cssString){  
+    var style=document.createElement("style");  
+    style.setAttribute("type", "text/css");  
+    if(style.styleSheet){// IE  
+        style.styleSheet.cssText = cssString;  
+    } else {// w3c  
+        var cssText = document.createTextNode(cssString);  
+        style.appendChild(cssText);  
+    }
+    nodes.appendChild(style);
+  }
+  window.onload=function(){loadCss('.module-hot-topic, .module-cmt-float-bar { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .cbox-prompt-w span.prompt-empty-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w .form-text-w span.text-null, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w a.comment-link-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w span.comment-text-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w div.service-wrap-w a:hover, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w span.wrap-name-w, #SOHUCS #SOHU_MAIN .module-cmt-list .action-click-gw span.click-disable-eg a em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li div.title-name-gw, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number .comment-number span.cy-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number span.comment-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active, #SOHUCS #SOHU_MAIN .module-cmt-list .msg-wrap-gw .wrap-action-gw .action-click-gw span a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .picture-box-gw div.box-action-gw a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-action-gw .action-click-gw span a:hover em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-user-gw span.user-name-gw a { color: #40759b !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-r, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-l, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-r { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-l { background: #FFF !important; top: -2px !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-function-w .uploading-wrapper-dw div.wrapper-image-dw, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-main, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w div.form-text-w, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-list .module-cmt-box .post-wrap-w div.post-wrap-main { border: 1px solid #e6e6e6 !important; border-radius: 20px 20px 20px 20px; margin: 0 !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw { width: 130px !important; height: 34px !important; line-height: 33px !important; font-size: 17px !important; background: transparent !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw:before { content: "发表评论"; display: block; border-radius: 20px; width: 100%; height: 100%; color: #FFF; background: #5483b1; -webkit-box-shadow: 0 -1px 4px #5483b1 inset; box-shadow: 0 -1px 10px #5483b1 inset; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a:hover .btn-fw:before { color: #40759b; background: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li{ background: none !important; border-bottom: 1px solid #e6e6e6; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active { border: 1px solid #e6e6e6; border-radius: 10px 10px 0 0; border-bottom: none; } #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li .title-name-gw div.title-name-gw-tag { background: #5483b1 !important; border-radius: 3px; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type div.cmt-list-border { background-color: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item{ border: 1px solid #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo { text-align: center; line-height: 40px; border-radius: 50% !important; background: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo:before { content: "畅"; font-size: 22px; color: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text, #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text i { color: #5483b1 !important; }#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w{background:#FFF !important;}');};
+})();</script><script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script></body></html>

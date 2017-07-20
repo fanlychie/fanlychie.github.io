@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="fanlychie,范忠云,範宗雲,java,技术,博客"><meta name="keywords" content="fanlychie,范忠云,java,技术,博客,spring,mvc,cloud"><title>Spring Boot 日志 | 範宗雲</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Spring Boot 日志</h1><a id="logo" href="/.">範宗雲</a><p class="description">面朝大海，望眼欲穿</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="请输入搜索关键字 ..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">Spring Boot 日志</h1><div class="post-meta"><span class="date">2017-04-25</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/post/spring-boot-logging.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/spring-boot-logging.html"></i>留言</a></div><div class="post-content"><p>Spring Boot 内部所有的日志记录都是通过使用 Commons Logging 实现，同时默认配置也提供了 Java Util Logging、Log4J、Log4J2、Logback 的支持。每种日志都预配置可以使用控制台输出和文件输出。<br>Spring Boot 日志由启动器<code>spring-boot-starter-logging</code>来解决：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>你不必显式的声明此依赖。默认情况下，Spring Boot 使用 Logback 进行日志记录。</p>
+<a id="more"></a>
+<h3 id="1-日志级别"><a href="#1-日志级别" class="headerlink" title="1. 日志级别"></a>1. 日志级别</h3><p>在 Spring Boot 中，通过<code>logging.level.*=TRACE/DEBUG/INFO/WARN/ERROR/FATAL/OFF</code>来设置日志的级别。<code>*</code>可以是根级别（<code>root</code>）也可以是包级别。</p>
+<p>application.properties 配置示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">logging.level.root = WARN</div><div class="line">logging.level.org.springframework = INFO</div><div class="line">logging.level.org.hibernate.SQL = DEBUG</div></pre></td></tr></table></figure>
+<p>application.yml 配置示例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attr">logging:</span></div><div class="line"><span class="attr">  level:</span></div><div class="line"><span class="attr">    root:</span> <span class="string">WARN</span></div><div class="line">    <span class="string">org.springframework:</span> <span class="string">INFO</span></div><div class="line">    <span class="string">org.hibernate.SQL:</span> <span class="string">DEBUG</span></div></pre></td></tr></table></figure>
+<h3 id="2-文件输出"><a href="#2-文件输出" class="headerlink" title="2. 文件输出"></a>2. 文件输出</h3><p>默认情况下，Spring Boot 只将日志信息显示到控制台。如果你想要将日志信息输出到外部文件，你可以使用<code>logging.file</code>或<code>logging.path</code>属性来配置。日志文件大小达到 10M 时，将产生一个新的文件。</p>
+<ul>
+<li>使用<code>logging.file</code>可以设置日志输出的文件<ul>
+<li>文件相对路径（相对项目的根目录）：<code>logfile.log</code>或<code>logs/logfile.log</code></li>
+<li>文件绝对路径：<code>/pathname/logfile.log</code></li>
+</ul>
+</li>
+</ul>
+<p>application.properties 配置示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">logging.file = logs/logfile.log</div></pre></td></tr></table></figure>
+<p>application.yml 配置示例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">logging:</span></div><div class="line"><span class="attr">  file:</span> <span class="string">logs/logfile.log</span></div></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>logging.path</code>可以设置日志输出的目录，<code>spring.log</code>日志文件将输出到该目录<ul>
+<li>目录相对路径（相对项目的根目录）：<code>logs</code>或<code>pathname/logs</code></li>
+<li>目录绝对路径：<code>/pathname/logs</code></li>
+</ul>
+</li>
+</ul>
+<p>application.properties 配置示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">logging.path = logs</div></pre></td></tr></table></figure>
+<p>application.yml 配置示例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">logging:</span></div><div class="line"><span class="attr">  path:</span> <span class="string">logs</span></div></pre></td></tr></table></figure>
+<h3 id="3-日志格式"><a href="#3-日志格式" class="headerlink" title="3. 日志格式"></a>3. 日志格式</h3><p>Spring Boot 默认输出的日志信息格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">2017</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">11</span>:<span class="number">47</span>:<span class="number">06.599</span>  INFO <span class="number">10252</span> --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans <span class="keyword">for</span> JMX exposure on startup</div><div class="line"><span class="number">2017</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">11</span>:<span class="number">47</span>:<span class="number">06.632</span>  INFO <span class="number">10252</span> --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : <span class="function">Tomcat started on <span class="title">port</span><span class="params">(s)</span>: 8080 <span class="params">(http)</span></span></div></pre></td></tr></table></figure>
+<p>它由以下几个部分组成：</p>
+<ul>
+<li>精确到毫秒的日期和时间</li>
+<li>日志级别（<code>TRACE&lt;br&gt;DEBUG&lt;br&gt;INFO&lt;br&gt;WARN&lt;br&gt;ERROR</code>）</li>
+<li>进程 ID</li>
+<li>分隔符<code>---</code></li>
+<li>线程名称，包裹在<code>[]</code>中</li>
+<li>日志名称，通常是类的完全限定路径的简写</li>
+<li>分隔符<code>:</code></li>
+<li>日志消息</li>
+</ul>
+<p>使用<code>logging.pattern.console</code>（只支持<code>logback</code>）可以自定义控制台日志输出格式。</p>
+<p>application.properties 配置示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">logging.pattern.console=<span class="string">"%date&#123;yyyy-MM-dd HH:mm:ss&#125; -%5level [%15.15thread] %-40.40logger&#123;39&#125; : %msg%n"</span></div></pre></td></tr></table></figure>
+<p>application.yml 配置示例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">logging:</span></div><div class="line"><span class="attr">  pattern:</span></div><div class="line"><span class="attr">    console:</span> <span class="string">"%date&#123;yyyy-MM-dd HH:mm:ss&#125; -%5level [%15.15thread] %-40.40logger&#123;39&#125; : %msg%n"</span></div></pre></td></tr></table></figure>
+<p>使用<code>logging.pattern.file</code>（只支持<code>logback</code>）可以自定义文件的日志输出格式。</p>
+<p>application.properties 配置示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">logging.pattern.file=<span class="string">"%date&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; -%5level [%15.15thread] %-40.40logger&#123;39&#125; : %msg%n"</span></div></pre></td></tr></table></figure>
+<p>application.yml 配置示例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">logging:</span></div><div class="line"><span class="attr">  pattern:</span></div><div class="line"><span class="attr">    file:</span> <span class="string">"%date&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; -%5level [%15.15thread] %-40.40logger&#123;39&#125; : %msg%n"</span></div></pre></td></tr></table></figure>
+<p>常用的日志信息格式化参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%c{length}<br>%logger{length}</td>
+<td>输出所属的类目，通常就是所在类的全名</td>
+</tr>
+<tr>
+<td>%d{pattern}<br>%date{pattern}</td>
+<td>输出日志的日期或时间</td>
+</tr>
+<tr>
+<td>%F<br>%file</td>
+<td>输出发出日志记录请求的Java源文件的文件名</td>
+</tr>
+<tr>
+<td>%L<br>%line</td>
+<td>输出日志事件的发生行号信息</td>
+</tr>
+<tr>
+<td>%m<br>%msg<br>%message</td>
+<td>输出程序代码中指定的消息</td>
+</tr>
+<tr>
+<td>%p<br>%le<br>%level</td>
+<td>输出日志级别信息</td>
+</tr>
+<tr>
+<td>%t<br>%thread</td>
+<td>输出产生该日志事件的线程名</td>
+</tr>
+<tr>
+<td>%n</td>
+<td>输出一个平台的回车换行符</td>
+</tr>
+</tbody>
+</table>
+<p>其中 <code>%logger{length}</code>，如果信息长度大于给定的 length 的值，保留最右边的单词，左边的每个单词只保留第一个字符。</p>
+<table>
+<thead>
+<tr>
+<th>示例</th>
+<th style="text-align:center">信息</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%logger</td>
+<td style="text-align:center">org.fanlychie.DemoService</td>
+<td>org.fanlychie.DemoService</td>
+</tr>
+<tr>
+<td>%logger{0}</td>
+<td style="text-align:center">org.fanlychie.DemoService</td>
+<td>DemoService</td>
+</tr>
+<tr>
+<td>%logger{10}</td>
+<td style="text-align:center">org.fanlychie.DemoService</td>
+<td>o.f.DemoService</td>
+</tr>
+<tr>
+<td>%logger{24}</td>
+<td style="text-align:center">org.fanlychie.DemoService</td>
+<td>o.fanlychie.DemoService</td>
+</tr>
+<tr>
+<td>%logger{100}</td>
+<td style="text-align:center">org.fanlychie.DemoService</td>
+<td>org.fanlychie.DemoService</td>
+</tr>
+</tbody>
+</table>
+<p>日志信息宽度和对齐方式控制，以<code>%logger</code>为例：</p>
+<table>
+<thead>
+<tr>
+<th>示例</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%50logger</td>
+<td>右对齐，最小的宽度是50，长度不足50则左补空格，长度超出50则原样输出</td>
+</tr>
+<tr>
+<td>%-50logger</td>
+<td><span style="font-family:Arial">‘-‘</span>表示向左对齐，最小的宽度是50，长度不足50则右补空格，长度超出50则原样输出</td>
+</tr>
+<tr>
+<td>%.20logger</td>
+<td>左对齐，最大的宽度是20，如果长度超出20，将左边多出的字符直接丢掉</td>
+</tr>
+<tr>
+<td>%30.50logger</td>
+<td>最小宽度是30，如果长度不足30则左补空格右对齐；如果长度超出30且不足50则左对齐；如果长度超出50则将左边多出的字符直接丢掉</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-扩展-logback"><a href="#4-扩展-logback" class="headerlink" title="4. 扩展 logback"></a>4. 扩展 logback</h3><p>Spring Boot 允许我们通过扩展 Logback 进行更高级的配置。在类路径下创建<code>logback-sprng.xml</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 引用 Spring Boot 的 base.xml 的配置 --&gt;</span></div><div class="line">    <span class="comment">&lt;!-- spring-boot.jar!\org\springframework\boot\logging\logback\base.xml --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/base.xml"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 自定义日志级别 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"ERROR"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"org.springframework.web"</span> <span class="attr">level</span>=<span class="string">"INFO"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"org.hibernate.SQL"</span> <span class="attr">level</span>=<span class="string">"DEBUG"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="4-1-配置文件的加载"><a href="#4-1-配置文件的加载" class="headerlink" title="4.1 配置文件的加载"></a>4.1 配置文件的加载</h4><p>Spring Boot 默认从系统类路径加载的日志配置文件：</p>
+<ul>
+<li><code>logback-spring.xml</code></li>
+<li><code>logback-spring.groovy</code></li>
+<li><code>logback.xml</code></li>
+<li><code>logback.groovy</code></li>
+</ul>
+<p>单元测试的 DEBUG 日志可以在<code>src/test/resources/logback-test.xml</code>中配置控制。</p>
+<h3 id="5-多环境日志配置"><a href="#5-多环境日志配置" class="headerlink" title="5. 多环境日志配置"></a>5. 多环境日志配置</h3><p>使用<code>&lt;springProfile&gt;</code>标签可以定义不同 profile 环境的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 引用 Spring Boot 的 defaults.xml 的配置 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/defaults.xml"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 定义 LOG_FILE 变量 --&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 日志文件优先使用 logging.file 的值，如果没有则使用 logging.path 的值，如果还没有则放入临时目录 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"LOG_FILE"</span> <span class="attr">value</span>=<span class="string">"$&#123;LOG_FILE:-$&#123;LOG_PATH:-$&#123;LOG_TEMP:-$&#123;java.io.tmpdir:-/tmp&#125;&#125;/&#125;spring.log&#125;"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 自定义日志级别 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"org.springframework.web"</span> <span class="attr">level</span>=<span class="string">"INFO"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"org.fanlychie"</span> <span class="attr">level</span>=<span class="string">"DEBUG"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 开发环境日志 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">springProfile</span> <span class="attr">name</span>=<span class="string">"dev"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 引用 Spring Boot 的 console-appender.xml 的配置 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/console-appender.xml"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- root 日志级别 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"WARN"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"CONSOLE"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">root</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">springProfile</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 生产环境日志 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">springProfile</span> <span class="attr">name</span>=<span class="string">"prod"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 引用 Spring Boot 的 console-appender.xml 的配置 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/console-appender.xml"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 自定义文件日志 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"FILE"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.RollingFileAppender"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 使用默认的日志格式 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>$&#123;FILE_LOG_PATTERN&#125;<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!-- 日志文件 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;LOG_FILE&#125;<span class="tag">&lt;/<span class="name">file</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">rollingPolicy</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.FixedWindowRollingPolicy"</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 如果日志文件超出大小限制, 则以 $&#123;LOG_FILE&#125;.1, $&#123;LOG_FILE&#125;.2... 备份 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">fileNamePattern</span>&gt;</span>$&#123;LOG_FILE&#125;.%i<span class="tag">&lt;/<span class="name">fileNamePattern</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">triggeringPolicy</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 超出大小限制开启一个新的文件 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">MaxFileSize</span>&gt;</span>10MB<span class="tag">&lt;/<span class="name">MaxFileSize</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">triggeringPolicy</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- root 日志级别 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"WARN"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"FILE"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"CONSOLE"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">root</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">springProfile</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>application.properties 配置示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">spring.profiles.active = dev</div><div class="line">logging.file = logs/logfile.log</div></pre></td></tr></table></figure>
+<p>application.yml 配置示例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span></div><div class="line"><span class="attr">    active:</span> <span class="string">dev</span></div><div class="line"><span class="attr">logging:</span></div><div class="line"><span class="attr">  file:</span> <span class="string">logs/logfile.log</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>示例项目开发环境：Java-8、Maven-3、IntelliJ IDEA-2017、Spring Boot-1.5.2.RELEASE<br>完整示例项目链接：<a href="https://github.com/fanlychie/spring-boot-samples/tree/master/spring-boot-logging-sample" target="_blank" rel="external">spring-boot-logging-sample</a><br>参考文档文献链接：<a href="https://logback.qos.ch/manual/layouts.html" target="_blank" rel="external">logback-doc</a>、<a href="http://docs.spring.io/spring-boot/docs/1.5.2.RELEASE/reference/htmlsingle/#boot-features-logging" target="_blank" rel="external">spring-boot-logging</a></p>
+</blockquote>
+</div><div class="tags"><a href="/tags/Spring-Boot/">Spring Boot</a></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/post/spring-boot-starters-list.html" class="pre">Spring Boot 启动器介绍</a><a href="/post/spring-boot-profiles.html" class="next">Spring Boot Profiles 配置</a></div><div id="comments"><div id="SOHUCS" sid="post/spring-boot-logging.html"></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-日志级别"><span class="toc-text">1. 日志级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-文件输出"><span class="toc-text">2. 文件输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-日志格式"><span class="toc-text">3. 日志格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-扩展-logback"><span class="toc-text">4. 扩展 logback</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-配置文件的加载"><span class="toc-text">4.1 配置文件的加载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-多环境日志配置"><span class="toc-text">5. 多环境日志配置</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/post/spring-cloud-netflix-eureka.html">Spring Cloud Eureka — 服务发现</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-testing.html">Spring Boot Test</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-servlet-filter-listener-usage.html">Spring Boot 使用 Servlet、Filter、Listener</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-exception-handler.html">Spring Boot 异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-error-page.html">Spring Boot 错误页面</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-tomcat-context-path.html">Spring Boot Tomcat 上下文路径</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-tomcat-port.html">Spring Boot Tomcat 端口</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-logo-banner.html">Spring Boot Banner</a></li><li class="post-list-item"><a class="post-list-link" href="/post/jpql-usage.html">JPQL 语言语法</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-jpa.html">Spring Boot Jpa</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/开发工具包/" style="font-size: 15px;">开发工具包</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Java8/" style="font-size: 15px;">Java8</a> <a href="/tags/CAS/" style="font-size: 15px;">CAS</a> <a href="/tags/Eclipse/" style="font-size: 15px;">Eclipse</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/工具类/" style="font-size: 15px;">工具类</a> <a href="/tags/Tomcat/" style="font-size: 15px;">Tomcat</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/ActiveMQ/" style="font-size: 15px;">ActiveMQ</a> <a href="/tags/缓存/" style="font-size: 15px;">缓存</a> <a href="/tags/Memcached/" style="font-size: 15px;">Memcached</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/网络爬虫/" style="font-size: 15px;">网络爬虫</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Solr/" style="font-size: 15px;">Solr</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 15px;">Thymeleaf</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">06月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">05月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">04月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">02月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">01月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">09月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">01月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">12月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">11月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">10月 2015</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> | <a href="/atom.xml">订阅</a> |<span>主题<a rel="nofollow" target="_blank" href="https://hexo.io/zh-cn/"> Hexo</a><a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake</a> |</span><span>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4e375539c063ce29112e53dea9f27aae";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script><script>window._config = { showScore: true };
+(function(){ 
+  var appid = 'cyt5nPNL8'; 
+  var conf = '5fe2e421f26b9cd1b7c459f7417c85b6'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+  if (width < 960) { 
+    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } 
+  else { 
+    var loadJs=function(d,a){
+      var b=document.createElement("script");b.setAttribute("type","text/javascript");
+      b.setAttribute("charset","UTF-8");
+      b.setAttribute("src",d);
+      if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+      nodes.appendChild(b)
+    };
+    loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+  } 
+  var loadCss = function(cssString){  
+    var style=document.createElement("style");  
+    style.setAttribute("type", "text/css");  
+    if(style.styleSheet){// IE  
+        style.styleSheet.cssText = cssString;  
+    } else {// w3c  
+        var cssText = document.createTextNode(cssString);  
+        style.appendChild(cssText);  
+    }
+    nodes.appendChild(style);
+  }
+  window.onload=function(){loadCss('.module-hot-topic, .module-cmt-float-bar { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .cbox-prompt-w span.prompt-empty-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w .form-text-w span.text-null, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w a.comment-link-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w span.comment-text-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w div.service-wrap-w a:hover, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w span.wrap-name-w, #SOHUCS #SOHU_MAIN .module-cmt-list .action-click-gw span.click-disable-eg a em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li div.title-name-gw, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number .comment-number span.cy-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number span.comment-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active, #SOHUCS #SOHU_MAIN .module-cmt-list .msg-wrap-gw .wrap-action-gw .action-click-gw span a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .picture-box-gw div.box-action-gw a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-action-gw .action-click-gw span a:hover em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-user-gw span.user-name-gw a { color: #40759b !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-r, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-l, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-r { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-l { background: #FFF !important; top: -2px !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-function-w .uploading-wrapper-dw div.wrapper-image-dw, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-main, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w div.form-text-w, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-list .module-cmt-box .post-wrap-w div.post-wrap-main { border: 1px solid #e6e6e6 !important; border-radius: 20px 20px 20px 20px; margin: 0 !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw { width: 130px !important; height: 34px !important; line-height: 33px !important; font-size: 17px !important; background: transparent !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw:before { content: "发表评论"; display: block; border-radius: 20px; width: 100%; height: 100%; color: #FFF; background: #5483b1; -webkit-box-shadow: 0 -1px 4px #5483b1 inset; box-shadow: 0 -1px 10px #5483b1 inset; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a:hover .btn-fw:before { color: #40759b; background: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li{ background: none !important; border-bottom: 1px solid #e6e6e6; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active { border: 1px solid #e6e6e6; border-radius: 10px 10px 0 0; border-bottom: none; } #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li .title-name-gw div.title-name-gw-tag { background: #5483b1 !important; border-radius: 3px; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type div.cmt-list-border { background-color: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item{ border: 1px solid #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo { text-align: center; line-height: 40px; border-radius: 50% !important; background: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo:before { content: "畅"; font-size: 22px; color: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text, #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text i { color: #5483b1 !important; }#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w{background:#FFF !important;}');};
+})();</script><script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script></body></html>
