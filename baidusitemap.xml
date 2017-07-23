@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/spring-cloud-netflix-ribbon.html</loc>
+    <lastmod>2017-07-23T11:03:00.217Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Cloud Ribbon — 客户端负载均衡器</title>
+        <pubTime>2017-07-20T05:57:18.000Z</pubTime>
+        
+        <tag>Spring Cloud</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/jpa-entity-annotation.html</loc>
     <lastmod>2017-07-20T04:01:01.885Z</lastmod>
     <data>
