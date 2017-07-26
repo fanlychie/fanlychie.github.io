@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-23T11:03:00.217Z</updated>
+  <updated>2017-07-26T10:27:51.984Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,156 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>dubbo-admin 管理控制台应用安装</title>
+    <link href="http://yoursite.com/post/dubbo-admin-setup.html"/>
+    <id>http://yoursite.com/post/dubbo-admin-setup.html</id>
+    <published>2017-07-25T14:20:38.000Z</published>
+    <updated>2017-07-26T10:27:51.984Z</updated>
+    
+    <content type="html"><![CDATA[<p>dubbo 管理控制台是其内部裁剪版本，开源部分主要包含：路由规则，动态配置，服务降级，访问控制，权重调整，负载均衡，等管理功能。</p>
+<h3 id="1-安装应用"><a href="#1-安装应用" class="headerlink" title="1. 安装应用"></a>1. 安装应用</h3><p>目前最新的发布版本为 2.5.3，但由于仓库问题下载不了依赖包，亲测主分支代码可以编译通过。首先下载最新的源代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/alibaba/dubbo.git</div></pre></td></tr></table></figure>
+<p>最新源代码拉下来之后，在 dubbo 文件夹的根目录下，执行编译安装命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn install -Dmaven.test.skip=<span class="literal">true</span></div></pre></td></tr></table></figure>
+<p>执行完成之后，在 dubbo/dubbo-admin/target 目录下得到 dubbo-admin-2.5.4-SNAPSHOT.war。</p>
+<p>在 tomcat 的 webapps 目录下创建 dubbo-admin 文件夹，即：tomcat/webapps/dubbo-admin，并将安装包拷贝到该目录下，并对安装包进行解压缩（解压缩完成之后，删除安装包即可）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jar xvf dubbo-admin-2.5.4-SNAPSHOT.war</div></pre></td></tr></table></figure>
+<p>接着我们可以验证安装是否成功。首先需要先启动 zookeeper（可参考<a href="http://fanlychie.github.io/post/zookeeper-setup.html" target="_blank" rel="external">Zookeeper安装和配置</a>），再启动 dubbo-admin 的 tomcat。访问<code>http://localhost:8080/dubbo-admin</code>。账户密码可在 dubbo-admin/WEB-INF/dubbo.properties 中查看和配置（默认为：<code>root/root</code>、<code>guest/guest</code>）。</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/dubbo-admin.png" alt=""></p>
+<blockquote>
+<p>参考文档文献链接：<a href="http://dubbo.io/Administrator+Guide-zh.htm" target="_blank" rel="external">dubbo管理员指南</a></p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;dubbo 管理控制台是其内部裁剪版本，开源部分主要包含：路由规则，动态配置，服务降级，访问控制，权重调整，负载均衡，等管理功能。&lt;/p&gt;
+&lt;h3 id=&quot;1-安装应用&quot;&gt;&lt;a href=&quot;#1-安装应用&quot; class=&quot;headerlink&quot; title=&quot;1. 安装应用
+    
+    </summary>
+    
+    
+      <category term="Dubbo" scheme="http://yoursite.com/tags/Dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zookeeper 安装和配置</title>
+    <link href="http://yoursite.com/post/zookeeper-setup.html"/>
+    <id>http://yoursite.com/post/zookeeper-setup.html</id>
+    <published>2017-07-25T12:56:35.000Z</published>
+    <updated>2017-07-25T18:46:53.746Z</updated>
+    
+    <content type="html"><![CDATA[<p>ZooKeeper 是一个开放源码的分布式应用程序协调服务，它为分布式应用提供一致性服务，主要功能包括：配置维护、域名服务、分布式同步、组服务等。</p>
+<a id="more"></a>
+<h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><p>到 <a href="http://apache.org/dist/zookeeper/" target="_blank" rel="external">Zookeeper官网</a> 下载安装包，本文使用 <a href="http://apache.org/dist/zookeeper/zookeeper-3.4.10/" target="_blank" rel="external">zookeeper-3.4.10.tar.gz</a> 安装包。</p>
+<p>解压缩：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tar zxvf zookeeper-3.4.10.tar.gz</div></pre></td></tr></table></figure>
+<p>删除安装包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -f zookeeper-3.4.10.tar.gz</div></pre></td></tr></table></figure>
+<h3 id="2-单机模式配置"><a href="#2-单机模式配置" class="headerlink" title="2. 单机模式配置"></a>2. 单机模式配置</h3><p>拷贝一份 zookeeper-3.4.10/conf/zoo_sample.cfg 配置文件并重命名为 zoo.cfg：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> zookeeper-3.4.10/conf/</div><div class="line">$ cp zoo_sample.cfg zoo.cfg</div></pre></td></tr></table></figure>
+<p>编辑 zoo.cfg 配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vi zoo.cfg</div></pre></td></tr></table></figure>
+<p>内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tickTime=<span class="number">2000</span></div><div class="line">dataDir=/usr/local/applications/zookeeper/data</div><div class="line">dataLogDir=/usr/local/applications/zookeeper/logs</div><div class="line">clientPort=<span class="number">2181</span></div></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tickTime</td>
+<td>基本时间单位（毫秒）</td>
+</tr>
+<tr>
+<td>dataDir</td>
+<td>数据目录的路径</td>
+</tr>
+<tr>
+<td>dataLogDir</td>
+<td>日志目录的路径</td>
+</tr>
+<tr>
+<td>clientPort</td>
+<td>端口号</td>
+</tr>
+</tbody>
+</table>
+<p>启动服务命令（在 bin 目录下执行）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./zkServer.sh start</div></pre></td></tr></table></figure>
+<p>重启服务命令（在 bin 目录下执行）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./zkServer.sh restart</div></pre></td></tr></table></figure>
+<p>查看服务状态（在 bin 目录下执行）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./zkServer.sh status</div></pre></td></tr></table></figure>
+<p>停止服务命令（在 bin 目录下执行）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./zkServer.sh stop</div></pre></td></tr></table></figure>
+<h3 id="3-伪集群模式配置"><a href="#3-伪集群模式配置" class="headerlink" title="3. 伪集群模式配置"></a>3. 伪集群模式配置</h3><p>伪集群是指在单台机器中启动多个 Zookeeper 服务并组成一个集群。Zookeeper 集群中只要有过半的节点是正常的，那么整个集群对外就是可用的。基于这种特性，Zookeeper 集群的节点数量通常为奇数个。</p>
+<p>拷贝三份 Zookeeper：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cp -r zookeeper-3.4.10/ zookeeper-1</div><div class="line">$ cp -r zookeeper-3.4.10/ zookeeper-2</div><div class="line">$ cp -r zookeeper-3.4.10/ zookeeper-3</div></pre></td></tr></table></figure>
+<p>配置 zookeeper-1/conf/zoo.cfg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tickTime=<span class="number">2000</span></div><div class="line">initLimit=<span class="number">10</span></div><div class="line">syncLimit=<span class="number">5</span></div><div class="line">dataDir=/usr/local/applications/zookeeper/cluster/node1/data</div><div class="line">dataLogDir=/usr/local/applications/zookeeper/cluster/node1/logs</div><div class="line">clientPort=<span class="number">2181</span></div><div class="line">server.1=<span class="number">127.0</span>.0.1:<span class="number">8881</span>:<span class="number">9991</span></div><div class="line">server.2=<span class="number">127.0</span>.0.1:<span class="number">8882</span>:<span class="number">9992</span></div><div class="line">server.3=<span class="number">127.0</span>.0.1:<span class="number">8883</span>:<span class="number">9993</span></div></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>initLimit</td>
+<td>初始化连接时, follower 和 leader 之间的最长心跳时间。若设置为 10，表示 10 倍的 tickTime 时间</td>
+</tr>
+<tr>
+<td>syncLimit</td>
+<td>leader 和 follower 之间发送消息，请求和应答的最大时间。若设置为 5，表示 5 倍的 tickTime 时间</td>
+</tr>
+<tr>
+<td>server.X=A:B:C</td>
+<td>X 是一个数字，表示这是第几个服务。A 是服务器的IP地址。B 是服务器和 leader 交换消息所使用的端口。C 是选举 leader 时所使用的端口</td>
+</tr>
+</tbody>
+</table>
+<p>zookeeper-2 和 zookeeper-3 的配置与 zookeeper-1 基本相同，只需改变 dataDir、dataLogDir、clientPort 参数的值。配置 zookeeper-2/conf/zoo.cfg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tickTime=<span class="number">2000</span></div><div class="line">initLimit=<span class="number">10</span></div><div class="line">syncLimit=<span class="number">5</span></div><div class="line">dataDir=/usr/local/applications/zookeeper/cluster/node2/data</div><div class="line">dataLogDir=/usr/local/applications/zookeeper/cluster/node2/logs</div><div class="line">clientPort=<span class="number">2182</span></div><div class="line">server.1=<span class="number">127.0</span>.0.1:<span class="number">8881</span>:<span class="number">9991</span></div><div class="line">server.2=<span class="number">127.0</span>.0.1:<span class="number">8882</span>:<span class="number">9992</span></div><div class="line">server.3=<span class="number">127.0</span>.0.1:<span class="number">8883</span>:<span class="number">9993</span></div></pre></td></tr></table></figure>
+<p>配置 zookeeper-3/conf/zoo.cfg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tickTime=<span class="number">2000</span></div><div class="line">initLimit=<span class="number">10</span></div><div class="line">syncLimit=<span class="number">5</span></div><div class="line">dataDir=/usr/local/applications/zookeeper/cluster/node3/data</div><div class="line">dataLogDir=/usr/local/applications/zookeeper/cluster/node3/logs</div><div class="line">clientPort=<span class="number">2183</span></div><div class="line">server.1=<span class="number">127.0</span>.0.1:<span class="number">8881</span>:<span class="number">9991</span></div><div class="line">server.2=<span class="number">127.0</span>.0.1:<span class="number">8882</span>:<span class="number">9992</span></div><div class="line">server.3=<span class="number">127.0</span>.0.1:<span class="number">8883</span>:<span class="number">9993</span></div></pre></td></tr></table></figure>
+<p>在相应的数据目录下创建 myid 文件，并输入相对应的数字编号的值作为内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p /usr/<span class="built_in">local</span>/applications/zookeeper/cluster/node1/data</div><div class="line">$ vi /usr/<span class="built_in">local</span>/applications/zookeeper/cluster/node1/data/myid	<span class="comment"># 输入内容：1</span></div><div class="line">  </div><div class="line">$ mkdir -p /usr/<span class="built_in">local</span>/applications/zookeeper/cluster/node2/data</div><div class="line">$ vi /usr/<span class="built_in">local</span>/applications/zookeeper/cluster/node2/data/myid	<span class="comment"># 输入内容：2</span></div><div class="line">  </div><div class="line">$ mkdir -p /usr/<span class="built_in">local</span>/applications/zookeeper/cluster/node3/data</div><div class="line">$ vi /usr/<span class="built_in">local</span>/applications/zookeeper/cluster/node3/data/myid	<span class="comment"># 输入内容：3</span></div></pre></td></tr></table></figure>
+<p>启动服务命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ zookeeper-1/bin/zkServer.sh start</div><div class="line">$ zookeeper-2/bin/zkServer.sh start</div><div class="line">$ zookeeper-3/bin/zkServer.sh start</div></pre></td></tr></table></figure>
+<p>查看服务状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ zookeeper-1/bin/zkServer.sh status</div><div class="line">$ zookeeper-2/bin/zkServer.sh status</div><div class="line">$ zookeeper-3/bin/zkServer.sh status</div></pre></td></tr></table></figure>
+<h3 id="4-集群模式配置"><a href="#4-集群模式配置" class="headerlink" title="4. 集群模式配置"></a>4. 集群模式配置</h3><p>集群模式的配置和伪集群的配置基本相同。在集群模式下，由于各个服务部署在不同的主机上，因此，zoo.cfg 配置文件的配置内容可以是完全一样的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tickTime=<span class="number">2000</span></div><div class="line">initLimit=<span class="number">10</span></div><div class="line">syncLimit=<span class="number">5</span></div><div class="line">dataDir=/usr/local/applications/zookeeper/data</div><div class="line">dataLogDir=/usr/local/applications/zookeeper/logs</div><div class="line">clientPort=<span class="number">2181</span></div><div class="line">server.1=<span class="number">192.168</span>.1.101:<span class="number">2555</span>:<span class="number">3555</span></div><div class="line">server.2=<span class="number">192.168</span>.1.102:<span class="number">2555</span>:<span class="number">3555</span></div><div class="line">server.3=<span class="number">192.168</span>.1.103:<span class="number">2555</span>:<span class="number">3555</span></div></pre></td></tr></table></figure>
+<p>在各主机相应的数据目录下创建 myid 文件，并输入相对应的数字编号的值作为内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p /usr/<span class="built_in">local</span>/applications/zookeeper/data</div><div class="line">$ vi /usr/<span class="built_in">local</span>/applications/zookeeper/data/myid	<span class="comment"># 192.168.1.101 输入内容：1</span></div><div class="line">  </div><div class="line">$ mkdir -p /usr/<span class="built_in">local</span>/applications/zookeeper/data</div><div class="line">$ vi /usr/<span class="built_in">local</span>/applications/zookeeper/data/myid	<span class="comment"># 192.168.1.102 输入内容：2</span></div><div class="line">  </div><div class="line">$ mkdir -p /usr/<span class="built_in">local</span>/applications/zookeeper/data</div><div class="line">$ vi /usr/<span class="built_in">local</span>/applications/zookeeper/data/myid	<span class="comment"># 192.168.1.103 输入内容：3</span></div></pre></td></tr></table></figure>
+<p>各主机防火墙分别开放相对应的端口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 2181 -j ACCEPT</div><div class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 2555 -j ACCEPT</div><div class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3555 -j ACCEPT</div></pre></td></tr></table></figure>
+<p>各主机启动服务命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ zookeeper-3.4.10/bin/zkServer.sh start</div></pre></td></tr></table></figure>
+<p>查看服务状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ zookeeper-3.4.10/bin/zkServer.sh status</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ZooKeeper 是一个开放源码的分布式应用程序协调服务，它为分布式应用提供一致性服务，主要功能包括：配置维护、域名服务、分布式同步、组服务等。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Zookeeper" scheme="http://yoursite.com/tags/Zookeeper/"/>
+    
+  </entry>
   
   <entry>
     <title>Spring Cloud Ribbon — 客户端负载均衡器</title>
@@ -2504,88 +2654,6 @@
     
     
       <category term="Thymeleaf" scheme="http://yoursite.com/tags/Thymeleaf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Boot 添加 Thymeleaf 支持</title>
-    <link href="http://yoursite.com/post/spring-boot-with-thymeleaf.html"/>
-    <id>http://yoursite.com/post/spring-boot-with-thymeleaf.html</id>
-    <published>2017-04-03T06:44:53.000Z</published>
-    <updated>2017-07-16T12:54:10.215Z</updated>
-    
-    <content type="html"><![CDATA[<p>Spring Boot 对 Thymeleaf 模板引擎提供了自配置的良好支持。Spring Boot 1.5.2.RELEASE 版本默认使用的是 Thymeleaf 2.0+，本文使用 Thymeleaf 3.0+ 版本，在 pom.xml 中添加以下声明：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">thymeleaf.version</span>&gt;</span>3.0.5.RELEASE<span class="tag">&lt;/<span class="name">thymeleaf.version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span>2.2.1<span class="tag">&lt;/<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>然后添加 Thymeleaf 依赖声明：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="1-控制器"><a href="#1-控制器" class="headerlink" title="1. 控制器"></a>1. 控制器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WelcomeController</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">welcome</span><span class="params">(ModelMap model)</span> </span>&#123;</div><div class="line">        model.put(<span class="string">"message"</span>, <span class="string">"Hello Thymeleaf!"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-模板文件"><a href="#2-模板文件" class="headerlink" title="2. 模板文件"></a>2. 模板文件</h3><p>Spring Boot 对 Thymeleaf 模板引擎提供了自动配置的支持，详见 <a href="https://github.com/spring-projects/spring-boot/blob/v1.5.2.RELEASE/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/thymeleaf/ThymeleafProperties.java#L37" target="_blank" rel="external">ThymeleafProperties</a>。我们只需遵循约定，在<code>/src/main/resources/templates/</code>目录创建相应的页面模板文件（<code>*.html</code>）即可。</p>
-<p></p><p class="code-title"># src/main/resources/templates/index.html</p><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE HTML&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/css/main.css&#125;"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure><p></p>
-<h3 id="3-静态文件"><a href="#3-静态文件" class="headerlink" title="3. 静态文件"></a>3. 静态文件</h3><p>Spring Boot 默认将静态资源文件映射到类路径下的目录包括（详见 <a href="https://github.com/spring-projects/spring-boot/blob/v1.5.2.RELEASE/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/ResourceProperties.java#L44" target="_blank" rel="external">ResourcesProperties</a>）：</p>
-<ul>
-<li>/META-INF/resources/</li>
-<li>/resources/</li>
-<li>/static/</li>
-<li>/public/</li>
-</ul>
-<p>因此我们可以将 css、js、images 等静态资源文件放在<code>/src/main/resources/static/</code>目录下。</p>
-<p></p><p class="code-title"># src/main/resources/static/css/main.css</p><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#444</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">280px</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">100px</span> auto;</div><div class="line">    <span class="attribute">font-family</span>: SimSun;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#FBFBFB</span>;</div><div class="line">    <span class="attribute">text-shadow</span>: <span class="built_in">rgba</span>(50,50,50,0.3) <span class="number">2px</span> <span class="number">2px</span> <span class="number">3px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
-<h3 id="4-主应用程序类"><a href="#4-主应用程序类" class="headerlink" title="4. 主应用程序类"></a>4. 主应用程序类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SpringApplication.run(Application.class);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="5-模板文件和静态资源文件的缓存问题"><a href="#5-模板文件和静态资源文件的缓存问题" class="headerlink" title="5. 模板文件和静态资源文件的缓存问题"></a>5. 模板文件和静态资源文件的缓存问题</h3><p>当修改 css、js 等静态资源文件的内容或模板文件的内容时，刷新客户端浏览器，发现内容还是老的，说明 Spring Boot 内置的 Servelt 容器并没有实时重新加载修改过的文件内容。你只能在每次修改静态资源文件时，虽然不需要重启服务，但是你要重新编译一次，IntelliJ IDEA 中按一次 Ctrl + F9 即可。<br>实现热加载（live reload）可参考：<a href="http://fanlychie.github.io/post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html" target="_blank" rel="external">解决 IntelliJ IDEA 无法热加载 Spring Boot 模板文件和静态资源文件</a></p>
-<blockquote>
-<p>示例项目开发环境：Java-8、Maven-3、IntelliJ IDEA-2017、Spring Boot-1.5.2.RELEASE<br>完整示例项目链接：<a href="https://github.com/fanlychie/spring-boot-samples/tree/master/spring-boot-thymeleaf-sample" target="_blank" rel="external">spring-boot-thymeleaf-sample</a><br>参考文档文献链接：<a href="http://docs.spring.io/spring-boot/docs/1.5.2.RELEASE/reference/htmlsingle/#howto-use-thymeleaf-3" target="_blank" rel="external">howto-use-thymeleaf-3</a>、<a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html" target="_blank" rel="external">usingthymeleaf</a></p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Spring Boot 对 Thymeleaf 模板引擎提供了自配置的良好支持。Spring Boot 1.5.2.RELEASE 版本默认使用的是 Thymeleaf 2.0+，本文使用 Thymeleaf 3.0+ 版本，在 pom.xml 中添加以下声明：&lt;/p&gt;
-&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;properties&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;thymeleaf.version&lt;/span&gt;&amp;gt;&lt;/span&gt;3.0.5.RELEASE&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;thymeleaf.version&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;thymeleaf-layout-dialect.version&lt;/span&gt;&amp;gt;&lt;/span&gt;2.2.1&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;thymeleaf-layout-dialect.version&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;properties&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;然后添加 Thymeleaf 依赖声明：&lt;/p&gt;
-&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;spring-boot-starter-thymeleaf&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Spring Boot" scheme="http://yoursite.com/tags/Spring-Boot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>解决 IntelliJ IDEA 无法热加载 Spring Boot 模板文件和静态资源文件</title>
-    <link href="http://yoursite.com/post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html"/>
-    <id>http://yoursite.com/post/resolve-intellij-idea-spring-boot-template-reload-is-not-working.html</id>
-    <published>2017-04-02T20:24:50.000Z</published>
-    <updated>2017-07-16T13:04:24.357Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-IntelliJ-IDEA-配置"><a href="#1-IntelliJ-IDEA-配置" class="headerlink" title="1. IntelliJ IDEA 配置"></a>1. IntelliJ IDEA 配置</h3><p>快捷键<code>Ctrl + Alt + S</code>打开设置面板，勾选<code>Build project automatically</code>选项：</p>
-<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/idea-settings.png" alt="idea-settings"></p>
-<a id="more"></a>
-<p>快捷键<code>Ctrl + Shift + A</code>查找<code>registry</code>命令：</p>
-<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/registry.png" alt="registry"></p>
-<p>在查找到的<code>registry</code>命令通过鼠标双击或敲回车键，在弹出的面板中搜索关键字<code>automake</code>，找到并勾选<code>compiler.automake.allow.when.app.running</code>选项：</p>
-<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/registry-automake.png" alt="registry-automake"></p>
-<p>配置完成后，IntelliJ IDEA 可以热加载静态资源文件了。但是模板文件仍然还不能热加载。</p>
-<h3 id="2-添加-Spring-Boot-Dev-Tools-支持"><a href="#2-添加-Spring-Boot-Dev-Tools-支持" class="headerlink" title="2. 添加 Spring Boot Dev Tools 支持"></a>2. 添加 Spring Boot Dev Tools 支持</h3><p>在 pom.xml 中添加如下依赖声明：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>Spring Boot Dev Tools 的作用：</p>
-<ul>
-<li>视图或资源的任何更改都可以直接在浏览器中看到，无需重新启动，只需刷新浏览器即可。</li>
-<li>对代码的任何更改将自动重新启动 Spring 容器。</li>
-</ul>
-<p>至此，就可以完美的解决 IntelliJ IDEA 无法热加载模板文件和静态资源文件的问题了。并且，当你修改或编写 Java 代码时，也是能够热加载的。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-IntelliJ-IDEA-配置&quot;&gt;&lt;a href=&quot;#1-IntelliJ-IDEA-配置&quot; class=&quot;headerlink&quot; title=&quot;1. IntelliJ IDEA 配置&quot;&gt;&lt;/a&gt;1. IntelliJ IDEA 配置&lt;/h3&gt;&lt;p&gt;快捷键&lt;code&gt;Ctrl + Alt + S&lt;/code&gt;打开设置面板，勾选&lt;code&gt;Build project automatically&lt;/code&gt;选项：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/fanlychie/mdimg/master/idea-settings.png&quot; alt=&quot;idea-settings&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Spring Boot" scheme="http://yoursite.com/tags/Spring-Boot/"/>
     
   </entry>
   

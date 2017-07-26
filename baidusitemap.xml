@@ -4,6 +4,57 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/dubbo-admin-setup.html</loc>
+    <lastmod>2017-07-26T10:27:51.984Z</lastmod>
+    <data>
+        <display>
+        <title>dubbo-admin 管理控制台应用安装</title>
+        <pubTime>2017-07-25T14:20:38.000Z</pubTime>
+        
+        <tag>Dubbo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/post/spring-boot-quick-start.html</loc>
+    <lastmod>2017-07-26T07:37:42.262Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Boot 快速入门 - 1 分钟搭建 Web 应用</title>
+        <pubTime>2017-04-02T05:02:06.000Z</pubTime>
+        
+        <tag>Spring Boot</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/post/zookeeper-setup.html</loc>
+    <lastmod>2017-07-25T18:46:53.746Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper 安装和配置</title>
+        <pubTime>2017-07-25T12:56:35.000Z</pubTime>
+        
+        <tag>Zookeeper</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/spring-cloud-netflix-ribbon.html</loc>
     <lastmod>2017-07-23T11:03:00.217Z</lastmod>
     <data>
@@ -216,23 +267,6 @@
         <pubTime>2017-02-18T13:03:10.000Z</pubTime>
         
         <tag>JPA</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/post/spring-boot-quick-start.html</loc>
-    <lastmod>2017-07-19T18:22:46.927Z</lastmod>
-    <data>
-        <display>
-        <title>Spring Boot 快速入门 - 1 分钟搭建 Web 应用</title>
-        <pubTime>2017-04-02T05:02:06.000Z</pubTime>
-        
-        <tag>Spring Boot</tag>
          
          
            
