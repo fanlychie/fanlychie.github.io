@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-26T18:50:53.650Z</updated>
+  <updated>2017-07-27T04:22:40.801Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://yoursite.com/post/dubbo-quickstart.html"/>
     <id>http://yoursite.com/post/dubbo-quickstart.html</id>
     <published>2017-07-26T10:30:38.000Z</published>
-    <updated>2017-07-26T18:50:53.650Z</updated>
+    <updated>2017-07-27T04:22:40.801Z</updated>
     
-    <content type="html"><![CDATA[<p>dubbo 采用全 Spring 配置方式，透明化接入应用，对应用没有任何API侵入，只需用 Spring 加载 dubbo 的配置即可。如需了解更多相关信息可前往官方文档<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E8%83%8C%E6%99%AF" target="_blank" rel="external">用户指南</a>部分的介绍。</p>
+    <content type="html"><![CDATA[<p>dubbo 是一个分布式服务框架，致力于提供高性能和透明化的 RPC 远程服务调用方案，以及 SOA 服务治理方案。它采用全 Spring 配置方式，透明化接入应用，对应用没有任何API侵入，只需用 Spring 加载 dubbo 的配置即可。如需了解更多相关信息可前往官方文档<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E8%83%8C%E6%99%AF" target="_blank" rel="external">用户指南</a>部分的介绍。</p>
 <a id="more"></a>
 <h3 id="1-创建项目"><a href="#1-创建项目" class="headerlink" title="1. 创建项目"></a>1. 创建项目</h3><p>创建一个 maven 多模块项目，结构如下：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dubbo-quickstart-sample（父模块）</div><div class="line">|</div><div class="line">|__ user-module-api（服务接口模块）</div><div class="line">|</div><div class="line">|__ user-module-provider（服务提供者）</div><div class="line">|</div><div class="line">|__ user-module-consumer（服务消费者）</div></pre></td></tr></table></figure>
@@ -77,7 +77,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;dubbo 采用全 Spring 配置方式，透明化接入应用，对应用没有任何API侵入，只需用 Spring 加载 dubbo 的配置即可。如需了解更多相关信息可前往官方文档&lt;a href=&quot;http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E8%83%8C%E6%99%AF&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;用户指南&lt;/a&gt;部分的介绍。&lt;/p&gt;
+      &lt;p&gt;dubbo 是一个分布式服务框架，致力于提供高性能和透明化的 RPC 远程服务调用方案，以及 SOA 服务治理方案。它采用全 Spring 配置方式，透明化接入应用，对应用没有任何API侵入，只需用 Spring 加载 dubbo 的配置即可。如需了解更多相关信息可前往官方文档&lt;a href=&quot;http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E8%83%8C%E6%99%AF&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;用户指南&lt;/a&gt;部分的介绍。&lt;/p&gt;
     
     </summary>
     
