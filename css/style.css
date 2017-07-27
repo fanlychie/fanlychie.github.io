@@ -66,6 +66,11 @@ button.submit {
   -o-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in;
 }
+table a:hover,
+h4 a:hover {
+  color: #de5454;
+  text-decoration: underline;
+}
 a:focus {
   outline: none;
 }
@@ -651,6 +656,7 @@ body {
   word-break: break-all;
 }
 .post .post-content p a:hover {
+  color: #de5454;
   text-decoration: underline;
 }
 .post .post-content p .caption {
@@ -1380,4 +1386,7 @@ table td {
 }
 #ds-reset .ds-post-button:hover {
   background: #608cb7 !important;
+}
+code {
+  font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
 }

@@ -4,6 +4,40 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/dubbo-annotation-with-springmvc.html</loc>
+    <lastmod>2017-07-27T18:59:48.873Z</lastmod>
+    <data>
+        <display>
+        <title>dubbo 注解方式整合 springmvc</title>
+        <pubTime>2017-07-27T17:54:38.000Z</pubTime>
+        
+        <tag>Dubbo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/post/dubbo-configurations.html</loc>
+    <lastmod>2017-07-27T17:49:18.715Z</lastmod>
+    <data>
+        <display>
+        <title>dubbo 配置方式</title>
+        <pubTime>2017-07-27T08:12:08.000Z</pubTime>
+        
+        <tag>Dubbo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/dubbo-quickstart.html</loc>
     <lastmod>2017-07-27T04:59:39.327Z</lastmod>
     <data>

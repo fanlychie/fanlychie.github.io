@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/post/dubbo-annotation-with-springmvc.html</loc>
+    
+    <lastmod>2017-07-27T18:59:48.873Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/dubbo-configurations.html</loc>
+    
+    <lastmod>2017-07-27T17:49:18.715Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/post/dubbo-quickstart.html</loc>
     
     <lastmod>2017-07-27T04:59:39.327Z</lastmod>

@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="fanlychie,范忠云,範宗雲,java,技术,博客"><meta name="baidu-site-verification" content="bQjF64X3Ym"><meta name="keywords" content="fanlychie,范忠云,java,技术,博客,spring,mvc,cloud"><title>dubbo 配置方式 | 範宗雲</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">dubbo 配置方式</h1><a id="logo" href="/.">範宗雲</a><p class="description">面朝大海，望眼欲穿</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="请输入搜索关键字 ..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">dubbo 配置方式</h1><div class="post-meta"><span class="date">2017-07-27</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/post/dubbo-configurations.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/dubbo-configurations.html"></i>留言</a></div><div class="post-content"><p>dubbo 提供了4种服务配置的方式，它们分别是：XML 配置、属性配置、注解配置、API 配置（官方不推荐 API 配置的方式）。本文只介绍前三种，API 配置方式可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-API%E9%85%8D%E7%BD%AE" target="_blank" rel="external">点此前往官方文档查看API配置</a>。</p>
+<a id="more"></a>
+<h3 id="1-XML-配置"><a href="#1-XML-配置" class="headerlink" title="1. XML 配置"></a>1. XML 配置</h3><p>配置参考手册：</p>
+<table>
+<thead>
+<tr>
+<th>标签</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aservice%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:service&gt;</code></a></td>
+<td>服务提供者暴露服务配置，用于定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aprotocol%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:protocol&gt;</code></a></td>
+<td>服务提供者协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Areference%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:reference&gt;</code></a></td>
+<td>服务消费者引用服务配置，用于创建一个远程服务代理，一个引用可以指向多个注册中心。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aregistry%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:registry&gt;</code></a></td>
+<td>注册中心配置，用于配置连接注册中心相关信息。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aapplication%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:application&gt;</code></a></td>
+<td>应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Amodule%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:module&gt;</code></a></td>
+<td>模块配置，用于配置当前模块信息，可选。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Amonitor%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:monitor&gt;</code></a></td>
+<td>监控中心配置，用于配置连接监控中心相关信息，可选。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aprovider%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:provider&gt;</code></a></td>
+<td>服务提供者缺省值配置，当 ProtocolConfig 和 ServiceConfig 某属性没有配置时，采用此缺省值，可选。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aconsumer%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:consumer&gt;</code></a></td>
+<td>服务消费者缺省值配置，当 ReferenceConfig 某属性没有配置时，采用此缺省值，可选。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Amethod%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:method&gt;</code></a></td>
+<td>方法配置，用于 ServiceConfig 和 ReferenceConfig 指定方法级的配置信息。</td>
+</tr>
+<tr>
+<td><a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aargument%252F%253E" target="_blank" rel="external"><code>&lt;dubbo:argument&gt;</code></a></td>
+<td>方法参数配置。</td>
+</tr>
+</tbody>
+</table>
+<p>注：标签属性只有<code>group</code>,<code>interface</code>,<code>version</code>是服务的匹配条件，三者用于共同决定是否是同一个服务，其它属性配置项均为调优和治理参数。</p>
+<h4 id="1-1-dubbo-service"><a href="#1-1-dubbo-service" class="headerlink" title="1.1 dubbo:service"></a>1.1 dubbo:service</h4><p>必填属性参考列表（更多可选参数可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aservice%252F%253E" target="_blank" rel="external">点此前往官方文档</a>查看）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">interface</td>
+<td style="text-align:center">class</td>
+<td style="text-align:center">服务接口名</td>
+</tr>
+<tr>
+<td style="text-align:center">ref</td>
+<td style="text-align:center">object</td>
+<td style="text-align:center">服务对象实现引用</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">interface</span>=<span class="string">"org.fanlychie.service.UserService"</span> <span class="attr">ref</span>=<span class="string">"userService"</span>/&gt;</span></div><div class="line"> </div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userService"</span> <span class="attr">class</span>=<span class="string">"org.fanlychie.service.UserServiceImpl"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="1-2-dubbo-protocol"><a href="#1-2-dubbo-protocol" class="headerlink" title="1.2 dubbo:protocol"></a>1.2 dubbo:protocol</h4><p>必填属性参考列表（更多可选参数可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aprotocol%252F%253E" target="_blank" rel="external">点此前往官方文档</a>查看）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">name</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">协议名称</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:protocol</span> <span class="attr">name</span>=<span class="string">"dubbo"</span> <span class="attr">port</span>=<span class="string">"20880"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>dubbo 支持的协议有：<code>dubbo</code>、<code>rmi</code>、<code>hessian</code>、<code>http</code>、<code>webservice</code>、<code>thrift</code>、<code>redis</code>、<code>memcached</code>。各个协议的介绍和使用场景可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E5%8D%8F%E8%AE%AE%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C" target="_blank" rel="external">点此前往官方文档查看协议参考手册</a>。</p>
+<h4 id="1-3-dubbo-reference"><a href="#1-3-dubbo-reference" class="headerlink" title="1.3 dubbo:reference"></a>1.3 dubbo:reference</h4><p>必填属性参考列表（更多可选参数可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Areference%252F%253E" target="_blank" rel="external">点此前往官方文档</a>查看）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">id</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">服务引用的 Bean ID</td>
+</tr>
+<tr>
+<td style="text-align:center">interface</td>
+<td style="text-align:center">class</td>
+<td style="text-align:center">服务接口名</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">id</span>=<span class="string">"userService"</span> <span class="attr">interface</span>=<span class="string">"org.fanlychie.service.UserService"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="1-4-dubbo-registry"><a href="#1-4-dubbo-registry" class="headerlink" title="1.4 dubbo:registry"></a>1.4 dubbo:registry</h4><p>必填属性参考列表（更多可选参数可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aregistry%252F%253E" target="_blank" rel="external">点此前往官方文档</a>查看）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">address</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">注册中心服务器地址，如果地址没有端口缺省为 9090，同一集群内的多个地址用逗号分隔，如：ip:port,ip:port，不同集群的注册中心，请配置多个<code>&lt;dubbo:registry&gt;</code> 标签</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:registry</span> <span class="attr">address</span>=<span class="string">"zookeeper://127.0.0.1:2181"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>dubbo 提供支持的服务注册中心有：<code>multicast</code>、<code>zookeeper</code>、<code>redis</code>、<code>simple</code>。官方推荐你使用<code>zookeeper</code>注册中心，详细信息可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C" target="_blank" rel="external">点此前往官方文档查看注册中心参考手册</a>。</p>
+<h4 id="1-5-dubbo-application"><a href="#1-5-dubbo-application" class="headerlink" title="1.5 dubbo:application"></a>1.5 dubbo:application</h4><p>必填属性参考列表（更多可选参数可<a href="http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%253Cdubbo%253Aapplication%252F%253E" target="_blank" rel="external">点此前往官方文档</a>查看）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">name</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">当前应用名称，用于注册中心计算应用间依赖关系，注意：消费者和提供者应用名不要一样，此参数不是匹配条件，你当前项目叫什么名字就填什么，和提供者消费者角色无关</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:application</span> <span class="attr">name</span>=<span class="string">"user-module-provider"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2-属性配置"><a href="#2-属性配置" class="headerlink" title="2. 属性配置"></a>2. 属性配置</h3><p>如果公共配置很简单，没有多注册中心，多协议等情况，或者想多个 Spring 容器想共享配置，可以使用 dubbo.properties 作为缺省配置。dubbo 将自动加载类路径下的 dubbo.properties，可以通过 JVM 启动参数：<code>-Ddubbo.properties.file=xxx.properties</code>改变缺省配置位置。如果类路径下存在多个 dubbo.properties，比如多个 jar 包中有 dubbo.properties，dubbo 会任意加载，并打印 Error 日志，后续可能改为抛异常。</p>
+<h4 id="2-1-映射规则"><a href="#2-1-映射规则" class="headerlink" title="2.1 映射规则"></a>2.1 映射规则</h4><ul>
+<li>将 XML 配置的标签名，加属性名，用点分隔，多个属性拆成多行：<ul>
+<li>比如 dubbo.application.name=foo 等价于：<br><code>&lt;dubbo:application name=&quot;foo&quot;/&gt;</code></li>
+</ul>
+</li>
+<li>如果 XML 有多行同名标签配置，可用 id 号区分，如果没有 id 号将对所有同名标签生效：<ul>
+<li>比如 dubbo.protocol.rmi.port=1234 等价于：<br><code>&lt;dubbo:protocol id=&quot;rmi&quot; name=&quot;rmi&quot; port=&quot;1099&quot;/&gt;</code></li>
+<li>比如 dubbo.registry.china.address=10.20.153.10:9090 等价于：<br><code>&lt;dubbo:registry id=&quot;china&quot; address=&quot;10.20.153.10:9090&quot;/&gt;</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dubbo.application.name=foo</div><div class="line">dubbo.application.owner=bar</div><div class="line">dubbo.registry.address=<span class="number">10.20</span>.153.10:<span class="number">9090</span></div></pre></td></tr></table></figure>
+<h4 id="2-2-覆盖策略"><a href="#2-2-覆盖策略" class="headerlink" title="2.2 覆盖策略"></a>2.2 覆盖策略</h4><p>JVM 启动 -D 参数优先，这样可以使用户在部署和启动时进行参数重写，比如在启动时需改变协议的端口。<br>XML 次之，如果在 XML 中有配置，则 dubbo.properties 中的相应配置项无效。<br>Properties 最后，相当于缺省值，只有 XML 没有配置时，dubbo.properties 的相应配置项才会生效，通常用于共享公共配置，比如应用名。</p>
+<h3 id="3-注解配置"><a href="#3-注解配置" class="headerlink" title="3. 注解配置"></a>3. 注解配置</h3><p>dubbo 2.2.1 以上的版本支持注解配置。</p>
+<h4 id="3-1-服务提供者"><a href="#3-1-服务提供者" class="headerlink" title="3.1 服务提供者"></a>3.1 服务提供者</h4><p>服务提供者使用<code>com.alibaba.dubbo.config.annotation.@Service</code>注解暴露服务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.fanlychie.service;</div><div class="line">    </div><div class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.annotation.Service;</div><div class="line">    </div><div class="line"><span class="meta">@Service</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(String username, String password)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"---------------------------------------------------------"</span>);</div><div class="line">        System.out.println(String.format(<span class="string">"接收到注册用户请求 - &#123;username:%s, password:%s&#125;"</span>,</div><div class="line">                username, password));</div><div class="line">        System.out.println(<span class="string">"---------------------------------------------------------"</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>服务提供者使用<code>&lt;dubbo:annotation&gt;</code>配置扫描的包路径，多个包用逗号分隔：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">       <span class="attr">xmlns:dubbo</span>=<span class="string">"http://code.alibabatech.com/schema/dubbo"</span></div><div class="line">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></div><div class="line">       http://www.springframework.org/schema/beans/spring-beans.xsd</div><div class="line">       http://code.alibabatech.com/schema/dubbo</div><div class="line">       http://code.alibabatech.com/schema/dubbo/dubbo.xsd"&gt;</div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:application</span> <span class="attr">name</span>=<span class="string">"user-module-provider"</span>/&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:registry</span> <span class="attr">address</span>=<span class="string">"zookeeper://127.0.0.1:2181"</span>/&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:protocol</span> <span class="attr">name</span>=<span class="string">"dubbo"</span> <span class="attr">port</span>=<span class="string">"20880"</span>/&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:annotation</span> <span class="attr">package</span>=<span class="string">"org.fanlychie.service"</span>/&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="3-2-服务消费者"><a href="#3-2-服务消费者" class="headerlink" title="3.2 服务消费者"></a>3.2 服务消费者</h4><p>服务消费者使用<code>com.alibaba.dubbo.config.annotation.@Reference</code>注解引用接口服务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.annotation.Reference;</div><div class="line"><span class="keyword">import</span> org.fanlychie.service.UserService;</div><div class="line"><span class="keyword">import</span> org.springframework.util.StringUtils;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</div><div class="line">    </div><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Reference</span></div><div class="line">    <span class="keyword">private</span> UserService userService;</div><div class="line">    </div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/user/register"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">register</span><span class="params">(String username, String password)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!StringUtils.hasText(username) || !StringUtils.hasText(password)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"用户名或密码不能为空"</span>;</div><div class="line">        &#125;</div><div class="line">        userService.register(username, password);</div><div class="line">        <span class="keyword">return</span> <span class="string">"注册完成"</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>服务消费者<code>&lt;dubbo:annotation&gt;</code>配置扫描的包路径，多个包用逗号分隔：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">       <span class="attr">xmlns:dubbo</span>=<span class="string">"http://code.alibabatech.com/schema/dubbo"</span></div><div class="line">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></div><div class="line">       http://www.springframework.org/schema/beans/spring-beans.xsd</div><div class="line">       http://code.alibabatech.com/schema/dubbo</div><div class="line">       http://code.alibabatech.com/schema/dubbo/dubbo.xsd"&gt;</div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:application</span> <span class="attr">name</span>=<span class="string">"user-module-consumer"</span>/&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:registry</span> <span class="attr">address</span>=<span class="string">"zookeeper://127.0.0.1:2181"</span>/&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:annotation</span> <span class="attr">package</span>=<span class="string">"org.fanlychie.controller"</span>/&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>参考文档文献链接：<a href="http://dubbo.io/User+Guide-zh.htm" target="_blank" rel="external">dubbo用户指南</a></p>
+</blockquote>
+</div><div class="tags"><a href="/tags/Dubbo/">Dubbo</a></div><div class="post-share"></div><div class="post-nav"><a href="/post/dubbo-annotation-with-springmvc.html" class="pre">dubbo 注解方式整合 springmvc</a><a href="/post/dubbo-quickstart.html" class="next">dubbo 快速入门</a></div><div id="comments"><div id="SOHUCS" sid="post/dubbo-configurations.html"></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-XML-配置"><span class="toc-text">1. XML 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-dubbo-service"><span class="toc-text">1.1 dubbo:service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-dubbo-protocol"><span class="toc-text">1.2 dubbo:protocol</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-dubbo-reference"><span class="toc-text">1.3 dubbo:reference</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-dubbo-registry"><span class="toc-text">1.4 dubbo:registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-dubbo-application"><span class="toc-text">1.5 dubbo:application</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-属性配置"><span class="toc-text">2. 属性配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-映射规则"><span class="toc-text">2.1 映射规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-覆盖策略"><span class="toc-text">2.2 覆盖策略</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-注解配置"><span class="toc-text">3. 注解配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-服务提供者"><span class="toc-text">3.1 服务提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-服务消费者"><span class="toc-text">3.2 服务消费者</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/post/dubbo-annotation-with-springmvc.html">dubbo 注解方式整合 springmvc</a></li><li class="post-list-item"><a class="post-list-link" href="/post/dubbo-configurations.html">dubbo 配置方式</a></li><li class="post-list-item"><a class="post-list-link" href="/post/dubbo-quickstart.html">dubbo 快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/post/dubbo-admin-setup.html">dubbo-admin 管理控制台应用安装</a></li><li class="post-list-item"><a class="post-list-link" href="/post/zookeeper-setup.html">Zookeeper 安装和配置</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-cloud-netflix-ribbon.html">Spring Cloud Ribbon — 客户端负载均衡器</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-cloud-netflix-eureka.html">Spring Cloud Eureka — 服务发现</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-testing.html">Spring Boot Test</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-servlet-filter-listener-usage.html">Spring Boot 使用 Servlet、Filter、Listener</a></li><li class="post-list-item"><a class="post-list-link" href="/post/spring-boot-exception-handler.html">Spring Boot 异常处理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/开发工具包/" style="font-size: 15px;">开发工具包</a> <a href="/tags/Dubbo/" style="font-size: 15px;">Dubbo</a> <a href="/tags/Eclipse/" style="font-size: 15px;">Eclipse</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Java8/" style="font-size: 15px;">Java8</a> <a href="/tags/CAS/" style="font-size: 15px;">CAS</a> <a href="/tags/工具类/" style="font-size: 15px;">工具类</a> <a href="/tags/Tomcat/" style="font-size: 15px;">Tomcat</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/ActiveMQ/" style="font-size: 15px;">ActiveMQ</a> <a href="/tags/缓存/" style="font-size: 15px;">缓存</a> <a href="/tags/Memcached/" style="font-size: 15px;">Memcached</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/网络爬虫/" style="font-size: 15px;">网络爬虫</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Solr/" style="font-size: 15px;">Solr</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Zookeeper/" style="font-size: 15px;">Zookeeper</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 15px;">Thymeleaf</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">07月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">06月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">05月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">04月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">02月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">01月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">09月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">01月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">12月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">11月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">10月 2015</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> | <a href="/atom.xml">订阅</a> |<span>主题<a rel="nofollow" target="_blank" href="https://hexo.io/zh-cn/"> Hexo</a><a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake</a> |</span><span>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4e375539c063ce29112e53dea9f27aae";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._config = { showScore: true };
+(function(){ 
+  var appid = 'cyt5nPNL8'; 
+  var conf = '5fe2e421f26b9cd1b7c459f7417c85b6'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+  if (width < 960) { 
+    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } 
+  else { 
+    var loadJs=function(d,a){
+      var b=document.createElement("script");b.setAttribute("type","text/javascript");
+      b.setAttribute("charset","UTF-8");
+      b.setAttribute("src",d);
+      if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+      nodes.appendChild(b)
+    };
+    loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+  } 
+  var loadCss = function(cssString){  
+    var style=document.createElement("style");  
+    style.setAttribute("type", "text/css");  
+    if(style.styleSheet){// IE  
+        style.styleSheet.cssText = cssString;  
+    } else {// w3c  
+        var cssText = document.createTextNode(cssString);  
+        style.appendChild(cssText);  
+    }
+    nodes.appendChild(style);
+  }
+  window.onload=function(){loadCss('.module-hot-topic, .module-cmt-float-bar { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .cbox-prompt-w span.prompt-empty-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w .form-text-w span.text-null, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w a.comment-link-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w span.comment-text-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w div.service-wrap-w a:hover, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w span.wrap-name-w, #SOHUCS #SOHU_MAIN .module-cmt-list .action-click-gw span.click-disable-eg a em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li div.title-name-gw, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number .comment-number span.cy-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number span.comment-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active, #SOHUCS #SOHU_MAIN .module-cmt-list .msg-wrap-gw .wrap-action-gw .action-click-gw span a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .picture-box-gw div.box-action-gw a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-action-gw .action-click-gw span a:hover em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-user-gw span.user-name-gw a { color: #40759b !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-r, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-l, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-r { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-l { background: #FFF !important; top: -2px !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-function-w .uploading-wrapper-dw div.wrapper-image-dw, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-main, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w div.form-text-w, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-list .module-cmt-box .post-wrap-w div.post-wrap-main { border: 1px solid #e6e6e6 !important; border-radius: 20px 20px 20px 20px; margin: 0 !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw { width: 130px !important; height: 34px !important; line-height: 33px !important; font-size: 17px !important; background: transparent !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw:before { content: "发表评论"; display: block; border-radius: 20px; width: 100%; height: 100%; color: #FFF; background: #5483b1; -webkit-box-shadow: 0 -1px 4px #5483b1 inset; box-shadow: 0 -1px 10px #5483b1 inset; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a:hover .btn-fw:before { color: #40759b; background: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li{ background: none !important; border-bottom: 1px solid #e6e6e6; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active { border: 1px solid #e6e6e6; border-radius: 10px 10px 0 0; border-bottom: none; } #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li .title-name-gw div.title-name-gw-tag { background: #5483b1 !important; border-radius: 3px; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type div.cmt-list-border { background-color: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item{ border: 1px solid #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo { text-align: center; line-height: 40px; border-radius: 50% !important; background: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo:before { content: "畅"; font-size: 22px; color: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text, #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text i { color: #5483b1 !important; }#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w{background:#FFF !important;}');};
+})();</script><script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script></body></html>
