@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/post/dubbo-annotation-with-springmvc.html</loc>
+    <loc>http://yoursite.com/post/resolve-dubbo-services-call-situation.html</loc>
     
-    <lastmod>2017-07-27T18:59:48.873Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/post/dubbo-configurations.html</loc>
-    
-    <lastmod>2017-07-27T17:49:18.715Z</lastmod>
+    <lastmod>2017-07-28T12:29:43.652Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/post/dubbo-quickstart.html</loc>
     
-    <lastmod>2017-07-27T04:59:39.327Z</lastmod>
+    <lastmod>2017-07-28T10:25:28.027Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/dubbo-annotation-with-springmvc.html</loc>
+    
+    <lastmod>2017-07-28T10:18:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/dubbo-configurations.html</loc>
+    
+    <lastmod>2017-07-28T10:18:07.961Z</lastmod>
     
   </url>
   
