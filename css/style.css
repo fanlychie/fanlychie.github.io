@@ -1001,14 +1001,15 @@ body {
   margin: -20px 0 0;
   padding: 5px 10px;
   float: right;
+  margin-top: -8px;
 }
 .readmore a:after {
   content: ">>";
   padding-left: 0.15em;
 }
 .readmore a:hover {
-  -webkit-box-shadow: 0 -1px 4px #5483b1 inset;
-  box-shadow: 0 -1px 4px #5483b1 inset;
+  color: #de5454;
+  text-decoration: underline;
 }
 /* post navigator*/
 .post-nav {
