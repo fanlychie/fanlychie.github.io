@@ -4,6 +4,40 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/jenkins-guide.html</loc>
+    <lastmod>2017-08-27T11:30:26.936Z</lastmod>
+    <data>
+        <display>
+        <title>使用 Jenkins 进行持续集成</title>
+        <pubTime>2017-08-19T14:52:52.000Z</pubTime>
+        
+        <tag>Jenkins</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/post/dubbo-cluster-fault-tolerance.html</loc>
+    <lastmod>2017-07-30T10:08:01.956Z</lastmod>
+    <data>
+        <display>
+        <title>dubbo 集群容错</title>
+        <pubTime>2017-07-29T10:18:21.000Z</pubTime>
+        
+        <tag>Dubbo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/resolve-dubbo-services-call-situation.html</loc>
     <lastmod>2017-07-28T12:47:41.218Z</lastmod>
     <data>
@@ -904,23 +938,6 @@
         <pubTime>2015-11-13T06:10:17.000Z</pubTime>
         
         <tag>Nginx</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/post/jenkins-setup.html</loc>
-    <lastmod>2016-09-24T03:57:45.173Z</lastmod>
-    <data>
-        <display>
-        <title>jenkins 环境搭建</title>
-        <pubTime>2015-11-30T04:37:43.000Z</pubTime>
-        
-        <tag>Jenkins</tag>
          
          
            
