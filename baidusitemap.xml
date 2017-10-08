@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/fastdfs-setup.html</loc>
+    <lastmod>2017-10-08T06:02:37.869Z</lastmod>
+    <data>
+        <display>
+        <title>分布式文件系统 FastDFS 环境搭建和使用</title>
+        <pubTime>2017-09-22T14:39:04.000Z</pubTime>
+        
+        <tag>FastDFS</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/jenkins-guide.html</loc>
     <lastmod>2017-08-27T11:30:26.936Z</lastmod>
     <data>

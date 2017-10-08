@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/post/fastdfs-setup.html</loc>
+    
+    <lastmod>2017-10-08T06:02:37.869Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/post/jenkins-guide.html</loc>
     
     <lastmod>2017-08-27T11:30:26.936Z</lastmod>
