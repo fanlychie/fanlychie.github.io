@@ -191,16 +191,163 @@
   </entry>
   
   <entry>
+    <title>Jenkins 定时任务</title>
+    <link href="http://yoursite.com/post/jenkins-schedule.html"/>
+    <id>http://yoursite.com/post/jenkins-schedule.html</id>
+    <published>2017-08-20T10:24:11.000Z</published>
+    <updated>2017-11-05T07:58:53.541Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-创建自由风格的软件项目"><a href="#1-创建自由风格的软件项目" class="headerlink" title="1. 创建自由风格的软件项目"></a>1. 创建自由风格的软件项目</h3><p>创建一个自由风格的软件项目，并找到<code>构建触发器</code>项，勾选<code>Build periodically</code>：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-schedule.png" alt=""></p>
+<a id="more"></a>
+<p>首次需要手工点一次任务构建，以后就会定时自动构建了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-创建自由风格的软件项目&quot;&gt;&lt;a href=&quot;#1-创建自由风格的软件项目&quot; class=&quot;headerlink&quot; title=&quot;1. 创建自由风格的软件项目&quot;&gt;&lt;/a&gt;1. 创建自由风格的软件项目&lt;/h3&gt;&lt;p&gt;创建一个自由风格的软件项目，并找到&lt;code&gt;构建触发器&lt;/code&gt;项，勾选&lt;code&gt;Build periodically&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-schedule.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Jenkins" scheme="http://yoursite.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins SSH 远程执行 Shell 脚本</title>
+    <link href="http://yoursite.com/post/jenkins-remote-ssh.html"/>
+    <id>http://yoursite.com/post/jenkins-remote-ssh.html</id>
+    <published>2017-08-20T07:44:41.000Z</published>
+    <updated>2017-11-05T07:34:42.950Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-安装插件"><a href="#1-安装插件" class="headerlink" title="1. 安装插件"></a>1. 安装插件</h3><p>系统管理 -&gt; 管理插件 -&gt; 可用插件，搜索：SSH Plugin</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-1.png" alt=""></p>
+<a id="more"></a>
+<h3 id="2-远程主机身份配置"><a href="#2-远程主机身份配置" class="headerlink" title="2. 远程主机身份配置"></a>2. 远程主机身份配置</h3><p>Credentials –&gt; global –&gt; Add Credentials</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-2.png" alt=""></p>
+<h3 id="3-远程主机SSH配置"><a href="#3-远程主机SSH配置" class="headerlink" title="3. 远程主机SSH配置"></a>3. 远程主机SSH配置</h3><p>系统管理 –&gt; 系统设置，找到<code>SSH remote hosts</code>项，点击添加按钮：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-3.png" alt=""></p>
+<h3 id="4-远程主机SSH免密登陆配置"><a href="#4-远程主机SSH免密登陆配置" class="headerlink" title="4. 远程主机SSH免密登陆配置"></a>4. 远程主机SSH免密登陆配置</h3><p>当前主机信息：</p>
+<ul>
+<li>IP：192.168.1.202</li>
+<li>用户：root</li>
+</ul>
+<p>目标主机信息：</p>
+<ul>
+<li>IP：192.168.1.201</li>
+<li>用户：fanlychie</li>
+</ul>
+<p>主机202以root用户身份免密SSH登陆到主机201的fanlychie用户的配置方式：</p>
+<p>① 在主机202以root用户身份执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> ssh-keygen -t rsa</span></div></pre></td></tr></table></figure>
+<p>② 一路回车，生成的密钥文件在当前用户的目录的<code>.ssh</code>目录中。</p>
+<p>③ 复制主机202用户目录下的id_rsa.pub文件到主机201的fanlychie用户目录下的<code>.ssh</code>目录中，并将文件重命名为authorized_keys：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> ~/.ssh/ &amp;&amp; scp id_rsa.pub fanlychie@192.168.1.201:/home/fanlychie/.ssh/authorized_keys</span></div></pre></td></tr></table></figure>
+<p>④ 验证SSH免密登陆，在主机202以root用户身份执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> ssh fanlychie@192.168.1.201</span></div></pre></td></tr></table></figure>
+<p>如果能顺利登陆主机201，说明配置成功。</p>
+<p>⑤ 退出SSH登陆：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">exit</span></span></div></pre></td></tr></table></figure>
+<p>如果主机202需要远程登陆多台目标主机，如主机203，只需要从第3步开始配置即可。</p>
+<h3 id="5-验证配置"><a href="#5-验证配置" class="headerlink" title="5. 验证配置"></a>5. 验证配置</h3><p>新建一个自由风格的软件项目，在<code>构建</code>项里面选择<code>增加构建后操作步骤</code>并选择<code>Execute shell script on remote host using ssh</code>：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-4.png" alt=""></p>
+<p>在目标主机201中编写测试脚本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~ &amp;&amp; mkdir scripts &amp;&amp; vi scripts/hello.sh</span></div></pre></td></tr></table></figure>
+<p>测试内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"> </div><div class="line">echo '========================================='</div><div class="line">echo 'Hello World!'</div><div class="line">echo '========================================='</div></pre></td></tr></table></figure>
+<p>保存退出。并修改文件权限为可执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> chmod 764 scripts/hello.sh</span></div></pre></td></tr></table></figure>
+<p>构建任务：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-5.png" alt=""></p>
+<h3 id="6-环境变量"><a href="#6-环境变量" class="headerlink" title="6. 环境变量"></a>6. 环境变量</h3><p>上面这种远程SSH到目标主机属于<code>NoLogin</code>方式，无法获取 PATH 等环境变量。</p>
+<p>Jenkins构建好项目之后，如果应用服务器跟Jenkins服务器不是同一台主机，那Jenkins就需要通过SSH远程将应用的部署包发布到目标主机。执行发布的过程，通常需要目标主机环境变量的支持。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"> </div><div class="line">java -version</div></pre></td></tr></table></figure>
+<p>构建结果：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-6.png" alt=""></p>
+<p>实际上，java 环境变量是已经在服务器中配置好了的。但由于是<code>NoLogin</code>的方式登陆，无法获取 PATH 等环境变量导致。目前我的解决方法是在脚本中重新定义一次。如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"> </div><div class="line">JAVA_HOME=/usr/local/jdk1.8.0_144</div><div class="line">CLASSPATH=.:$JAVA_HOME/lib</div><div class="line">PATH=$PATH:$JAVA_HOME/bin</div><div class="line">export JAVA_HOME CLASSPATH PATH</div><div class="line"> </div><div class="line">java -version</div></pre></td></tr></table></figure>
+<p>构建结果：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-7.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-安装插件&quot;&gt;&lt;a href=&quot;#1-安装插件&quot; class=&quot;headerlink&quot; title=&quot;1. 安装插件&quot;&gt;&lt;/a&gt;1. 安装插件&lt;/h3&gt;&lt;p&gt;系统管理 -&amp;gt; 管理插件 -&amp;gt; 可用插件，搜索：SSH Plugin&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-ssh-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Jenkins" scheme="http://yoursite.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins 为视图添加控制台按钮</title>
+    <link href="http://yoursite.com/post/jenkins-console-icon.html"/>
+    <id>http://yoursite.com/post/jenkins-console-icon.html</id>
+    <published>2017-08-20T06:42:32.000Z</published>
+    <updated>2017-11-05T05:54:18.655Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-安装插件"><a href="#1-安装插件" class="headerlink" title="1. 安装插件"></a>1. 安装插件</h3><p>系统管理 -&gt; 管理插件 -&gt; 可用插件，搜索：Console Column Plugin</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-console-1.png" alt=""></p>
+<a id="more"></a>
+<h3 id="2-编辑视图"><a href="#2-编辑视图" class="headerlink" title="2. 编辑视图"></a>2. 编辑视图</h3><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-console-2.png" alt=""></p>
+<h3 id="3-添加列"><a href="#3-添加列" class="headerlink" title="3. 添加列"></a>3. 添加列</h3><p>视图的列顺序可以自由拖放改变，按照你自己的习惯摆放即可。</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-console-3.png" alt=""></p>
+<h3 id="4-效果图"><a href="#4-效果图" class="headerlink" title="4. 效果图"></a>4. 效果图</h3><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-console-4.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-安装插件&quot;&gt;&lt;a href=&quot;#1-安装插件&quot; class=&quot;headerlink&quot; title=&quot;1. 安装插件&quot;&gt;&lt;/a&gt;1. 安装插件&lt;/h3&gt;&lt;p&gt;系统管理 -&amp;gt; 管理插件 -&amp;gt; 可用插件，搜索：Console Column Plugin&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-console-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Jenkins" scheme="http://yoursite.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins 视图管理</title>
+    <link href="http://yoursite.com/post/jenkins-view.html"/>
+    <id>http://yoursite.com/post/jenkins-view.html</id>
+    <published>2017-08-20T04:12:22.000Z</published>
+    <updated>2017-11-05T05:19:12.130Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-添加视图"><a href="#1-添加视图" class="headerlink" title="1. 添加视图"></a>1. 添加视图</h3><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-view.png" alt=""></p>
+<a id="more"></a>
+<h3 id="2-填写信息"><a href="#2-填写信息" class="headerlink" title="2. 填写信息"></a>2. 填写信息</h3><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-view-2.png" alt=""></p>
+<h3 id="3-配置信息"><a href="#3-配置信息" class="headerlink" title="3. 配置信息"></a>3. 配置信息</h3><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-view-3.png" alt=""></p>
+<h3 id="4-效果图"><a href="#4-效果图" class="headerlink" title="4. 效果图"></a>4. 效果图</h3><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-view-4.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-添加视图&quot;&gt;&lt;a href=&quot;#1-添加视图&quot; class=&quot;headerlink&quot; title=&quot;1. 添加视图&quot;&gt;&lt;/a&gt;1. 添加视图&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/fanlychie/mdimg/master/jenkins-view.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Jenkins" scheme="http://yoursite.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
     <title>使用 Jenkins 进行持续集成</title>
     <link href="http://yoursite.com/post/jenkins-guide.html"/>
     <id>http://yoursite.com/post/jenkins-guide.html</id>
     <published>2017-08-19T14:52:52.000Z</published>
-    <updated>2017-08-27T11:30:26.936Z</updated>
+    <updated>2017-11-04T19:13:38.611Z</updated>
     
     <content type="html"><![CDATA[<p>Jenkins 的前身是 Hudson，它是基于 Java 开发的一种持续集成（Continuous Integration，简称 CI）开源工具。用于持续交付、自动构建、测试、发布和监控等，无需过多的人工干预，利于提高开发的效率。</p>
 <a id="more"></a>
 <h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><p>到 <a href="https://jenkins.io/" target="_blank" rel="external">Jenkins</a> 官网下载安装包 <a href="https://pkg.jenkins.io/redhat-stable/jenkins-2.60.3-1.1.noarch.rpm" target="_blank" rel="external">jenkins-2.60.3-1.1.noarch.rpm</a>。Jenkins 2.54 或以上的版本需要 JDK 8 或以上的版本作为运行时环境。如果你系统环境的 JDK 版本低于 8，请选用低于 2.54 的 Jenkins 安装包。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> rpm -ivh jenkins-1.628-1.1.noarch.rpm</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> rpm -ivh jenkins-2.60.3-1.1.noarch.rpm</span></div></pre></td></tr></table></figure>
 <table>
 <thead>
 <tr>
@@ -1336,528 +1483,6 @@
     
       &lt;p&gt;Spring Boot 内置 Tomcat 上下文路径默认是&lt;code&gt;/&lt;/code&gt;。修改上下文路径的方式有：&lt;/p&gt;
 &lt;h3 id=&quot;1-application-yml&quot;&gt;&lt;a href=&quot;#1-application-yml&quot; class=&quot;headerlink&quot; title=&quot;1. application.yml&quot;&gt;&lt;/a&gt;1. &lt;code&gt;application.yml&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;p class=&quot;code-title&quot;&gt;src/main/resources/application.yml&lt;/p&gt;&lt;br&gt;&lt;figure class=&quot;highlight yml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;server:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;  contextPath:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;/my-app&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Spring Boot" scheme="http://yoursite.com/tags/Spring-Boot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Boot Tomcat 端口</title>
-    <link href="http://yoursite.com/post/spring-boot-tomcat-port.html"/>
-    <id>http://yoursite.com/post/spring-boot-tomcat-port.html</id>
-    <published>2017-05-12T16:16:30.000Z</published>
-    <updated>2017-07-07T12:16:10.024Z</updated>
-    
-    <content type="html"><![CDATA[<p>Spring Boot 内置 Tomcat 端口默认是<code>8080</code>。修改端口的方式有：</p>
-<h3 id="1．application-yml"><a href="#1．application-yml" class="headerlink" title="1．application.yml"></a>1．<code>application.yml</code></h3><p></p><p class="code-title">src/main/resources/application.yml</p><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">8888</span></div></pre></td></tr></table></figure><p></p>
-<a id="more"></a>
-<h3 id="2．application-properties"><a href="#2．application-properties" class="headerlink" title="2．application.properties"></a>2．<code>application.properties</code></h3><p></p><p class="code-title">src/main/resources/application.properties</p><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server.port=8888</div></pre></td></tr></table></figure><p></p>
-<h3 id="3．命令行"><a href="#3．命令行" class="headerlink" title="3．命令行"></a>3．命令行</h3><p></p><p class="code-title">terminal</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -Dserver.port=<span class="number">8888</span> -jar xxxx.jar</div></pre></td></tr></table></figure><p></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Spring Boot 内置 Tomcat 端口默认是&lt;code&gt;8080&lt;/code&gt;。修改端口的方式有：&lt;/p&gt;
-&lt;h3 id=&quot;1．application-yml&quot;&gt;&lt;a href=&quot;#1．application-yml&quot; class=&quot;headerlink&quot; title=&quot;1．application.yml&quot;&gt;&lt;/a&gt;1．&lt;code&gt;application.yml&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;p class=&quot;code-title&quot;&gt;src/main/resources/application.yml&lt;/p&gt;&lt;br&gt;&lt;figure class=&quot;highlight yml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;server:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;  port:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;8888&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Spring Boot" scheme="http://yoursite.com/tags/Spring-Boot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Boot Banner</title>
-    <link href="http://yoursite.com/post/spring-boot-logo-banner.html"/>
-    <id>http://yoursite.com/post/spring-boot-logo-banner.html</id>
-    <published>2017-05-12T16:16:13.000Z</published>
-    <updated>2017-07-06T17:28:50.379Z</updated>
-    
-    <content type="html"><![CDATA[<p>Spring Boot 启动时的 Logo Banner：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">  .   ____          _            __ _ _</div><div class="line"> /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | '_ | '_| | '_ \/ _`| \ \ \ \</div><div class="line"> \\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">  '  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line"> =========|_|==============|___/=/_/_/_/</div><div class="line"> :: Spring Boot ::        (v1.5.2.RELEASE)</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="1-更换-Banner"><a href="#1-更换-Banner" class="headerlink" title="1. 更换 Banner"></a>1. 更换 Banner</h3><p>在<code>src/main/resources</code>目录下创建<code>banner.txt</code>文件：</p>
-<p></p><p class="code-title">src/main/resources/banner.txt</p><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">                   _ooOoo_</div><div class="line">                  o8888888o</div><div class="line">                  88" . "88</div><div class="line">                  (| -_- |)</div><div class="line">                   O\ = /O</div><div class="line">               ____/`---'\____</div><div class="line">             .   ' \\| |//`.</div><div class="line">              / \\||| : |||// \</div><div class="line">            / _||||| -:- |||||- \</div><div class="line">              | | \\\ - /// | |</div><div class="line">            | \_| ''\---/'' | |</div><div class="line">             \ .-\__`-`___/-. /</div><div class="line">          ___`. .' /--.--\`. . __</div><div class="line">       ."" '&lt;`.___\_&lt;|&gt;_/___.' &gt;'"".</div><div class="line">      | | :`- \`.;`\ _ /`;.`/ -`: | |</div><div class="line">        \ \`-. \_ __\ /__ _/ .-`/ /</div><div class="line">======`-.____`-.___\_____/___.-`____.-'======</div><div class="line">                  `=---='</div><div class="line"></div><div class="line">.............................................</div><div class="line">         佛祖镇楼                  BUG辟易</div></pre></td></tr></table></figure><p></p>
-<h3 id="2-禁用-Banner"><a href="#2-禁用-Banner" class="headerlink" title="2. 禁用 Banner"></a>2. 禁用 Banner</h3><p></p><p class="code-title">src/main/resources/application.yml</p><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  main:</span></div><div class="line"><span class="attr">    banner-mode:</span> <span class="string">'off'</span></div></pre></td></tr></table></figure><p></p>
-<p>或</p>
-<p></p><p class="code-title">src/main/resources/application.properties</p><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spring.main.banner-mode='off'</div></pre></td></tr></table></figure><p></p>
-<p>或</p>
-<p></p><p class="code-title">terminal</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -Dspring.main.banner-mode=off -jar xxxx.jar</div></pre></td></tr></table></figure><p></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Spring Boot 启动时的 Logo Banner：&lt;/p&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;  .   ____          _            __ _ _&lt;/div&gt;&lt;div class=&quot;line&quot;&gt; /\\ / ___&#39;_ __ _ _(_)_ __  __ _ \ \ \ \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;( ( )\___ | &#39;_ | &#39;_| | &#39;_ \/ _`| \ \ \ \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt; \\/  ___)| |_)| | | | | || (_| |  ) ) ) )&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &#39;  |____| .__|_| |_|_| |_\__, | / / / /&lt;/div&gt;&lt;div class=&quot;line&quot;&gt; =========|_|==============|___/=/_/_/_/&lt;/div&gt;&lt;div class=&quot;line&quot;&gt; :: Spring Boot ::        (v1.5.2.RELEASE)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Spring Boot" scheme="http://yoursite.com/tags/Spring-Boot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JPQL 语言语法</title>
-    <link href="http://yoursite.com/post/jpql-usage.html"/>
-    <id>http://yoursite.com/post/jpql-usage.html</id>
-    <published>2017-05-06T06:42:27.000Z</published>
-    <updated>2017-07-06T17:33:05.072Z</updated>
-    
-    <content type="html"><![CDATA[<p>JPQL（Java Persistence Query Language，Java 持久化查询语言）和 SQL 之间有很多相似之处，它们之间主要的区别在于前者处理 JPA 实体类，而后者则直接涉及关系数据。在 JPQL 中，可以使用<code>SELECT</code>、<code>UPDATE</code>和<code>DELETE</code>语法来定义查询。</p>
-<a id="more"></a>
-<h2 id="1-查询"><a href="#1-查询" class="headerlink" title="1. 查询"></a>1. 查询</h2><p>语法：<code>SELECT ... FROM ... [WHERE ...] [GROUP BY ... [HAVING ...]] [ORDER BY ...]</code></p>
-<p><strong> FROM 子句 </strong><br>通过声明一个或多个标识符变量来定义查询的范围。在<code>SELECT</code>和<code>WHERE</code>子句中可以引用这些变量。</p>
-<p><strong> WHERE 子句 </strong><br>用于限制查询到的对象或值的条件表达式。</p>
-<p><strong> GROUP BY 子句 </strong><br>根据一组属性对查询结果进行分组。</p>
-<p><strong> HAVING 子句 </strong><br>配合<code>GROUP BY</code>子句使用，以根据条件表达式进一步限制查询结果。</p>
-<p><strong> ORDER BY 子句 </strong><br>对查询结果进行排序。</p>
-<p></p><p class="code-title"># 部门实体</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(name = <span class="string">"Department"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Department</span> </span>&#123;</div><div class="line">	</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span></div><div class="line">    <span class="keyword">private</span> Long id;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">	</div><div class="line">    <span class="meta">@OneToMany</span>(cascade = CascadeType.ALL, orphanRemoval = <span class="keyword">true</span>)</div><div class="line">    <span class="meta">@JoinColumn</span>(name = <span class="string">"department_id"</span>)</div><div class="line">    <span class="keyword">private</span> Set&lt;Employee&gt; employees;</div><div class="line">	</div><div class="line">    <span class="comment">// getters and setters</span></div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
-<p></p><p class="code-title"># 雇员实体</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(name = <span class="string">"Employee"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</div><div class="line">	</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span></div><div class="line">    <span class="keyword">private</span> Long id;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">	</div><div class="line">    <span class="meta">@Enumerated</span>(EnumType.STRING)</div><div class="line">    <span class="keyword">private</span> Sex sex;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> Integer age;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> Boolean married;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> Double salary;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> Date hireDate;</div><div class="line">	</div><div class="line">    <span class="meta">@ManyToOne</span>(fetch = FetchType.LAZY)</div><div class="line">    <span class="keyword">private</span> Department department;</div><div class="line">	</div><div class="line">    <span class="comment">// getters and setters</span></div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
-<p></p><p class="code-title"># 性别枚举</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.fanlychie.enums;</div><div class="line">	</div><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Sex &#123;</div><div class="line">	</div><div class="line">    MALE(<span class="string">"男"</span>),</div><div class="line">	</div><div class="line">    FEMALE(<span class="string">"女"</span>),</div><div class="line">	</div><div class="line">    ;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String displayText;</div><div class="line">	</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Sex</span><span class="params">(String displayText)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.displayText = displayText;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> displayText;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
-<h3 id="1-1-基础查询"><a href="#1-1-基础查询" class="headerlink" title="1.1 基础查询"></a>1.1 基础查询</h3><p>语法：<code>SELECT 标识符变量 FROM 实体名称 [AS] 标识符变量</code></p>
-<p>示例：查询所有的雇员信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectAll</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h3 id="1-2-查询参数"><a href="#1-2-查询参数" class="headerlink" title="1.2 查询参数"></a>1.2 查询参数</h3><p>JPQL 支持两种查询参数，它们分别是命名参数和位置参数。</p>
-<h4 id="1-2-1-命名参数"><a href="#1-2-1-命名参数" class="headerlink" title="1.2.1 命名参数"></a>1.2.1 命名参数</h4><p>语法：<code>:自定义的参数名称</code></p>
-<p>示例：按性别和薪资范围查找雇员信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.sex = :sex AND E.salary &gt; :salary"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByNamedParams</span><span class="params">(@Param(<span class="string">"sex"</span>)</span> Sex sex, @<span class="title">Param</span><span class="params">(<span class="string">"salary"</span>)</span> Double salary)</span>;</div></pre></td></tr></table></figure>
-<p>在方法的参数列表中，需要使用<code>@Param</code>注解标注每个参数的名称，使之与查询语句参数名称匹配。</p>
-<h4 id="1-2-2-位置参数"><a href="#1-2-2-位置参数" class="headerlink" title="1.2.2 位置参数"></a>1.2.2 位置参数</h4><p>语法：<code>?位置编号的数值</code></p>
-<p>示例：按姓名和性别查找雇员信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.sex = ?1 AND E.salary &gt; ?2"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByPositionalParams</span><span class="params">(Sex sex, Double salary)</span></span>;</div></pre></td></tr></table></figure>
-<p>在方法的参数列表中，参数的顺序需要与查询语句中参数标注的编号依次对应起来。</p>
-<h3 id="1-3-关联查询"><a href="#1-3-关联查询" class="headerlink" title="1.3 关联查询"></a>1.3 关联查询</h3><p>通过使用关键字<code>[LEFT|INNER] JOIN</code>联接关系属性查询。</p>
-<h4 id="1-3-1-单值关联查询"><a href="#1-3-1-单值关联查询" class="headerlink" title="1.3.1 单值关联查询"></a>1.3.1 单值关联查询</h4><p>语法：<code>SELECT 标识符变量 FROM 实体名称 [AS] 标识符变量 JOIN 实体名称.单值关联字段 [AS] 标识符变量2 ...</code></p>
-<p>示例：按部门名称查找该部门所有的雇员信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E JOIN E.department D WHERE D.name = ?1"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByDeptName</span><span class="params">(String deptName)</span></span>;</div></pre></td></tr></table></figure>
-<h4 id="1-3-2-多值关联查询"><a href="#1-3-2-多值关联查询" class="headerlink" title="1.3.2 多值关联查询"></a>1.3.2 多值关联查询</h4><p>语法1：<code>SELECT 标识符变量 FROM 实体名称 [AS] 标识符变量 JOIN 实体名称.多值关联字段 [AS] 标识符变量2 ...</code></p>
-<p>示例：查询薪资大于10000的所有雇员所属的部门信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT D FROM Department D JOIN D.employees E WHERE E.salary &gt; 10000"</span>)</div><div class="line"><span class="function">List&lt;Department&gt; <span class="title">selectByMultRelatedField</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<p>语法2：<code>SELECT 标识符变量 FROM 实体名称 [AS] 标识符变量, IN(实体名称.多值关联字段) [AS] 标识符变量2 ...</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT D FROM Department D, IN(D.employees) E WHERE E.salary &gt; 10000"</span>)</div><div class="line"><span class="function">List&lt;Department&gt; <span class="title">selectByMultRelatedCollection</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h3 id="1-4-去重查询"><a href="#1-4-去重查询" class="headerlink" title="1.4 去重查询"></a>1.4 去重查询</h3><p>语法：<code>SELECT DISTINCT 标识符变量 FROM 实体名称 [AS] 标识符变量 ...</code></p>
-<p>示例：查询薪资大于10000的所有雇员所属的部门信息，并消除查询结果中的重复的部门</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT DISTINCT D FROM Department D JOIN D.employees E WHERE E.salary &gt; 10000"</span>)</div><div class="line"><span class="function">List&lt;Department&gt; <span class="title">selectByMultRelatedFieldDistinct</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h3 id="1-5-字面值"><a href="#1-5-字面值" class="headerlink" title="1.5 字面值"></a>1.5 字面值</h3><p>JPQL 支持的字面值有以下的4种，它们分别是：字符串、数字、布尔、枚举。</p>
-<h4 id="1-5-1-字符串"><a href="#1-5-1-字符串" class="headerlink" title="1.5.1 字符串"></a>1.5.1 字符串</h4><p>语法：<code>&#39;字符串&#39;</code></p>
-<p>示例：查询给定名字的雇员信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.name = '张三'"</span>)</div><div class="line"><span class="function">Employee <span class="title">selectByLiteralString</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<p>如果字符串中含有单引号，则用两个单引号来表示。如：<code>Li&#39;Si</code> -&gt; <code>Li&#39;&#39;Si</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.name = 'Li''Si'"</span>)</div><div class="line"><span class="function">Employee <span class="title">selectByLiteralStringWithQuote</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h4 id="1-5-2-数字"><a href="#1-5-2-数字" class="headerlink" title="1.5.2 数字"></a>1.5.2 数字</h4><p>整数类型：如<code>24</code>、<code>+24</code>、<code>-24</code>、<code>24L</code>，支持 Java Long 范围的数值。</p>
-<p>浮点类型：如<code>24.</code>、<code>24.6</code>、<code>+24.6</code>、<code>-24.6</code>、<code>24.6F</code>、<code>24.6D</code>，支持 Java Double 范围的数值。</p>
-<p>示例：查询薪资大于10000的所有雇员</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.salary &gt; 10000.0"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByLiteralNumber</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h4 id="1-5-3-布尔"><a href="#1-5-3-布尔" class="headerlink" title="1.5.3 布尔"></a>1.5.3 布尔</h4><p>布尔类型的可选值为：<code>TRUE</code>或<code>FALSE</code>，它们不区分大小写。</p>
-<p>示例：查找已婚的所有雇员</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.married = TRUE"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByLiteralBool</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h4 id="1-5-4-枚举"><a href="#1-5-4-枚举" class="headerlink" title="1.5.4 枚举"></a>1.5.4 枚举</h4><p>枚举类名必须指定为完全限定类名。</p>
-<p>示例：查询所有女性的雇员</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.sex = org.fanlychie.enums.Sex.FEMALE"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByLiteralEnum</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h3 id="1-6-模糊查询"><a href="#1-6-模糊查询" class="headerlink" title="1.6 模糊查询"></a>1.6 模糊查询</h3><table>
-<thead>
-<tr>
-<th>表达式</th>
-<th style="text-align:center">匹配</th>
-<th style="text-align:center">不匹配</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E.name LIKE ‘张%’</td>
-<td style="text-align:center">张三</td>
-<td style="text-align:center">小张伟</td>
-</tr>
-<tr>
-<td>E.name LIKE ‘张_’</td>
-<td style="text-align:center">张三</td>
-<td style="text-align:center">张三丰</td>
-</tr>
-<tr>
-<td>E.name LIKE ‘张\_%’</td>
-<td style="text-align:center">张_三</td>
-<td style="text-align:center">张三</td>
-</tr>
-</tbody>
-</table>
-<p>示例：查询张性的所有雇员</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.name LIKE '张%'"</span>)</div><div class="line"><span class="function">List&lt;Employee&gt; <span class="title">selectByLikeLiteralString</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h3 id="1-7-空集合查询"><a href="#1-7-空集合查询" class="headerlink" title="1.7 空集合查询"></a>1.7 空集合查询</h3><p>通过使用关键字<code>IS [NOT] EMPTY</code>来查找关联的属性集合的值为空的记录。</p>
-<p>示例：查找尚无雇员的所有部门</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT D FROM Department D WHERE D.employees IS EMPTY"</span>)</div><div class="line"><span class="function">List&lt;Department&gt; <span class="title">selectByEmpty</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<h3 id="1-8-构造器"><a href="#1-8-构造器" class="headerlink" title="1.8 构造器"></a>1.8 构造器</h3><p>查询结果的类型如果不是持久化的实体类，必须使用该类的完全限定名。</p>
-<p>语法：<code>SELECT NEW 类的完全限定名(参数1, 参数2, ...) ...</code></p>
-<p>示例：查询所有的雇员信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"SELECT NEW org.fanlychie.model.SimpleEmployee(E.name, E.sex) FROM Employee E"</span>)</div><div class="line"><span class="function">List&lt;SimpleEmployee&gt; <span class="title">selectSimpleEmployees</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.fanlychie.model;</div><div class="line">	</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleEmployee</span> </span>&#123;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">	</div><div class="line">    <span class="keyword">private</span> Sex sex;</div><div class="line">	</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SimpleEmployee</span><span class="params">(String name, Sex sex)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.sex = sex;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">    <span class="comment">// getters and setters</span></div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-更新"><a href="#2-更新" class="headerlink" title="2. 更新"></a>2. 更新</h2><p>示例：更新某个雇员的婚姻状态和薪资信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Modifying</span></div><div class="line"><span class="meta">@Transactional</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"UPDATE Employee SET married = ?2, salary = ?3 WHERE id = ?1"</span>)</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">update</span><span class="params">(Long id, Boolean married, Double salary)</span></span>;</div></pre></td></tr></table></figure>
-<p><code>@Query</code>无法进行 DML（Data Manipulation Language 数据操控语言，主要语句有 INSERT、DELETE、UPDATE）操作，如需更新数据库表的数据需要标注<code>@Modifying</code>注解，并且需要使用支持事务的<code>@Transactional</code>注解。</p>
-<h2 id="3-删除"><a href="#3-删除" class="headerlink" title="3. 删除"></a>3. 删除</h2><p>示例：删除没有雇员的部门信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Modifying</span></div><div class="line"><span class="meta">@Transactional</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"DELETE FROM Department D WHERE D.employees IS EMPTY"</span>)</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">delete</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>示例项目开发环境：Java-8、Maven-3、IntelliJ IDEA-2017、Spring Boot-1.5.2.RELEASE<br>完整示例项目链接：<a href="https://github.com/fanlychie/spring-boot-samples/tree/master/spring-boot-jpql-sample" target="_blank" rel="external">spring-boot-jpql-sample</a><br>参考文档文献链接：<a href="http://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm" target="_blank" rel="external">http://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm</a>、<a href="http://docs.oracle.com/html/E13946_04/ejb3_langref.html" target="_blank" rel="external">http://docs.oracle.com/html/E13946_04/ejb3_langref.html</a></p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;JPQL（Java Persistence Query Language，Java 持久化查询语言）和 SQL 之间有很多相似之处，它们之间主要的区别在于前者处理 JPA 实体类，而后者则直接涉及关系数据。在 JPQL 中，可以使用&lt;code&gt;SELECT&lt;/code&gt;、&lt;code&gt;UPDATE&lt;/code&gt;和&lt;code&gt;DELETE&lt;/code&gt;语法来定义查询。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="JPA" scheme="http://yoursite.com/tags/JPA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Boot Jpa</title>
-    <link href="http://yoursite.com/post/spring-boot-jpa.html"/>
-    <id>http://yoursite.com/post/spring-boot-jpa.html</id>
-    <published>2017-04-30T13:04:47.000Z</published>
-    <updated>2017-07-07T12:32:44.259Z</updated>
-    
-    <content type="html"><![CDATA[<p>JPA（Java Persistence API）是一套 Java 持久化规范，用于将应用程序中的对象映射到关系型数据库。<br>应用程序的数据访问层通常为域对象提供创建、读取、更新和删除（CRUD）操作，Spring Data JPA 提供了这方面的通用接口以及持久化存储特定的实现，它选择目前最流行之一的 Hibernate 作为 JPA 实现的提供者，旨在简化数据访问层。作为应用程序的开发人员，你只需要编写数据库的存取接口，由 Spring 运行时自动生成这些接口的适当实现，开发人员不需要编写任何具体的实现代码。在 Spring Boot 中，通过使用<code>spring-boot-starter-data-jpa</code>启动器，就能快速开启和使用 Spring Data JPA。</p>
-<p></p><p class="code-title"># pom.xml</p><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure><p></p>
-<a id="more"></a>
-<h2 id="1-编程接口"><a href="#1-编程接口" class="headerlink" title="1. 编程接口"></a>1. 编程接口</h2><p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/JpaRepository.png" alt=""></p>
-<h3 id="1-1-Repository"><a href="#1-1-Repository" class="headerlink" title="1.1 Repository"></a>1.1 Repository</h3><p>这是 Spring Data Jpa 抽象的中心接口，它是一个标记接口。扩展此接口需要传递实体类型和实体的ID字段类型参数，你必须在接口里面声明你自己需要的方法，这些方法由 Spring 在运行时提供具体的实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">Repository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="function">Employee <span class="title">findOne</span><span class="params">(Long id)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="1-2-CrudRepository"><a href="#1-2-CrudRepository" class="headerlink" title="1.2 CrudRepository"></a>1.2 CrudRepository</h3><p>继承自 Repository 接口，它提供了一套 CRUD 操作的方法。扩展此接口需要传递实体类型和实体的ID字段类型参数，你可以不需要再定义基础的 CRUD 操作方法而直接可以使用它们。但在某些场景中你可能不希望接口对外暴露一套完整的增删查改的方法，比如你只希望提供查改的方法而不希望暴露增删的功能。基于这种情况，你可以使用 Repository 接口，并将需要的方法从 CrudRepository 拷贝到其中以选择性的公开 CRUD 方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="1-2-1-save"><a href="#1-2-1-save" class="headerlink" title="1.2.1 save"></a>1.2.1 save</h4><p>当你需要修改数据库的数据时，你可以调用此方法。当此方法被调用时，它首先判断参数的实体对象是否是新的。如果是新的，则调用 persist 将对象数据 insert 到数据库。如果不是新的，则调用 merge 将对象数据 update/insert 到数据库。源码：<a href="https://github.com/spring-projects/spring-data-jpa/blob/master/src/main/java/org/springframework/data/jpa/repository/support/SimpleJpaRepository.java#L482" target="_blank" rel="external">spring-data-jpa.jar!\org\springframework\data\jpa\repository\support\SimpleJpaRepository.java</a></p>
-<p></p><p class="code-title"># SimpleJpaRepository 源码片段</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Transactional</span></div><div class="line"><span class="keyword">public</span> &lt;S extends T&gt; <span class="function">S <span class="title">save</span><span class="params">(S entity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (entityInformation.isNew(entity)) &#123;</div><div class="line">        em.persist(entity);</div><div class="line">        <span class="keyword">return</span> entity;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> em.merge(entity);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
-<p>判断实体对象是否是新的，其依据是主键字段是否设置了有效的值。源码：<a href="https://github.com/spring-projects/spring-data-commons/blob/master/src/main/java/org/springframework/data/repository/core/support/AbstractEntityInformation.java#L41" target="_blank" rel="external">spring-data-commons.jar!\org\springframework\data\repository\core\support\AbstractEntityInformation.java</a></p>
-<p></p><p class="code-title"># AbstractEntityInformation 源码片段</p><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNew</span><span class="params">(T entity)</span> </span>&#123;</div><div class="line">    ID id = getId(entity);</div><div class="line">    Class&lt;ID&gt; idType = getIdType();</div><div class="line">    <span class="keyword">if</span> (!idType.isPrimitive()) &#123;</div><div class="line">        <span class="keyword">return</span> id == <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (id <span class="keyword">instanceof</span> Number) &#123;</div><div class="line">        <span class="keyword">return</span> ((Number) id).longValue() == <span class="number">0L</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"Unsupported primitive id type %s!"</span>, idType));</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
-<p>因此，<code>CrudRepository.save()</code>既有保存又有更新数据的能力。保存一条数据：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave</span><span class="params">()</span> </span>&#123;</div><div class="line">    Employee employee = <span class="keyword">new</span> Employee();</div><div class="line">    employee.setName(<span class="string">"张三丰"</span>);</div><div class="line">    employee.setAge(<span class="number">24</span>);</div><div class="line">    employeeRepository.save(employee);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>更新数据时，应该先从数据库将记录查询出来，对数据修改完成之后再调用<code>save</code>更新回数据库：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdate</span><span class="params">()</span> </span>&#123;</div><div class="line">    Employee employee = employeeRepository.findByName(<span class="string">"张三丰"</span>);</div><div class="line">    employee.setAge(<span class="number">25</span>);</div><div class="line">    employeeRepository.save(employee);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>切勿脑洞大开异想通过设置主键字段的值来直接更新数据库的记录，以下做法是不可取的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdateById</span><span class="params">()</span> </span>&#123;</div><div class="line">    Employee employee = <span class="keyword">new</span> Employee();</div><div class="line">    employee.setId(<span class="number">1L</span>);  <span class="comment">// 已知ID=1的记录是存在的</span></div><div class="line">    employee.setAge(<span class="number">26</span>); <span class="comment">// 期望根据ID更新年龄的值</span></div><div class="line">    employeeRepository.save(employee);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>方法执行完之后悲剧就发生了，除了主键和年龄之外，其余字段的值全部被清空了。观众朋友切勿模仿。</p>
-<h4 id="1-2-2-delete"><a href="#1-2-2-delete" class="headerlink" title="1.2.2 delete"></a>1.2.2 delete</h4><p>根据主键删除时，主键字段不能为空，并且在数据库中必须得有与主键对应的行记录（通过<code>SELECT</code>查询判断），然后将查询出的行记录删除。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeleteById</span><span class="params">()</span> </span>&#123;</div><div class="line">    employeeRepository.delete(<span class="number">1L</span>); <span class="comment">// 产生 SELECT 和 DELETE 语句</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>根据实体删除时，实体对象不能为空，依据实体的主键标识判断数据库中是否有与之对应的行记录，如果有，则将此行删除；如果没有，则调用<code>merge</code>产生 INSERT 语句，然后再删除。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeleteByEntity</span><span class="params">()</span> </span>&#123;</div><div class="line">    Employee employee = <span class="keyword">new</span> Employee();</div><div class="line">    employee.setId(<span class="number">2L</span>); <span class="comment">// 此 ID 在数据库中存在</span></div><div class="line">    employeeRepository.delete(employee); <span class="comment">// 产生 SELECT 和 DELETE</span></div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeleteByNonExistentEntity</span><span class="params">()</span> </span>&#123;</div><div class="line">    Employee employee = <span class="keyword">new</span> Employee();</div><div class="line">    employee.setId(<span class="number">20L</span>); <span class="comment">// 此 ID 在数据库中不存在</span></div><div class="line">    employeeRepository.delete(employee); <span class="comment">// 产生 SELECT 和 INSERT 及 DELETE</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="1-3-PagingAndSortingRepository"><a href="#1-3-PagingAndSortingRepository" class="headerlink" title="1.3 PagingAndSortingRepository"></a>1.3 PagingAndSortingRepository</h3><p>继承自 CrudRepository 接口，它提供了一个分页和排序的操作方法。扩展此接口需要传递实体类型和实体的ID字段类型参数，但是通常我们会比较少选择扩展该接口，而更多的是在接口里声明含有 Pageable 或 Sort 类型参数的方法来完成分页或排序的功能。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">PagingAndSortingRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="1-3-1-排序查询"><a href="#1-3-1-排序查询" class="headerlink" title="1.3.1 排序查询"></a>1.3.1 排序查询</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectAndOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">    List&lt;Order&gt; orders = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    orders.add(<span class="keyword">new</span> Order(Direction.DESC, <span class="string">"salary"</span>)); <span class="comment">// 薪资降序</span></div><div class="line">    orders.add(<span class="keyword">new</span> Order(<span class="string">"age"</span>)); <span class="comment">// 薪资相同则按年龄升序</span></div><div class="line">    orders.add(<span class="keyword">new</span> Order(<span class="string">"hireDate"</span>).with(Direction.ASC)); <span class="comment">// 薪资和年龄都相同则按入职时间升序</span></div><div class="line">    employeeRepository.findAll(<span class="keyword">new</span> Sort(orders))</div><div class="line">            .forEach(System.out::println);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectAndSort</span><span class="params">()</span> </span>&#123;</div><div class="line">    Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"salary"</span>) <span class="comment">// 薪资降序</span></div><div class="line">            .and(<span class="keyword">new</span> Sort(<span class="string">"age"</span>)) <span class="comment">// 薪资相同则按年龄升序</span></div><div class="line">            .and(<span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"hireDate"</span>)); <span class="comment">// 薪资和年龄都相同则按入职时间升序</span></div><div class="line">    employeeRepository.findAll(sort)</div><div class="line">            .forEach(System.out::println);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="1-3-2-分页查询"><a href="#1-3-2-分页查询" class="headerlink" title="1.3.2 分页查询"></a>1.3.2 分页查询</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectByPagination</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// 分页索引从0开始, 表示第一页</span></div><div class="line">    Page&lt;Employee&gt; page = employeeRepository.findAll(<span class="keyword">new</span> PageRequest(<span class="number">0</span>, <span class="number">2</span>));</div><div class="line">    <span class="keyword">long</span> totalElements = page.getTotalElements(); <span class="comment">// 查询结果总的记录条数</span></div><div class="line">    <span class="keyword">int</span> totalPages = page.getTotalPages(); <span class="comment">// 分页的总页数</span></div><div class="line">    List&lt;Employee&gt; content = page.getContent(); <span class="comment">// 当前页的数据内容</span></div><div class="line">    <span class="keyword">int</span> number = page.getNumber(); <span class="comment">// 当前页的页码, 从0开始, 表示第一页</span></div><div class="line">    <span class="keyword">int</span> numberOfElements = page.getNumberOfElements(); <span class="comment">// 每页的记录条数</span></div><div class="line">    <span class="keyword">int</span> size = page.getSize(); <span class="comment">// 每页的记录条数</span></div><div class="line">    Sort sort = page.getSort(); <span class="comment">// 分页查询的排序对象</span></div><div class="line">    <span class="keyword">boolean</span> isFirst = page.isFirst(); <span class="comment">// 是否是第一页</span></div><div class="line">    <span class="keyword">boolean</span> isLast = page.isLast(); <span class="comment">// 是否是最后一页</span></div><div class="line">    <span class="keyword">boolean</span> hasContent = page.hasContent(); <span class="comment">// 当前页是否有数据</span></div><div class="line">    <span class="keyword">boolean</span> hasNext = page.hasNext(); <span class="comment">// 是否有下一页</span></div><div class="line">    <span class="keyword">boolean</span> hasPrevious = page.hasPrevious(); <span class="comment">// 是否有上一页</span></div><div class="line">    Pageable nextPageable = page.nextPageable(); <span class="comment">// 下一页的分页对象</span></div><div class="line">    Pageable previousPageable = page.previousPageable(); <span class="comment">// 上一页的分页对象</span></div><div class="line">    page.forEach(System.out::println);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="1-3-3-分页并排序"><a href="#1-3-3-分页并排序" class="headerlink" title="1.3.3 分页并排序"></a>1.3.3 分页并排序</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectByPaginationAndSort</span><span class="params">()</span> </span>&#123;</div><div class="line">    Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"salary"</span>) <span class="comment">// 薪资降序</span></div><div class="line">            .and(<span class="keyword">new</span> Sort(<span class="string">"age"</span>)); <span class="comment">// 薪资相同则按年龄升序</span></div><div class="line">    Page&lt;Employee&gt; page = employeeRepository.findAll(<span class="keyword">new</span> PageRequest(<span class="number">0</span>, <span class="number">2</span>, sort));</div><div class="line">    page.forEach(System.out::println);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="1-4-JpaRepository"><a href="#1-4-JpaRepository" class="headerlink" title="1.4 JpaRepository"></a>1.4 JpaRepository</h3><p>继承自 PagingAndSortingRepository 接口，它提供了一组实用的操作方法，如批量操作等。扩展此接口需要传递实体类型和实体的ID字段类型参数，该接口的一部分方法返回 List 类型的实体，与之不同的是，CrudRepository 返回的是 Iterable 类型的实体。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-定义查询方法"><a href="#2-定义查询方法" class="headerlink" title="2. 定义查询方法"></a>2. 定义查询方法</h2><p>Spring Data JPA 在运行时会为接口创建代理对象并为接口声明的方法提供具体的实现。代理提供了两种方式来从方法名中提取查询，一种是从方法名中直接提取查询，另外一种是从方法中提取手工定义的查询语句。代理如何创建查询是由具体的策略来决定的。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">策略</th>
-<th>简述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">CREATE</td>
-<td>根据方法名构造出一个特定的查询。<br>具体的做法是从方法名中移除一组已知的前缀，然后解析剩余的部分。</td>
-</tr>
-<tr>
-<td style="text-align:center">USE_DECLARED_QUERY</td>
-<td>使用查询注解定义的查询语句。如：<br>@Query、@NamedQuery、@NamedNativeQuery</td>
-</tr>
-<tr>
-<td style="text-align:center">CREATE_IF_NOT_FOUND</td>
-<td>默认使用的策略。<br>它组合了 CREATE 和 USE_DECLARED_QUERY 两个策略。它首先使用 USE_DECLARED_QUERY 策略查找，如果找不到再使用 CREATE 策略。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-1-创建查询"><a href="#2-1-创建查询" class="headerlink" title="2.1 创建查询"></a>2.1 创建查询</h3><p>JPA 提供了一种可以根据方法名称直接构造出查询语句的方式，这种方式称为创建查询。在存储库接口中定义的方法，其名称只需按照约定命名，需满足以下的规则：</p>
-<ul>
-<li>方法名必须以：<code>findBy</code> <code>find...By</code> <code>readBy</code> <code>read...By</code> <code>queryBy</code> <code>query...By</code><br><code>countBy</code> <code>count...By</code> <code>getBy</code> <code>get...By</code>前缀之一开始命名；</li>
-<li>在第一个<code>By</code>之后可以添加查询方法的检索条件，可以使用实体的属性名和支持的关键字来组合；</li>
-<li>在第一个<code>By</code>之前可以添加<code>First</code>或<code>Top</code>关键字，表示返回查询结果的第一条数据。除此之外，关键字<code>First</code>或<code>Top</code>的后面也可以携带数字表示返回前多少条的数据，如<code>Top10</code>；</li>
-<li>在第一个<code>By</code>之前可以添加<code>Distinct</code>关键字，去掉查询结果中重复的数据；</li>
-<li>查询方法如果设定了X个检索条件，那么，查询方法的参数个数也必须是X个，并且参数必须按与检索条件相同的顺序给出；</li>
-<li>查询方法同时还可以使用特殊的<code>Pageable</code>或<code>Sort</code>参数，用于分页或排序，该参数不算在X之内；</li>
-</ul>
-<h4 id="2-1-1-查询方法支持的关键字表"><a href="#2-1-1-查询方法支持的关键字表" class="headerlink" title="2.1.1 查询方法支持的关键字表"></a>2.1.1 查询方法支持的关键字表</h4><table>
-<thead>
-<tr>
-<th>关键字</th>
-<th>示例</th>
-<th>JPQL 片段</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>And</td>
-<td>findByLastnameAndFirstname</td>
-<td><code>… where x.lastname = ?1 and x.firstname = ?2</code></td>
-</tr>
-<tr>
-<td>Or</td>
-<td>findByLastnameOrFirstname</td>
-<td><code>… where x.lastname = ?1 or x.firstname = ?2</code></td>
-</tr>
-<tr>
-<td>Is<br>Equals</td>
-<td>findByFirstname<br>findByFirstnameIs<br>findByFirstnameEquals</td>
-<td><code>… where x.firstname = ?1</code></td>
-</tr>
-<tr>
-<td>Between</td>
-<td>findByStartDateBetween</td>
-<td><code>… where x.startDate between ?1 and ?2</code></td>
-</tr>
-<tr>
-<td>LessThan</td>
-<td>findByAgeLessThan</td>
-<td><code>… where x.age &lt; ?1</code></td>
-</tr>
-<tr>
-<td>LessThanEqual</td>
-<td>findByAgeLessThanEqual</td>
-<td><code>… where x.age &lt;= ?1</code></td>
-</tr>
-<tr>
-<td>GreaterThan</td>
-<td>findByAgeGreaterThan</td>
-<td><code>… where x.age &gt; ?1</code></td>
-</tr>
-<tr>
-<td>GreaterThanEqual</td>
-<td>findByAgeGreaterThanEqual</td>
-<td><code>… where x.age &gt;= ?1</code></td>
-</tr>
-<tr>
-<td>After</td>
-<td>findByStartDateAfter</td>
-<td><code>… where x.startDate &gt; ?1</code></td>
-</tr>
-<tr>
-<td>Before</td>
-<td>findByStartDateBefore</td>
-<td><code>… where x.startDate &lt; ?1</code></td>
-</tr>
-<tr>
-<td>IsNull</td>
-<td>findByAgeIsNull</td>
-<td><code>… where x.age is null</code></td>
-</tr>
-<tr>
-<td>IsNotNull<br>NotNull</td>
-<td>findByAgeNotNull<br>findByAgeIsNotNull</td>
-<td><code>… where x.age not null</code></td>
-</tr>
-<tr>
-<td>Like</td>
-<td>findByFirstnameLike</td>
-<td><code>… where x.firstname like ?1</code></td>
-</tr>
-<tr>
-<td>NotLike</td>
-<td>findByFirstnameNotLike</td>
-<td><code>… where x.firstname not like ?1</code></td>
-</tr>
-<tr>
-<td>StartingWith</td>
-<td>findByFirstnameStartingWith</td>
-<td><code>… where x.firstname like ?1 (parameter bound with appended %)</code></td>
-</tr>
-<tr>
-<td>EndingWith</td>
-<td>findByFirstnameEndingWith</td>
-<td><code>… where x.firstname like ?1 (parameter bound with prepended %)</code></td>
-</tr>
-<tr>
-<td>Containing</td>
-<td>findByFirstnameContaining</td>
-<td><code>… where x.firstname like ?1 (parameter bound wrapped in %)</code></td>
-</tr>
-<tr>
-<td>OrderBy</td>
-<td>findByAgeOrderByLastnameDesc</td>
-<td><code>… where x.age = ?1 order by x.lastname desc</code></td>
-</tr>
-<tr>
-<td>Not</td>
-<td>findByLastnameNot</td>
-<td><code>… where x.lastname &lt;&gt; ?1</code></td>
-</tr>
-<tr>
-<td>In</td>
-<td>findByAgeIn(Collection&lt;Age&gt; ages)</td>
-<td><code>… where x.age in ?1</code></td>
-</tr>
-<tr>
-<td>NotIn</td>
-<td>findByAgeNotIn(Collection&lt;Age&gt; age)</td>
-<td><code>… where x.age not in ?1</code></td>
-</tr>
-<tr>
-<td>True</td>
-<td>findByActiveTrue()</td>
-<td><code>… where x.active = true</code></td>
-</tr>
-<tr>
-<td>False</td>
-<td>findByActiveFalse()</td>
-<td><code>… where x.active = false</code></td>
-</tr>
-<tr>
-<td>IgnoreCase</td>
-<td>findByFirstnameIgnoreCase</td>
-<td><code>… where UPPER(x.firstame) = UPPER(?1)</code></td>
-</tr>
-</tbody>
-</table>
-<h4 id="2-1-2-查询方法支持的返回值表"><a href="#2-1-2-查询方法支持的返回值表" class="headerlink" title="2.1.2 查询方法支持的返回值表"></a>2.1.2 查询方法支持的返回值表</h4><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>简述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>void</td>
-<td>不需要返回值</td>
-</tr>
-<tr>
-<td>Primitives</td>
-<td>Java 基本数据类型</td>
-</tr>
-<tr>
-<td>Wrapper</td>
-<td>Java 基本数据类型对应的包装类型</td>
-</tr>
-<tr>
-<td>T</td>
-<td>期望返回的实体类型，查询方法至多只能返回一条数据结果，多于一条数据的结果将抛出异常，没有查询到数据结果，则返回 null</td>
-</tr>
-<tr>
-<td>Iterator&lt;T&gt;</td>
-<td>迭代器类型</td>
-</tr>
-<tr>
-<td>Collection&lt;T&gt;</td>
-<td>集合类型</td>
-</tr>
-<tr>
-<td>List&lt;T&gt;</td>
-<td>List 集合类型</td>
-</tr>
-<tr>
-<td>Optional&lt;T&gt;</td>
-<td>Java8 Optional 类型</td>
-</tr>
-<tr>
-<td>Stream&lt;T&gt;</td>
-<td>Java8 Stream 类型</td>
-</tr>
-<tr>
-<td>Future&lt;T&gt;</td>
-<td>Java8 Future 类型，使用<code>@Async</code>注解标注查询方法，并且需要启用 Spring 异步方法执行的功能</td>
-</tr>
-<tr>
-<td>CompletableFuture&lt;T&gt;</td>
-<td>Java8 CompletableFuture 类型，使用<code>@Async</code>注解标注查询方法，并且需要启用 Spring 异步方法执行的功能</td>
-</tr>
-<tr>
-<td>ListenableFuture</td>
-<td>Spring ListenableFuture 类型，使用<code>@Async</code>注解标注查询方法，并且需要启用 Spring 异步方法执行的功能</td>
-</tr>
-<tr>
-<td>Slice</td>
-<td>分页相关</td>
-</tr>
-<tr>
-<td>Page&lt;T&gt;</td>
-<td>分页相关</td>
-</tr>
-</tbody>
-</table>
-<p>在存储库接口中定义的方法，只需要按照约定命名，就能快速实现查询的功能：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据姓名查询</span></div><div class="line">    <span class="function">Employee <span class="title">findByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据姓名查询, 返回第一条记录</span></div><div class="line">    <span class="function">Employee <span class="title">findFirstByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据姓名和性别查询</span></div><div class="line">    <span class="function">Employee <span class="title">findByNameAndSex</span><span class="params">(String name, Sex sex)</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据性别查询, 返回前3条记录</span></div><div class="line">    <span class="function">List&lt;Employee&gt; <span class="title">findTop3BySex</span><span class="params">(Sex sex)</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据性别分页查询</span></div><div class="line">    <span class="function">Page&lt;Employee&gt; <span class="title">findBySex</span><span class="params">(Sex sex, Pageable pageable)</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据给定的年龄查找小于且未婚的记录并按年龄升序排序</span></div><div class="line">    <span class="function">List&lt;Employee&gt; <span class="title">findByAgeLessThanAndMarriedIsFalseOrderByAge</span><span class="params">(<span class="keyword">int</span> age)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>创建查询的优点是，不用编写查询语句，处理检索条件简单的查询非常方便，而且方法的可读性很高。但是对于检索条件过多的查询方法，很容易导致方法名称过长，可读性降低。</p>
-<h3 id="2-2-命名查询"><a href="#2-2-命名查询" class="headerlink" title="2.2 命名查询"></a>2.2 命名查询</h3><p>JPA 提供了一种可以将查询语句从存储库接口中独立出来的方式，这种方式称为命名查询。它允许我们通过使用<code>@NamedQuery</code>或<code>@NamedNativeQuery</code>注解将预定义好的静态查询语句直接绑定到目标方法。<br>命名查询的优点是，查询语句集中，便于维护，查询方法的名称不受约束，编写复杂的查询只要合理命名也不会导致产生过长的方法名称。但是由于命名查询的注解都是标注在实体类中，因此它不适合用于大量定义查询语句，这样会使得实体类变得过于臃肿。</p>
-<h4 id="2-2-1-NamedQuery"><a href="#2-2-1-NamedQuery" class="headerlink" title="2.2.1 @NamedQuery"></a>2.2.1 @NamedQuery</h4><table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th>简述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">name</td>
-<td>用于定义查询的方法名称，该方法名称是全局范围的，为避免不同的实体定义了相同的方法名称而导致的查询冲突，JPA 明确规定自定义的方法名称的命名需要满足约定：<br>实体类的简单类名 + <strong>“.”</strong> + 自定义的查询方法名称</td>
-</tr>
-<tr>
-<td style="text-align:center">query</td>
-<td>用于定义 <a href="http://fanlychie.github.io/post/jpql-usage.html" target="_blank" rel="external">JPQL 查询语句</a>（附：<a href="http://fanlychie.github.io/post/jpql-usage.html#2-2-查询参数" target="_blank" rel="external">查询参数语法</a>）</td>
-</tr>
-</tbody>
-</table>
-<p>使用<code>@NamedQuery</code>注解需要在实体类中标注使用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(name = <span class="string">"Employee"</span>)</div><div class="line"><span class="meta">@NamedQueries</span>(&#123;</div><div class="line">    <span class="meta">@NamedQuery</span>(</div><div class="line">        name = <span class="string">"Employee.selectBySex"</span>,</div><div class="line">        query = <span class="string">"SELECT E FROM Employee E WHERE E.sex = ?1"</span></div><div class="line">    ),</div><div class="line">    <span class="meta">@NamedQuery</span>(</div><div class="line">        name = <span class="string">"Employee.selectByName"</span>,</div><div class="line">        query = <span class="string">"SELECT E FROM Employee E WHERE E.name = ?1"</span></div><div class="line">    )</div><div class="line">&#125;)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</div><div class="line">    </div><div class="line">    ...</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后在存储库接口中声明与这些名称相同的方法即可：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="function">Employee <span class="title">selectByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">    <span class="function">List&lt;Employee&gt; <span class="title">selectBySex</span><span class="params">(Sex sex)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-2-2-NamedNativeQuery"><a href="#2-2-2-NamedNativeQuery" class="headerlink" title="2.2.2 @NamedNativeQuery"></a>2.2.2 @NamedNativeQuery</h4><p>注解<code>@NamedNativeQuery</code>与<code>@NamedQuery</code>的用法和作用相类似。不同的是，<code>@NamedQuery</code>使用的是 JPQL 查询语言，可以做到跨数据库平台。而<code>@NamedNativeQuery</code>使用的是 SQL 查询语言，与特定的数据库平台紧密相关。<code>@NamedNativeQuery</code>注解也是需要在实体类中标注使用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(name = <span class="string">"Employee"</span>)</div><div class="line"><span class="meta">@NamedNativeQueries</span>(&#123;</div><div class="line">    <span class="meta">@NamedNativeQuery</span>(</div><div class="line">        name = <span class="string">"Employee.searchBySex"</span>,</div><div class="line">        query = <span class="string">"SELECT * FROM EMPLOYEE WHERE SEX = ?1"</span>,</div><div class="line">        resultClass = Employee.class</div><div class="line">    ),</div><div class="line">    <span class="meta">@NamedNativeQuery</span>(</div><div class="line">        name = <span class="string">"Employee.searchByName"</span>,</div><div class="line">        query = <span class="string">"SELECT * FROM EMPLOYEE WHERE NAME = ?1"</span>,</div><div class="line">        resultClass = Employee.class</div><div class="line">    )</div><div class="line">&#125;)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</div><div class="line">    </div><div class="line">    ...</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>相比较<code>@NamedQuery</code>注解而言，多了一个<code>resultClass</code>参数，它用于定义查询结果的返回值类型。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="function">Employee <span class="title">searchByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">    <span class="function">List&lt;Employee&gt; <span class="title">searchBySex</span><span class="params">(String sex)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-3-Query-查询"><a href="#2-3-Query-查询" class="headerlink" title="2.3 @Query 查询"></a>2.3 @Query 查询</h3><p>使用<code>@Query</code>注解可以直接将查询语句绑定到存储库接口的方法上，它同时支持 JPQL 和 SQL 查询语言。另外，它对方法名称的命名没有约束，并且查询语句就编写在方法的上方，方便追踪查询方法的具体作用。</p>
-<h4 id="2-3-1-JPQL-查询"><a href="#2-3-1-JPQL-查询" class="headerlink" title="2.3.1 JPQL 查询"></a>2.3.1 JPQL 查询</h4><p>注解<code>@Query</code>默认使用的就是 JPQL 查询语言：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.name = ?1"</span>)</div><div class="line">    <span class="function">Employee <span class="title">queryOneByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-3-2-SQL-查询"><a href="#2-3-2-SQL-查询" class="headerlink" title="2.3.2 SQL 查询"></a>2.3.2 SQL 查询</h4><p>在<code>@Query</code>注解中，如果要使用 SQL 查询语言，<code>nativeQuery</code>参数需要标记为 <code>true</code>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(value = <span class="string">"SELECT * FROM EMPLOYEE WHERE NAME = ?1"</span>, nativeQuery = <span class="keyword">true</span>)</div><div class="line">    <span class="function">Employee <span class="title">queryOneByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-3-3-LIKE-查询"><a href="#2-3-3-LIKE-查询" class="headerlink" title="2.3.3 LIKE 查询"></a>2.3.3 LIKE 查询</h4><p>在<code>@Query</code>注解中，可以使用高级的<code>LIKE</code>表达式查询（命名查询不支持）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.name LIKE %?1"</span>)</div><div class="line">    <span class="function">List&lt;Employee&gt; <span class="title">queryNameLike</span><span class="params">(String suffixName)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-3-4-分页查询"><a href="#2-3-4-分页查询" class="headerlink" title="2.3.4 分页查询"></a>2.3.4 分页查询</h4><p>如果你使用的是<code>@Query</code>的 JPQL 查询语言，只需在查询方法中添加<code>Pageable</code>参数就能实现分页查询：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.sex = ?1"</span>)</div><div class="line">    <span class="function">Page&lt;Employee&gt; <span class="title">queryBySexPagination</span><span class="params">(Sex sex, Pageable pageable)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果你使用的不是 JPQL 而是 SQL 查询语言，则还需提供<code>countQuery</code>参数用于查询结果的总条数：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(value = <span class="string">"SELECT * FROM EMPLOYEE WHERE SEX = ?1"</span>,</div><div class="line">      countQuery = <span class="string">"SELECT COUNT(*) FROM EMPLOYEE WHERE SEX = ?1 "</span>,</div><div class="line">      nativeQuery = <span class="keyword">true</span>)</div><div class="line">    <span class="function">Page&lt;Employee&gt; <span class="title">queryBySexPagination</span><span class="params">(String sex, Pageable pageable)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Spring Data JPA 官方文档给出了<code>@Query</code>注解使用本地查询分页的基础示例（<a href="http://docs.spring.io/spring-data/jpa/docs/1.11.1.RELEASE/reference/html/#_native_queries" target="_blank" rel="external">Example 51</a>），但是按照该示例编写出的代码运行时报错。</p>
-<h4 id="2-3-5-排序查询"><a href="#2-3-5-排序查询" class="headerlink" title="2.3.5 排序查询"></a>2.3.5 排序查询</h4><p>如果你使用的是<code>@Query</code>的 JPQL 查询语言，只需在查询方法中添加<code>Sort</code>参数就能实现排序功能：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT E FROM Employee E WHERE E.sex = ?1"</span>)</div><div class="line">    <span class="function">List&lt;Employee&gt; <span class="title">queryBySexAndSort</span><span class="params">(Sex sex, Sort sort)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注：<code>@Query</code>的本地查询（SQL 查询）不支持这种动态排序的功能。</p>
-<p>如果是分页查询需要排序支持，可以通过向<code>PageRequest</code>构造器传入<code>Sort</code>对象来完成：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQueryBySexPagination</span><span class="params">()</span> </span>&#123;</div><div class="line">    Page&lt;Employee&gt; page = employeeRepository.queryBySexPagination(Sex.FEMALE, </div><div class="line">        <span class="keyword">new</span> PageRequest(<span class="number">0</span>, <span class="number">2</span>, <span class="keyword">new</span> Sort(<span class="string">"age"</span>)));</div><div class="line">    page.forEach(System.out::println);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-3-6-SpEL-表达式"><a href="#2-3-6-SpEL-表达式" class="headerlink" title="2.3.6 SpEL 表达式"></a>2.3.6 SpEL 表达式</h4><p>Spring Data JPA 1.4 版本开始引入 SpEL 表达式，目前支持的 SpEL 表达式非常有限（目前仅有一个）：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">变量</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">entityName</td>
-<td>存储库接口关联的实体类的实体名称。如果实体类@Entity注解设置了name属性，那么将使用它。否则将使用实体类的简单类名。</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT E FROM #&#123;#entityName&#125; E WHERE E.name = ?1"</span>)</div><div class="line">    <span class="function">Employee <span class="title">queryByNameSpEL</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-3-7-更新查询"><a href="#2-3-7-更新查询" class="headerlink" title="2.3.7 更新查询"></a>2.3.7 更新查询</h4><p><code>@Query</code>注解除了可以用来定义查询语句还可以用来定义更新语句（UPDATE/DELETE），在<code>@Query</code>标注的方法上只需要使用<code>@Modifying</code>注解就能实现更新的行为：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Modifying</span></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"UPDATE Employee E SET E.salary = ?2 WHERE E.name = ?1"</span>)</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">updateSalaryForName</span><span class="params">(String name, Double salary)</span></span>;</div><div class="line">    </div><div class="line">    <span class="meta">@Modifying</span></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"DELETE FROM Employee E WHERE E.name = ?1"</span>)</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">deleteByName</span><span class="params">(String name)</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>示例项目开发环境：Java-8、Maven-3、IntelliJ IDEA-2017、Spring Boot-1.5.2.RELEASE<br>完整示例项目链接：<a href="https://github.com/fanlychie/spring-boot-samples/tree/master/spring-boot-jpa-sample" target="_blank" rel="external">spring-boot-jpa-sample</a><br>参考文档文献链接：<a href="http://docs.spring.io/spring-data/jpa/docs/1.11.1.RELEASE/reference/html" target="_blank" rel="external">http://docs.spring.io/spring-data/jpa/docs/1.11.1.RELEASE/reference/html</a></p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;JPA（Java Persistence API）是一套 Java 持久化规范，用于将应用程序中的对象映射到关系型数据库。&lt;br&gt;应用程序的数据访问层通常为域对象提供创建、读取、更新和删除（CRUD）操作，Spring Data JPA 提供了这方面的通用接口以及持久化存储特定的实现，它选择目前最流行之一的 Hibernate 作为 JPA 实现的提供者，旨在简化数据访问层。作为应用程序的开发人员，你只需要编写数据库的存取接口，由 Spring 运行时自动生成这些接口的适当实现，开发人员不需要编写任何具体的实现代码。在 Spring Boot 中，通过使用&lt;code&gt;spring-boot-starter-data-jpa&lt;/code&gt;启动器，就能快速开启和使用 Spring Data JPA。&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;&lt;p class=&quot;code-title&quot;&gt;# pom.xml&lt;/p&gt;&lt;br&gt;&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;spring-boot-starter-data-jpa&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;
     
     </summary>
     

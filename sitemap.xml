@@ -2,16 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/post/fastdfs-setup.html</loc>
+    <loc>http://yoursite.com/post/jenkins-schedule.html</loc>
     
-    <lastmod>2017-10-08T06:02:37.869Z</lastmod>
+    <lastmod>2017-11-05T07:58:53.541Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/jenkins-remote-ssh.html</loc>
+    
+    <lastmod>2017-11-05T07:34:42.950Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/jenkins-console-icon.html</loc>
+    
+    <lastmod>2017-11-05T05:54:18.655Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/jenkins-view.html</loc>
+    
+    <lastmod>2017-11-05T05:19:12.130Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/post/jenkins-guide.html</loc>
     
-    <lastmod>2017-08-27T11:30:26.936Z</lastmod>
+    <lastmod>2017-11-04T19:13:38.611Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/post/fastdfs-setup.html</loc>
+    
+    <lastmod>2017-10-08T06:02:37.869Z</lastmod>
     
   </url>
   
