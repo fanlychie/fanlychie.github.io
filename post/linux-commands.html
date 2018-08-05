@@ -1,0 +1,1560 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="fanlychie,范忠云,範宗雲,java,技术,博客"><meta name="baidu-site-verification" content="bQjF64X3Ym"><meta name="keywords" content="fanlychie,范忠云,java,技术,博客,spring,mvc,cloud"><title>程序员必知必会的 Linux Shell 命令 | 範宗雲</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">程序员必知必会的 Linux Shell 命令</h1><a id="logo" href="/.">範宗雲</a><p class="description">一路走，一路学。面朝大海，望眼欲穿！</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="请输入搜索关键字 ..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">程序员必知必会的 Linux Shell 命令</h1><div class="post-meta"><span class="date">2017-11-11</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/post/linux-commands.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/linux-commands.html"></i>留言</a></div><div class="post-content"><h3 id="1-cd-命令"><a href="#1-cd-命令" class="headerlink" title="1. cd 命令"></a>1. cd 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">change directory（更改目录）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于切换工作目录。是最基本的 Linux 操作系统命令。</td></tr></table>
+
+<p>1) 使用<code>cd</code>不带任何参数，可进入当前用户的主目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[fanlychie@129host apache-tomcat-8.0.45]$ <span class="built_in">cd</span></div><div class="line">[fanlychie@129host ~]$</div></pre></td></tr></table></figure>
+<p>2) 使用<code>cd ~</code>也可进入当前用户的主目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[fanlychie@129host apache-tomcat-8.0.45]$ <span class="built_in">cd</span> ~</div><div class="line">[fanlychie@129host ~]$</div></pre></td></tr></table></figure>
+<p>3) 使用<code>cd ..</code>返回上级目录（<code>..</code>用于表示上级目录，如返回上两级目录则应为<code>cd ../..</code>）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[fanlychie@129host webapps]$ <span class="built_in">cd</span> ..</div><div class="line">[fanlychie@129host apache-tomcat-8.0.45]$</div></pre></td></tr></table></figure>
+<p>4) 使用<code>cd -</code>返回进入当前目录之前所在的目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[fanlychie@129host apache-tomcat-8.0.45]$ <span class="built_in">cd</span> -</div><div class="line">/home/fanlychie/apache-tomcat-8.0.45/webapps</div><div class="line">[fanlychie@129host webapps]$</div></pre></td></tr></table></figure>
+ <a id="more"></a>
+<h3 id="2-pwd-命令"><a href="#2-pwd-命令" class="headerlink" title="2. pwd 命令"></a>2. pwd 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">print work directory（打印工作目录）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于查看当前工作目录的路径，通常不需要带参数。</td></tr></table>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/home/fanlychie/apache-tomcat-8.0.45</div></pre></td></tr></table></figure>
+<h3 id="3-mkdir-命令"><a href="#3-mkdir-命令" class="headerlink" title="3. mkdir 命令"></a>3. mkdir 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">make directory（创建目录）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于创建文件系统的目录（文件夹）。</td></tr></table>
+
+<p>1) 创建一个名称为“dirname”的目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir dirname</div></pre></td></tr></table></figure>
+<p>2）使用<code>-p, --parents</code>选项，当创建的目录的父目录不存在时，父目录也会一起被创建：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p pathname/dirname</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">该命令用于创建“dirname”目录，如果其父目录“pathname”尚未存在，则“pathname”目录会被一起创建。</td></tr></table>
+
+<p>3) 使用<code>{..}</code>可以批量创建目录，如创建2018-01-01…2018-01-15…2018-01-31共31个目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir 2018-01-&#123;01..31&#125;</div></pre></td></tr></table></figure>
+<p>4) 使用<code>{,}</code>可以批量创建目录，如创建2018-01-01、2018-01-15、2018-01-31共3个目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir 2018-01-&#123;01,15,31&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-ls-命令"><a href="#4-ls-命令" class="headerlink" title="4. ls 命令"></a>4. ls 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">list（列表信息）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于显示目录内容的列表信息。</td></tr></table>
+
+<p>1) 使用<code>ls</code>命令查看当前工作目录的列表信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ls</div><div class="line">Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  server.xml  tomcat-users.xml  tomcat-users.xsd  web.xml</div></pre></td></tr></table></figure>
+<p>2) 使用<code>ll</code>命令查看当前工作目录的列表信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ ll</div><div class="line">total 220</div><div class="line">drwxr-xr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p><code>ll</code>是<code>ls -l</code>命令的别名（<code>-l</code>选项是用长格式方式显示信息，其每一个内容项都占据一行）</p><table><thead><tr><th style="text-align:center">序号</th><th style="text-align:center">示例</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:center">第一列</td><td style="text-align:center">drwxr-xr-x</td><td style="text-align:left">文件或目录的权限位描述符</td></tr><tr><td style="text-align:center">第二列</td><td style="text-align:center">3</td><td style="text-align:left">如果是一个文件，则表示文件的个数（数值必然是1）<br>如果是一个目录，则表示其子目录（包含隐藏的）总数</td></tr><tr><td style="text-align:center">第三列</td><td style="text-align:center">fanlychie</td><td style="text-align:left">文件或目录的属主（即所有者）</td></tr><tr><td style="text-align:center">第四列</td><td style="text-align:center">fanlychie</td><td style="text-align:left">文件或目录的属组</td></tr><tr><td style="text-align:center">第五列</td><td style="text-align:center">4096</td><td style="text-align:left">文件的大小，单位是B</td></tr><tr><td style="text-align:center">第六列</td><td style="text-align:center">2017-11-11</td><td style="text-align:left">文件或目录最后变更的日期</td></tr><tr><td style="text-align:center">第七列</td><td style="text-align:center">17:05:03</td><td style="text-align:left">文件或目录最后变更的时间</td></tr><tr><td style="text-align:center">第八列</td><td style="text-align:center">Catalina</td><td style="text-align:left">文件或目录的名称</td></tr></tbody></table><p>其中，第一列<code>drwxr-xr-x</code>的第一位表示文件系统对象类型，剩下的九位以每三位为一组表示：<img src="../img/linux_qx.png" width="380px"></p><p>常见的 Linux 文件系统对象类型有：</p><table><thead><tr><th style="text-align:center">类型</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:center">-</td><td style="text-align:left">普通文件</td></tr><tr><td style="text-align:center">d</td><td style="text-align:left">目录（文件夹）</td></tr><tr><td style="text-align:center">l</td><td style="text-align:left">符号连接（包括软链接和硬链接），它实质指向另一个文件</td></tr></tbody></table></td></tr></table>
+
+<p>3) 使用<code>-a, --all</code>选项，会把以<code>.</code>和<code>..</code>开头的隐藏文件或目录信息也罗列显示出来：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ ll -a</div><div class="line">total 228</div><div class="line">drwxr-xr-x. 3 fanlychie fanlychie   4096 2018-04-25 07:18:36 .</div><div class="line">drwxrwxr-x. 9 fanlychie fanlychie   4096 2017-11-11 17:04:10 ..</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div></pre></td></tr></table></figure>
+<p>4) 罗列指定路径（文件或目录路径）下的内容信息，如查看“Catalina”目录下的内容信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ll Catalina</div><div class="line">total 4</div><div class="line">drwxrwxr-x. 2 fanlychie fanlychie 4096 2018-04-24 11:21:47 localhost</div></pre></td></tr></table></figure>
+<p>5) 使用<code>-t</code>选项，可以按文件或目录的修改时间排序（最新的排在最前面, 即降序）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ ll -t</div><div class="line">total 220</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div></pre></td></tr></table></figure>
+<p>6) 使用<code>-r, --reverse</code>选项，可以反向排序，默认是按文件或目录名称：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ ll -r</div><div class="line">total 220</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div></pre></td></tr></table></figure>
+<p>7) 组合<code>-r</code>选项，按文件或目录的修改时间升序排序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ ll -rt</div><div class="line">total 220</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div></pre></td></tr></table></figure>
+<p>8) 使用<code>-S</code>选项，可以按文件或目录的大小排序（最大的排在最前面，即降序）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ ll -S</div><div class="line">total 220</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div></pre></td></tr></table></figure>
+<p>9) 使用<code>-h, --human-readable</code>选项，以易读方式来显示文件或目录的大小（默认大小是以<code>B</code>作为单位，<code>-h, --human-readable</code>选项会自动的将其转换为<code>K</code>或<code>M</code>或<code>G</code>单位来显示）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ ll -h</div><div class="line">total 220K</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie 4.0K 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie  14K 2017-06-26 20:09:48 catalina.policy</div><div class="line">-rw-------. 1 fanlychie fanlychie 7.2K 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie 1.6K 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie 3.4K 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie 6.4K 2017-11-11 17:24:47 server.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie 2.2K 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie 2.6K 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie 165K 2017-06-26 20:09:48 web.xml</div></pre></td></tr></table></figure>
+<p>10) 使用<code>-R, --recursive</code>选项，可以递归显示路径下的子目录下的树信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">$ ll -R</div><div class="line">.:</div><div class="line">total 220</div><div class="line">drwxrwxr-x. 3 fanlychie fanlychie   4096 2017-11-11 17:05:03 Catalina</div><div class="line">-rw-------. 1 fanlychie fanlychie  13688 2017-06-26 20:09:48 catalina.policy</div><div class="line">-rw-------. 1 fanlychie fanlychie   7299 2017-06-26 20:09:48 catalina.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   1577 2017-06-26 20:09:48 context.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   3387 2017-06-26 20:09:48 logging.properties</div><div class="line">-rw-------. 1 fanlychie fanlychie   6458 2017-11-11 17:24:47 server.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2155 2017-11-11 18:23:43 tomcat-users.xml</div><div class="line">-rw-------. 1 fanlychie fanlychie   2634 2017-06-26 20:09:48 tomcat-users.xsd</div><div class="line">-rw-------. 1 fanlychie fanlychie 168496 2017-06-26 20:09:48 web.xml</div><div class="line"> </div><div class="line">./Catalina:</div><div class="line">total 4</div><div class="line">drwxrwxr-x. 2 fanlychie fanlychie 4096 2018-04-24 11:21:47 localhost</div><div class="line"> </div><div class="line">./Catalina/localhost:</div><div class="line">total 4</div><div class="line">-rw-------. 1 fanlychie fanlychie 426 2018-04-24 11:21:47 context.xml</div></pre></td></tr></table></figure>
+<h3 id="5-rm-命令"><a href="#5-rm-命令" class="headerlink" title="5. rm 命令"></a>5. rm 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">remove（移除）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于删除文件或目录。</td></tr></table>
+
+<p>1) 使用<code>-f, --force</code>选项，强行执行删除操作，即使删除的文件不存在也不会出现警告。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -f catalina.2017-11-12.log</div></pre></td></tr></table></figure>
+<p>2) 使用<code>-r, -R, --recursive</code>选项，可以删除一个目录（该目录下的所有文件和子目录都会被删除）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -r logs/</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-v, --verbose</code>选项，可以回显执行过程：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ rm -v catalina.2017-11-11.log</div><div class="line">removed `catalina.2017-11-11.log`</div></pre></td></tr></table></figure>
+<h3 id="6-mv-命令"><a href="#6-mv-命令" class="headerlink" title="6. mv 命令"></a>6. mv 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">move（移动）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于移动文件或目录到另外一个目录中，也可用于重命名文件或目录。</td></tr></table>
+
+<p>1) 将源文件“zoo_sample.cfg”的名称重命名为“zoo.cfg”：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mv zoo_sample.cfg zoo.cfg</div></pre></td></tr></table></figure>
+<p>2) 将源目录“config”的名称重命名为“conf”：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mv config/ conf</div></pre></td></tr></table></figure>
+<p>3) 将“zoo_sample.cfg”文件移动到子目录“conf”中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mv zoo_sample.cfg conf/</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">若“conf”中已存在一个名为“zoo_sample.cfg”的文件，则新的文件会直接覆盖老的文件。</td></tr></table>
+
+<p>4) 将文件“zoo_sample.cfg”移动到子目录“conf”中，并将文件重命名为“zoo.cfg”：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mv zoo_sample.cfg conf/zoo.cfg</div></pre></td></tr></table></figure>
+<p>5) 将目录“node1”中的子目录“conf/”移动到目录“node2/”中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mv node1/conf/ node2/</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>如果“node2”目录中已经存在一个名称为“conf”的子目录并且该子目录的内容不为空，则会报出警告，不能成功的进行移动。除非先把“node2”目录中的“conf”子目录删除或者使用<code>-b</code>选项（如果移动的文件或目录在目标目录中已经存在，则移动前会自动进行备份，备份的文件或目录默认是以原名称+<code>~</code>结束）进行移动：<code>mv -b node1/conf/ node2/</code>。</p></td></tr></table>
+
+<h3 id="7-chmod-命令"><a href="#7-chmod-命令" class="headerlink" title="7. chmod 命令"></a>7. chmod 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">change mode（改变模式）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于变更文件或目录的权限。</td></tr></table>
+
+<p>Linux 系统的文件或目录是由<code>读取(r)</code>、<code>写入(w)</code>、<code>执行(x)</code>三种权限共同来决定。执行<code>ll</code>（<code>ls -l</code>）命令展示出来的第一列就是文件或目录的权限信息（<a href="http://fanlychie.github.io/post/linux-commands.html#4-ls-命令" target="_blank" rel="external">参考「ls 命令」</a>）。</p>
+<div style="float:right;"><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/linux_chmod.png" width="230"></div>
+
+<ul>
+<li>属主 <span style="padding-left:11px">&nbsp;</span>(u) ：文件或目录的创建者，或被指定的文件或目录的所有者；</li>
+<li>属组 <span style="padding-left:11px">&nbsp;</span>(g) ：文件或目录的所属用户组；</li>
+<li>其它人 (o) ：既不是属主又不是属组里面的其它用户；</li>
+</ul>
+<p>文件或目录的<code>读取(r)</code>、<code>写入(w)</code>、<code>执行(x)</code>权限控制：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符</th>
+<th style="text-align:center">数值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">r</td>
+<td style="text-align:center">4</td>
+<td style="text-align:left">读取权限（如果是目录，那就是查看目录里面内容的权限）</td>
+</tr>
+<tr>
+<td style="text-align:center">w</td>
+<td style="text-align:center">2</td>
+<td style="text-align:left">写入权限</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:center">1</td>
+<td style="text-align:left">执行权限（如果是目录，那就是切换（cd）到目录的权限）</td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:center">0</td>
+<td style="text-align:left">没有权限</td>
+</tr>
+</tbody>
+</table>
+<p>假设现有一文件“my.sh”，其初始权限如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-rw-r--r--. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure>
+<p>1) 给文件或目录赋权，属主<code>u=r|w|x</code>，属组<code>g=r|w|x</code>，其他人<code>o=r|w|x</code>，所有<code>a=r|w|x</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ chmod u=rwx my.sh </div><div class="line">$ ll</div><div class="line">total 4</div><div class="line">-rwxr--r--. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果想要同时为多个所属组赋权，使用英文逗号分隔：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ chmod g=rx,o=rx my.sh </div><div class="line">$ ll</div><div class="line">total 4</div><div class="line">-rwxr-xr-x. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>2) 变更文件或目录的权限，属主<code>u±r|w|x</code>，属组<code>g±r|w|x</code>，其他人<code>o±r|w|x</code>，所有<code>a±r|w|x</code>（其中<code>+</code>为增加相应的权限，<code>-</code>为删除相应的权限）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ chmod o-x my.sh </div><div class="line">$ ll</div><div class="line">total 4</div><div class="line">-rwxr-xr--. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果想要同时变更多个所属组权限，使用英文逗号分隔：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ chmod u-x,g-x my.sh </div><div class="line">$ ll</div><div class="line">total 4</div><div class="line">-rw-r--r--. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>3) 使用数值代码变更文件或目录的权限，如将“my.sh”的文件权限修改为“755”（“rwxr-xr-x”）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ chmod 755 my.sh </div><div class="line">$ ll</div><div class="line">total 4</div><div class="line">-rwxr-xr-x. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure>
+<p>4) 使用<code>-R, --recursive</code>选项，可以修改一个目录以及该目录下所有的文件的权限：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ chmod -R 750 conf/</div><div class="line">$ ll -R</div><div class="line">.:</div><div class="line">total 4</div><div class="line">drwxr-x---. 2 fanlychie fanlychie 4096 2018-04-25 10:10:23 conf</div><div class="line"> </div><div class="line">./conf:</div><div class="line">total 4</div><div class="line">-rwxr-x---. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.sh</div></pre></td></tr></table></figure>
+<h3 id="8-chown-命令"><a href="#8-chown-命令" class="headerlink" title="8. chown 命令"></a>8. chown 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">change owner（改变所有者）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于变更文件或目录的属主和属组。只有文件或目录的创建者或管理员用户才有权限操作。</td></tr></table>
+
+<p><code>ll</code>（<code>ls -l</code>）命令展示出的第三和第四列分别就是文件或目录的属主和属组信息（<a href="http://fanlychie.github.io/post/linux-commands.html#4-ls-命令" target="_blank" rel="external">参考「ls 命令」</a>）。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drwxr-xr-x. 3 root root  4096 2018-04-25 09:58:44 <span class="built_in">test</span></div></pre></td></tr></table></figure>
+<p>1) 变更文件或目录的属主和属组，<code>chown 属主:属组 文件或目录</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># chown fanlychie:fanlychie test/</span></div><div class="line"><span class="comment"># ll -R</span></div><div class="line">.:</div><div class="line">total 4</div><div class="line">drwxr-xr-x. 3 fanlychie fanlychie  4096 2018-04-25 09:58:44 <span class="built_in">test</span></div><div class="line"> </div><div class="line">./<span class="built_in">test</span>:</div><div class="line">total 4</div><div class="line">drwxr-x---. 2 root root 4096 2018-04-25 10:10:23 conf</div><div class="line"> </div><div class="line">./<span class="built_in">test</span>/conf:</div><div class="line">total 4</div><div class="line">-rwxr-x---. 1 root root 601 2018-04-25 09:43:38 my.cfg</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>使用<code>-R, --recursive</code>选项，可以变更目录以及该目录下所有内容的属主和属组：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># chown -R fanlychie:fanlychie test/</span></div><div class="line"><span class="comment"># ll -R</span></div><div class="line">.:</div><div class="line">total 4</div><div class="line">drwxr-xr-x. 3 fanlychie fanlychie  4096 2018-04-25 09:58:44 <span class="built_in">test</span></div><div class="line"> </div><div class="line">./<span class="built_in">test</span>:</div><div class="line">total 4</div><div class="line">drwxr-x---. 2 fanlychie fanlychie 4096 2018-04-26 05:30:17 conf</div><div class="line"> </div><div class="line">./<span class="built_in">test</span>/conf:</div><div class="line">total 4</div><div class="line">-rwxr-x---. 1 fanlychie fanlychie 601 2018-04-25 09:43:38 my.cfg</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<h3 id="9-cp-命令"><a href="#9-cp-命令" class="headerlink" title="9. cp 命令"></a>9. cp 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">copy（复制）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于复制文件或目录。</td></tr></table>
+
+<p>1) 将“index.html”文件复制到“WEB-INF”目录中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cp index.html WEB-INF/</div></pre></td></tr></table></figure>
+<p>2) 将“index.html”文件复制到“WEB-INF”目录中，并重命名为“index.htm”：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cp index.html WEB-INF/index.htm</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-R, -r, --recursive</code>选项，可以将一个目录中的所有内容复制到另外一个目录中。<br><span style="padding-left:16px">&nbsp;</span>如将“jsp”目录（包括该目录以及该目录下的所有内容）复制到“WEB-INF”目录中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cp -r jsp/ WEB-INF/</div></pre></td></tr></table></figure>
+<p>4) 如果复制的源文件或目录在目标目录中已经存在，则默认会覆盖目标目录中的文件或目录。<br><span style="padding-left:16px">&nbsp;</span>使用<code>-b</code>选项可以备份目标目录中的文件或目录。备份的文件或目录的默认后缀名是是带<code>~</code>结尾。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ cp -b index.html WEB-INF/</div><div class="line">$ ll WEB-INF/</div><div class="line">total 44</div><div class="line">drwxr-xr-x. 20 fanlychie fanlychie  4096 2017-11-11 17:04:10 classes</div><div class="line">-rw-r--r--.  1 fanlychie fanlychie  1126 2018-04-26 06:06:21 index.html</div><div class="line">-rw-r--r--.  1 fanlychie fanlychie  1126 2018-04-26 06:04:57 index.html~</div><div class="line">drwxr-xr-x. 22 fanlychie fanlychie  4096 2018-04-26 06:03:07 jsp</div><div class="line">drwxr-xr-x.  2 fanlychie fanlychie  4096 2017-11-11 17:04:10 jsp2</div><div class="line">drwxr-xr-x.  2 fanlychie fanlychie  4096 2017-11-11 17:04:10 lib</div><div class="line">drwxr-xr-x.  2 fanlychie fanlychie  4096 2017-11-11 17:04:10 tags</div><div class="line">-rw-r--r--.  1 fanlychie fanlychie 14554 2017-06-26 20:09:51 web.xml</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>如果没有<code>-b</code>选项，则源文件“index.html”会直接覆盖“WEB-INF”目录中的“index.html”文件；<br>若使用了<code>-b</code>选项，源文件“index.html”在覆盖“WEB-INF”目录中的“index.html”文件之前，“WEB-INF”目录中的“index.html”文件会自动做一个备份，备份的文件名称就是为“index.html~”；</p></td></tr></table>
+
+<h3 id="10-scp-命令"><a href="#10-scp-命令" class="headerlink" title="10. scp 命令"></a>10. scp 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">secure copy（安全复制）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>用于远程文件或目录的安全拷贝。它和<code>cp</code>命令类似，但<code>cp</code>命令只能在本机内对文件或目录进行拷贝。而<code>scp</code>命令能够在两台服务器之间跨服务器拷贝文件或目录。</p></td></tr></table>
+
+<p>1) 将“192.168.139.129”服务器中的“index.html”拷贝到“192.168.139.130”服务器中：<br><span style="padding-left:16px">&nbsp;</span>语法：<code>scp 本机源文件 远程登录主机的用户名@远程主机IP:复制到远程主机的目标路径</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ scp index.html fanlychie@192.168.139.130:/home/fanlychie/<span class="built_in">test</span>/</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">如果远程目标机中已经存在该文件，则执行完命令之后，目标机中的文件将会被覆盖掉。</td></tr></table>
+
+<p>2) 使用<code>-P</code>选项，可以指定远程主机的端口号，默认是<code>22</code>端口，如果不是，可以使用该项来指定。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ scp -P 33 index.html fanlychie@192.168.139.130:/home/fanlychie/<span class="built_in">test</span>/</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-r</code>选项，可以将本机的一个目录拷贝到另一台远程主机的目标目录中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ scp -r jsp/ fanlychie@192.168.139.130:/home/fanlychie/<span class="built_in">test</span>/</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">如果远程目标机中已经存在该目录，则执行完命令之后，目标机中的目录将会被覆盖掉。</td></tr></table>
+
+<p>4) 除此之外，还可以反过来，在本机执行命令，将远程主机中的文件或目录拷贝到本机：<br><span style="padding-left:16px">&nbsp;</span>语法：<code>scp 远程登录主机的用户名@远程主机IP:远程主机的源文件 本机目录</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ scp fanlychie@192.168.139.130:/home/fanlychie/<span class="built_in">test</span>/index.html ./index.htm</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>远程拷贝目录与拷贝文件的方式相似，只需要加<code>-r</code>选项。</p></td></tr></table>
+
+<p>5) 将“192.168.139.129”中的“index.html”拷贝到“192.168.139.130”并重命名为“idx.html”：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ scp index.html fanlychie@192.168.139.130:/home/fanlychie/<span class="built_in">test</span>/idx.html</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>拷贝目录与拷贝文件的方式相似，只需要加<code>-r</code>选项。</p></td></tr></table>
+
+<h3 id="11-cat-命令"><a href="#11-cat-命令" class="headerlink" title="11. cat 命令"></a>11. cat 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">concatenate（串联）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于将文件内容打印到标准输出设备上。适合用于查看小文件的内容。</td></tr></table>
+
+<p>1) 使用<code>-n, --number</code>选项，会对文件里面的每一行内容用数字进行编号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">$ cat -n zoo.cfg </div><div class="line">     1	<span class="comment"># The number of milliseconds of each tick</span></div><div class="line">     2	tickTime=2000</div><div class="line">     3	</div><div class="line">     4	<span class="comment"># The number of ticks that the initial</span></div><div class="line">     5	<span class="comment"># synchronization phase can take</span></div><div class="line">     6	initLimit=10</div><div class="line">     7	</div><div class="line">     8	<span class="comment"># The number of ticks that can pass between</span></div><div class="line">     9	<span class="comment"># sending a request and getting an acknowledgement</span></div><div class="line">    10	syncLimit=5</div><div class="line">    11	</div><div class="line">    12	<span class="comment"># the directory where the snapshot is stored.</span></div><div class="line">    13	<span class="comment"># do not use /tmp for storage, /tmp here is just</span></div><div class="line">    14	<span class="comment"># example sakes.</span></div><div class="line">    15	dataDir=/home/fanlychie/zookeeper/data</div><div class="line">    16	</div><div class="line">    17	</div><div class="line">    18	dataLogDir=/home/fanlychie/zookeeper/logs</div><div class="line">    19	</div><div class="line">    20	<span class="comment"># the port at which the clients will connect</span></div><div class="line">    21	clientPort=2181</div></pre></td></tr></table></figure>
+<p>2) 使用<code>-b, --number-nonblank</code>选项，会对文件内容的非空白行用数字进行编号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">$ cat -b zoo.cfg </div><div class="line">     1	<span class="comment"># The number of milliseconds of each tick</span></div><div class="line">     2	tickTime=2000</div><div class="line"> </div><div class="line">     3	<span class="comment"># The number of ticks that the initial</span></div><div class="line">     4	<span class="comment"># synchronization phase can take</span></div><div class="line">     5	initLimit=10</div><div class="line"> </div><div class="line">     6	<span class="comment"># The number of ticks that can pass between</span></div><div class="line">     7	<span class="comment"># sending a request and getting an acknowledgement</span></div><div class="line">     8	syncLimit=5</div><div class="line"> </div><div class="line">     9	<span class="comment"># the directory where the snapshot is stored.</span></div><div class="line">    10	<span class="comment"># do not use /tmp for storage, /tmp here is just</span></div><div class="line">    11	<span class="comment"># example sakes.</span></div><div class="line">    12	dataDir=/home/fanlychie/zookeeper/data</div><div class="line"> </div><div class="line"> </div><div class="line">    13	dataLogDir=/home/fanlychie/zookeeper/logs</div><div class="line"> </div><div class="line">    14	<span class="comment"># the port at which the clients will connect</span></div><div class="line">    15	clientPort=2181</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-s, --squeeze-blank</code>选项，如果连续出现的多个空行就会压缩成一行显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$ cat -s zoo.cfg </div><div class="line"><span class="comment"># The number of milliseconds of each tick</span></div><div class="line">tickTime=2000</div><div class="line"> </div><div class="line"><span class="comment"># The number of ticks that the initial</span></div><div class="line"><span class="comment"># synchronization phase can take</span></div><div class="line">initLimit=10</div><div class="line"> </div><div class="line"><span class="comment"># The number of ticks that can pass between</span></div><div class="line"><span class="comment"># sending a request and getting an acknowledgement</span></div><div class="line">syncLimit=5</div><div class="line"> </div><div class="line"><span class="comment"># the directory where the snapshot is stored.</span></div><div class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just</span></div><div class="line"><span class="comment"># example sakes.</span></div><div class="line">dataDir=/home/fanlychie/zookeeper/data</div><div class="line"> </div><div class="line">dataLogDir=/home/fanlychie/zookeeper/logs</div><div class="line"> </div><div class="line"><span class="comment"># the port at which the clients will connect</span></div><div class="line">clientPort=2181</div></pre></td></tr></table></figure>
+<p>4) 去掉空白行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$ cat zoo.cfg | grep -v ^$</div><div class="line"><span class="comment"># The number of milliseconds of each tick</span></div><div class="line">tickTime=2000</div><div class="line"><span class="comment"># The number of ticks that the initial</span></div><div class="line"><span class="comment"># synchronization phase can take</span></div><div class="line">initLimit=10</div><div class="line"><span class="comment"># The number of ticks that can pass between</span></div><div class="line"><span class="comment"># sending a request and getting an acknowledgement</span></div><div class="line">syncLimit=5</div><div class="line"><span class="comment"># the directory where the snapshot is stored.</span></div><div class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just</span></div><div class="line"><span class="comment"># example sakes.</span></div><div class="line">dataDir=/home/fanlychie/zookeeper/data</div><div class="line">dataLogDir=/home/fanlychie/zookeeper/logs</div><div class="line"><span class="comment"># the port at which the clients will connect</span></div><div class="line">clientPort=2181</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>其中，<code>|</code>是管道。<code>^$</code>是正则表达式，用于匹配空格。<code>grep</code>的用法可参考xxx。</p></td></tr></table>
+
+<p>5) 去掉“#”注释行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ cat zoo.cfg | grep -v ^<span class="comment">#</span></div><div class="line">tickTime=2000</div><div class="line"> </div><div class="line">initLimit=10</div><div class="line"> </div><div class="line">syncLimit=5</div><div class="line"> </div><div class="line">dataDir=/home/fanlychie/zookeeper/data</div><div class="line"> </div><div class="line"> </div><div class="line">dataLogDir=/home/fanlychie/zookeeper/logs</div><div class="line"> </div><div class="line">clientPort=2181</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>其中，<code>|</code>是管道。<code>^#</code>是正则表达式，用于匹配“#”开头的行。<code>grep</code>的用法可参考xxx。</p></td></tr></table>
+
+<p>6) 去掉空白行和注释行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ cat zoo.cfg | grep -v ^$ | grep -v ^<span class="comment">#</span></div><div class="line">tickTime=2000</div><div class="line">initLimit=10</div><div class="line">syncLimit=5</div><div class="line">dataDir=/home/fanlychie/zookeeper/data</div><div class="line">dataLogDir=/home/fanlychie/zookeeper/logs</div><div class="line">clientPort=2181</div></pre></td></tr></table></figure>
+<h3 id="12-more-命令"><a href="#12-more-命令" class="headerlink" title="12. more 命令"></a>12. more 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于以分页的形式来展示文本文件的内容。适合用于查看较大文件的内容。</td></tr></table>
+
+<p>该命令每次显示一屏的内容，在屏幕的左下方会出现<code>--More--(n%)</code>的内容浏览进度条提示。此外，该命令还支持按键操作响应事件，常用的按键操作有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">按键</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">回车键</td>
+<td style="text-align:left">前进一行（向下滚动一行）</td>
+</tr>
+<tr>
+<td style="text-align:left">空格键</td>
+<td style="text-align:left">前进一屏（向下滚动一屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">f</td>
+<td style="text-align:left">前进一屏（向下滚动一屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">后退一屏（向上滚动一屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">=</td>
+<td style="text-align:left">显示当前行的行号</td>
+</tr>
+<tr>
+<td style="text-align:left">q</td>
+<td style="text-align:left">退出命令</td>
+</tr>
+<tr>
+<td style="text-align:left">/pattern</td>
+<td style="text-align:left">搜索字符，匹配的字符不高亮，只能向下（向文件尾）搜索（按“n”键搜索下一个）</td>
+</tr>
+</tbody>
+</table>
+<p>1) 使用<code>-s</code>选项，如果文件内容中连续出现的多个空行则会压缩成一行显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ more -s catalina.out</div></pre></td></tr></table></figure>
+<p>2) 使用<code>+n</code>选项，可以从指定的第<code>n</code>行开始显示，如从第37行开始显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ more +37 catalina.out</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-n</code>选项，可以定义每屏显示的行数，如每屏显示10行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ more -10 catalina.out</div></pre></td></tr></table></figure>
+<p>4) 使用<code>+/pattern</code>选项，可以从匹配到的搜索串处开始显示，如从“Exception”出现的地方开始显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ more +/Exception catalina.out</div></pre></td></tr></table></figure>
+<h3 id="13-less-命令"><a href="#13-less-命令" class="headerlink" title="13. less 命令"></a>13. less 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>与<code>more</code>命令相似，但功能比<code>more</code>命令更强。</p><p>用于以分页的形式来展示文本文件的内容。适合用于查看较大文件的内容。</p></td></tr></table>
+
+<p>该命令每次显示一屏的内容，同时它还支持按键操作响应事件，常用的按键操作有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">按键</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">回车键</td>
+<td style="text-align:left">前进一行（向下滚动一行）</td>
+</tr>
+<tr>
+<td style="text-align:left">空格键</td>
+<td style="text-align:left">前进一屏（向下滚动一屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">f</td>
+<td style="text-align:left">前进一屏（向下滚动一屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">后退一屏（向上滚动一屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">d</td>
+<td style="text-align:left">前进半屏（向下滚动半屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">u</td>
+<td style="text-align:left">后退半屏（向上滚动半屏）</td>
+</tr>
+<tr>
+<td style="text-align:left">q</td>
+<td style="text-align:left">退出命令</td>
+</tr>
+<tr>
+<td style="text-align:left">PgUp（↑）</td>
+<td style="text-align:left">向上翻一屏</td>
+</tr>
+<tr>
+<td style="text-align:left">PgDn（↓）</td>
+<td style="text-align:left">向下翻一屏</td>
+</tr>
+<tr>
+<td style="text-align:left">/pattern</td>
+<td style="text-align:left">向下搜索，匹配的字符高亮，按n在同一个方向搜索下一个，按N反方向搜索上一个</td>
+</tr>
+<tr>
+<td style="text-align:left">?pattern</td>
+<td style="text-align:left">向上搜索，匹配的字符高亮，按n在同一个方向搜索下一个，按N反方向搜索上一个</td>
+</tr>
+</tbody>
+</table>
+<p>1) 使用<code>-s</code>选项，如果文件内容中连续出现的多个空行则会压缩成一行显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ less -s catalina.out</div></pre></td></tr></table></figure>
+<p>2) 使用<code>+n</code>选项，可以从指定的第<code>n</code>行开始显示，如从第37行开始显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ less +37 catalina.out</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-n</code>选项，可以定义每屏显示的行数，如每屏显示10行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ less -10 catalina.out</div></pre></td></tr></table></figure>
+<p>4) 使用<code>+/pattern</code>选项，可以从匹配到的搜索串处开始显示，如从“Exception”出现的地方开始显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ less +/Exception catalina.out</div></pre></td></tr></table></figure>
+<p>5) 使用<code>-N</code>选项，显式文件内容的行号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">less -N catalina.out</div></pre></td></tr></table></figure>
+<p>6) 使用<code>-m</code>选项，在右下角显示文件浏览进度的百分比数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">less -m catalina.out</div></pre></td></tr></table></figure>
+<h3 id="14-head-命令"><a href="#14-head-命令" class="headerlink" title="14. head 命令"></a>14. head 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用来查看文件的前几行（默认是前10行）的内容。</td></tr></table>
+
+<p>1) 查看“catalina.out”文件（查看前10行）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ head catalina.out</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果想查看指定的前几行，可以使用<code>-n</code>参数，例如查看前20行：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ head -20 catalina.out</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<h3 id="15-tail-命令"><a href="#15-tail-命令" class="headerlink" title="15. tail 命令"></a>15. tail 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用来查看文件末尾的内容（默认是末尾10行）。</td></tr></table>
+
+<p>1) 查看“catalina.out”文件（查看末尾的10行）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tail catalina.out</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果想查看指定的末尾几行，可以使用<code>-n</code>参数，例如查看末尾20行：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tail -20 catalina.out</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>2) 使用<code>-f, --follow</code>选项，可以跟随读取文件（常用于查看日志文件）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tail -f catalina.out</div></pre></td></tr></table></figure>
+<h3 id="16-tar-命令"><a href="#16-tar-命令" class="headerlink" title="16. tar 命令"></a>16. tar 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">tape archive（最初是用来在磁带上创建档案）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>用于将一个文件或目录打包压缩成一个文件，或用于将一个文件或目录从压缩包里解压缩出来。</p><p>打包：它仅仅是将一个文件或一个目录下的所有内容汇总成一个总的文件；</p><p>压缩：则是指通过某些算法（如<code>gzip</code>、<code>bzip2</code>），将一个文件压缩成一个体积更小的文件；</p></td></tr></table>
+
+<p>1) 将“logs”目录打包并压缩成“logs.tar.gz”文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tar zcvf logs.tar.gz logs/</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>tar</code>命令是汇总成“*.tar”文件。<code>z</code>选项是采用“gzip”算法压缩成“*.gz”文件。</p></td></tr></table>
+
+<p>2) 查看“*.tar.gz”压缩包文件里面的内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tar ztvf logs.tar.gz</div></pre></td></tr></table></figure>
+<p>3) 解压缩“*.tar.gz”压缩包文件里面的内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tar zxvf logs.tar.gz</div></pre></td></tr></table></figure>
+<h3 id="17-ping-命令"><a href="#17-ping-命令" class="headerlink" title="17. ping 命令"></a>17. ping 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于测试两台主机之间网络的连通性。</td></tr></table>
+
+<p>1) ping 主机 IP“192.168.1.100”的网络连通性：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ ping 192.168.1.100</div><div class="line">PING 192.168.1.100 (192.168.1.100) 56(84) bytes of data.</div><div class="line">64 bytes from 192.168.1.100: icmp_seq=1 ttl=128 time=0.801 ms</div><div class="line">64 bytes from 192.168.1.100: icmp_seq=2 ttl=128 time=0.610 ms</div><div class="line">64 bytes from 192.168.1.100: icmp_seq=3 ttl=128 time=0.581 ms</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>按<code>ctrl + c</code>组合键中断。</p></td></tr></table>
+
+<p>2) ping 公网域名“baidu.com”的外网连通性（如果能ping通表明主机能正常访问外网，反之则不能）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ ping baidu.com</div><div class="line">PING baidu.com (220.181.57.216) 56(84) bytes of data.</div><div class="line">64 bytes from 220.181.57.216: icmp_seq=1 ttl=128 time=40.9 ms</div><div class="line">64 bytes from 220.181.57.216: icmp_seq=2 ttl=128 time=39.5 ms</div><div class="line">64 bytes from 220.181.57.216: icmp_seq=3 ttl=128 time=40.2 ms</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-c</code>选项，可以指定 ping 的次数。如 ping 测试3次：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ping -c 3 192.168.1.100</div></pre></td></tr></table></figure>
+<h3 id="17-ssh-命令"><a href="#17-ssh-命令" class="headerlink" title="17. ssh 命令"></a>17. ssh 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于在一台Linux主机远程登录到另外一台Linux主机。</td></tr></table>
+
+<p>1) 用“fanlychie”账户登录到远程主机“192.168.139.129”，语法<code>ssh 远程主机用户名@远程主机IP</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh fanlychie@192.168.139.129</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果当前Linux主机是首次远程登录到目标主机，它会询问你“Are you sure you want to continue connecting (yes/no)?”键入“yes”敲回车即可。然后它会要求你输入远程主机用户名登录到主机IP的密码“fanlychie@192.168.139.129’s password:”键入密码敲回车即可。</p><p>如果当前Linux主机也是以“fanlychie”账户登录的，则可以去掉登录远程主机的用户名：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh 192.168.139.129</div></pre></td></tr></table></figure><br><br></span><p>它默认是以当前Linux主机登录的用户名登录远程IP主机。</p></td></tr></table>
+
+<p>2) 使用<code>p</code>选项，可以指定登录远程主机的端口（默认是<code>22</code>端口），例如指定33端口：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh -p 33 fanlychie@192.168.139.129</div></pre></td></tr></table></figure>
+<h3 id="18-管道命令"><a href="#18-管道命令" class="headerlink" title="18. 管道命令"></a>18. 管道命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>管道<code>|</code>，它能将上一个命令的正确执行的输出传递给下一个命令，作为下一个命令的标准输入。</p></td></tr></table>
+
+<p>1) 查看当前目录下的文件，按大小排序，然后分页查看：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ ll -Sh | less</div><div class="line">总用量 79M</div><div class="line">-rw-rw-r-- 1 fanlychie fanlychie 5.5M 2018-05-10 09:07:23 webtest.log.2018-05-10</div><div class="line">-rw-rw-r-- 1 fanlychie fanlychie 3.9M 2018-05-09 12:22:33 servicetest.log.2018-05-09</div><div class="line">-rw-rw-r-- 1 fanlychie fanlychie 3.5M 2018-05-12 17:43:42 apptest.log.2018-05-12</div><div class="line">... ...</div></pre></td></tr></table></figure>
+<h3 id="19-ps-命令"><a href="#19-ps-命令" class="headerlink" title="19. ps 命令"></a>19. ps 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">process status（进程状态）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于查看当前系统运行的进程状态信息。该命令选项非常多，这里仅介绍常用的组合选项。</td></tr></table>
+
+<p>1) 使用<code>-ef</code>组合选项，可以查看当前系统所有的进程信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ps -ef</div><div class="line">UID   PID    PPID  C   STIME   TTY     TIME        CMD</div><div class="line">500   2878   1     0   12:37   pts/0   00:00:24    /usr/<span class="built_in">local</span>/jdk1.8.0_144/bin/java -Djava.util.logging.config.file=/home/fanlychie/applications/apache-tomcat-8.0.45/conf/logging.properties</div><div class="line">... ...</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果想查看进程的PID或PPID可以选用该组合选项。其各字段的概述：</p><table><thead><tr><th style="text-align:center">字段</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:center">UID</td><td style="text-align:left">进程所属的用户ID</td></tr><tr><td style="text-align:center">PID</td><td style="text-align:left">进程ID</td></tr><tr><td style="text-align:center">PPID</td><td style="text-align:left">进程的父ID</td></tr><tr><td style="text-align:center">C</td><td style="text-align:left">CPU使用比率</td></tr><tr><td style="text-align:center">STIME</td><td style="text-align:left">进程的启动时间</td></tr><tr><td style="text-align:center">TTY</td><td style="text-align:left">开始此进程的终端设备。<span style="font-family:sans-serif">“?”</span>表示是系统启动的。<span style="font-family:sans-serif">“tty1”</span>至<span style="font-family:sans-serif">“tty6”</span>表示是本机上登录者程序。<span style="font-family:sans-serif">“pts/0”</span>等，则表示为由网络连接进主机的程序。</td></tr><tr><td style="text-align:center">TIME</td><td style="text-align:left">进程使用的CPU总时间</td></tr><tr><td style="text-align:center">CMD</td><td style="text-align:left">启动进程的命令和参数</td></tr></tbody></table></td></tr></table>
+
+<p>2) 使用<code>aux</code>组合选项（注意前面没有<code>-</code>），可以查看当前系统所有的进程信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ps aux</div><div class="line">USER  PID    %CPU  %MEM   VSZ      RSS    TTY     STAT   START  TIME  COMMAND</div><div class="line">500   2878   0.1   18.3   2161124  89300  pts/0   Sl     12:37  0:27  /usr/<span class="built_in">local</span>/jdk1.8.0_144/bin/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=<span class="literal">true</span> -DJENKINS_HOME=/var/lib/jenkins</div><div class="line">... ...</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果想查看进程占用系统的内存和CPU信息可以选用该组合选项。其各字段的概述：</p><table><thead><tr><th style="text-align:center">字段</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:center">USER</td><td style="text-align:left">进程的拥有者</td></tr><tr><td style="text-align:center">PID</td><td style="text-align:left">进程ID</td></tr><tr><td style="text-align:center">%CPU</td><td style="text-align:left">进程占用的CPU百分比</td></tr><tr><td style="text-align:center">%MEM</td><td style="text-align:left">进程占用的内存的百分比</td></tr><tr><td style="text-align:center">VSZ</td><td style="text-align:left">进程使用的虚拟内存大小，单位：KB</td></tr><tr><td style="text-align:center">RSS</td><td style="text-align:left">进程占用的固定内存大小，单位：KB</td></tr><tr><td style="text-align:center">TTY</td><td style="text-align:left">开始此进程的终端设备。<span style="font-family:sans-serif">“?”</span>表示是系统启动的。<span style="font-family:sans-serif">“tty1”</span>至<span style="font-family:sans-serif">“tty6”</span>表示是本机上登录者程序。<span style="font-family:sans-serif">“pts/0”</span>等，则表示为由网络连接进主机的程序。</td></tr><tr><td style="text-align:center">STAT</td><td style="text-align:left">进程的状态。常见的状态有：<br>R：正在运行或可运行状态；<br>S：处于休眠状态，等待被唤醒；<br>Z：僵尸进程，程序已终止，进程无法正常退出；<br>T：已停止或处于被追踪状态；<br>D：不可中断，一般是在等待I/O；<br>&lt;：优先级高的进程；<br>N：优先级低的进程；<br>s：进程领导者，在它之下有子进程；<br>l：多线程的；</td></tr><tr><td style="text-align:center">START</td><td style="text-align:left">进程的启动时间</td></tr><tr><td style="text-align:center">TIME</td><td style="text-align:left">进程使用的CPU总时间</td></tr><tr><td style="text-align:center">COMMAND</td><td style="text-align:left">启动进程的命令和参数</td></tr></tbody></table></td></tr></table>
+
+<p>3) 使用<code>-eo</code>选项，可以自定义显示的进程信息字段：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ ps -eo pid,pcpu,pmem,cmd</div><div class="line">  PID %CPU %MEM CMD</div><div class="line">    1  0.3  0.0 -bash</div><div class="line">    2  0.1  3.1 /usr/<span class="built_in">local</span>/jdk1.7.0_72/bin/java</div><div class="line">    ... ...</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><table><thead><tr><th style="text-align:left">字段</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:left">pid</td><td style="text-align:left">进程的ID</td></tr><tr><td style="text-align:left">pcpu</td><td style="text-align:left">进程的CPU百分占比%CPU</td></tr><tr><td style="text-align:left">pmem</td><td style="text-align:left">进程的内存百分占比%MEM</td></tr><tr><td style="text-align:left">cmd</td><td style="text-align:left">进程启动的命令CMD</td></tr></tbody></table></td></tr></table>
+
+<p>4) 使用<code>--sort</code>选项，可以对指定的字段进行排序显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ps aux --sort -pmem</div><div class="line">USER       PID    %CPU %MEM    VSZ       RSS      TTY      STAT    START     TIME      COMMAND</div><div class="line">root       24742  0.1  3.1     2327664   123064   ?        Sl      3月26     105:28    /usr/<span class="built_in">local</span>/jdk1.7.0_72/bin/java</div><div class="line">root       648    0.0  0.7     331532    27592    ?        Ssl     3月25      0:47     /usr/bin/python</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>-pmem</code>表示对进程的内存百分占比%MEM降序排序。<code>-</code>是降序，<code>+</code>升序（默认是升序）。</p></td></tr></table>
+
+<p>5) 找出最占内存的10个进程：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps aux --sort -pmem | head</div></pre></td></tr></table></figure>
+<h3 id="20-kill-命令"><a href="#20-kill-命令" class="headerlink" title="20. kill 命令"></a>20. kill 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于杀死一个进程。</td></tr></table>
+
+<p>该命令可以将给定的信号发送给指定的进程，如果没有给定明确的信号，则默认是发送<code>15</code>信号，该信号会终止进程。常用的信号有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">中断信号（ctrl + c）</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:left">强制终止</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:left">终止信号</td>
+</tr>
+<tr>
+<td style="text-align:center">19</td>
+<td style="text-align:left">暂停信号（ctrl + z）</td>
+</tr>
+</tbody>
+</table>
+<p>1) 强制杀掉进程ID为“2878”的进程（可以结合<code>ps</code>命令来查看进程ID）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">kill</span> -9 2878</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>kill 9</code>与<code>kill -9</code>的区别：<br><code>kill 9</code>：发送一个信号给进程并告诉进程，你需要终止运行。进程收到信号之后，并不会立刻停止运行，而是先释放占用的资源或者做一些其它的事情，并不会立即响应该信号，此进程仍然可能继续运行。<br><code>kill -9</code>：发送一个信号给进程并告诉进程，你需要立刻终止运行。该信号不能被捕获和忽略，进程收到后会立刻停止并退出。</p></td></tr></table>
+
+<h3 id="21-top-命令"><a href="#21-top-命令" class="headerlink" title="21. top 命令"></a>21. top 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于查看进程占用系统资源的实时动态列表信息。</td></tr></table>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ top</div></pre></td></tr></table></figure>
+<p>该命令输出的内容信息比较丰富，默认是每隔3秒自动刷新一次列表信息：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/shell3.png" alt=""></p>
+<ul>
+<li>第一行（系统整体的统计信息）：<ul>
+<li><code>22:35:29</code>系统当前时间；</li>
+<li><code>up 26 days, 13:33</code>系统连续运行的时间；</li>
+<li><code>1 user</code>当前登录系统的用户数；</li>
+<li><code>load average: 0.04, 0.03, 0.05</code>系统分别在1、5、15分钟内的平均负载；</li>
+</ul>
+</li>
+<li>第二行（进程的统计信息）：<ul>
+<li><code>133 total</code>进程的总数；</li>
+<li><code>1 running</code>正在运行的进程数；</li>
+<li><code>132 sleeping</code>休眠的进程数；</li>
+<li><code>0 stopped</code>停止的进程数；</li>
+<li><code>0 zombie</code>僵尸进程数；</li>
+</ul>
+</li>
+<li>第三行（CPU的统计信息）：<ul>
+<li><code>0.2 us</code>用户占用的CPU百分比；</li>
+<li><code>0.2 sy</code>内核占用的CPU百分比；</li>
+<li><code>99.6 id</code>空闲的CPU百分比；</li>
+<li>其余不一一列举了…</li>
+</ul>
+</li>
+<li>第四行（内存的统计信息）：<ul>
+<li><code>12139564 total</code>物理内存的总大小；</li>
+<li><code>1866952 free</code>空闲可用的物理内存总大小；</li>
+<li><code>6600492 used</code>已经使用的物理内存总大小；</li>
+<li><code>3672120 buff/cache</code>缓冲内存的总大小；</li>
+</ul>
+</li>
+<li>第五行（交换分区的统计信息）：<ul>
+<li><code>2097148 total</code>交换分区的总大小；</li>
+<li><code>2062220 free</code>空闲可用的交换分区的大小；</li>
+<li><code>34928 used</code>已经使用的交换分区的大小；</li>
+</ul>
+</li>
+</ul>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>有时候，我们可能会看到CPU的使用率占比超过100%。这其实是因为<code>top</code>命令是按照单个CPU核数来计算的。也就是说，如果一台服务器的CPU核数为4核，那么该服务器的CPU使用率占比理论上最高可达到400%。</p><p>当系统物理内存剩余量不是很富余的时候，那就应该引起注意了。Linux系统有一个OOM-killer（Out Of Memory killer）机制。当Linux内核检测到系统内存不足的时候，就会触发OOM-killer来挑选一个最耗内存的进程并杀掉这个进程以求释放一些内存出来。</p><p>除此之外，<code>top</code>命令第一行的<code>load average</code>也很直观的反应出当前系统的性能指标，当数值是在0.00~1.00之间，则表示系统当前的状况良好。超过1.00则表示系统已经超出负荷。而实际上，我们也可能会看到服务器平均负载超过1.00的情况。这也跟服务器的CPU核数有关。如果一台服务器的CPU核数为4核，那么，该服务器的平均负载能力理论上可达到4.00。当系统平均负载达到总的70%左右时，就应该有所行动，在事情变得更糟糕之前，去分析其造成的原因。分析的焦点应放在后两项的数值，因为第一项是1分钟内的平均负载，时间太短，一瞬间的高并发导致该值大幅度上涨是很有可能的。</p></td></tr></table>
+
+<p>进程信息区，部分字段的描述概要：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PID</td>
+<td style="text-align:left">进程ID</td>
+</tr>
+<tr>
+<td style="text-align:left">USER</td>
+<td style="text-align:left">进程所属者</td>
+</tr>
+<tr>
+<td style="text-align:left">VIRT</td>
+<td style="text-align:left">进程使用的虚拟内存总大小（KB）</td>
+</tr>
+<tr>
+<td style="text-align:left">RES</td>
+<td style="text-align:left">进程使用的物理内存大小（KB）</td>
+</tr>
+<tr>
+<td style="text-align:left">SHR</td>
+<td style="text-align:left">进程使用的共享内存的大小（KB）</td>
+</tr>
+<tr>
+<td style="text-align:left">%CPU</td>
+<td style="text-align:left">上次更新到现在的CPU时间占用百分比</td>
+</tr>
+<tr>
+<td style="text-align:left">%MEM</td>
+<td style="text-align:left">进程使用的物理内存百分比</td>
+</tr>
+<tr>
+<td style="text-align:left">COMMAND</td>
+<td style="text-align:left">进程启动的命令名或命令行</td>
+</tr>
+</tbody>
+</table>
+<p><code>top</code>命令支持按键操作响应事件，常用的按键操作有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">按键</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">P（shift + p）</td>
+<td style="text-align:left">按%CPU降序排序结果</td>
+</tr>
+<tr>
+<td style="text-align:left">M（shift + m）</td>
+<td style="text-align:left">按%MEM降序排序结果</td>
+</tr>
+<tr>
+<td style="text-align:left">N（shift + n）</td>
+<td style="text-align:left">按PID降序排序结果</td>
+</tr>
+<tr>
+<td style="text-align:left">1（数字键1）</td>
+<td style="text-align:left">查看每个核的CPU使用情况</td>
+</tr>
+<tr>
+<td style="text-align:left">s</td>
+<td style="text-align:left">刷新的时间间隔（默认是5秒）</td>
+</tr>
+<tr>
+<td style="text-align:left">q</td>
+<td style="text-align:left">退出命令</td>
+</tr>
+</tbody>
+</table>
+<p>1) 使用<code>-d</code>命令，可以指定列表信息刷新的时间间隔（默认是5秒）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ top -d 2</div></pre></td></tr></table></figure>
+<p>2) 使用<code>-p</code>命令，可以指定特定的进程ID，只查看该进程的信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ top -p 12223</div></pre></td></tr></table></figure>
+<h3 id="22-grep-命令"><a href="#22-grep-命令" class="headerlink" title="22. grep 命令"></a>22. grep 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于搜索文本内容。它能帮助你从大量的数据中快速找到你想要的数据。</td></tr></table>
+
+<p>1) 查看“catalina.out”日志文件中，出现“ERROR”文本的行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep ERROR catalina.out</div></pre></td></tr></table></figure>
+<p>2) 使用<code>-n, --line-number</code>选项，会对搜索匹配的行标记出其行号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -n ERROR catalina.out</div></pre></td></tr></table></figure>
+<p>3) 使用<code>-e, --regexp</code>选项，可以一次指定搜索多个文本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -n -e WARN -e ERROR catalina.out</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于搜索“catalina.out”文件中，出现“WARN”或“ERROR”文本的行。</td></tr></table>
+
+<p>4) 使用<code>--color</code>选项，可以在结果行中高亮显示搜索的文本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep --color catalina.out</div></pre></td></tr></table></figure>
+<p>5) 使用<code>-E, --extended-regexp</code>选项（等效于<code>egrep</code>），可以使用正则表达式来搜索文本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ egrep <span class="string">'\b2018-05-17 11:[0-9]+'</span> catalina.out</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>用于搜索以“2018-05-17 11:”开头的行（即用于查看2018-05-17日11时的日志信息）。</p><p>常用的正则表达式表格：</p><p><table><thead><tr><th style="text-align:left">元字符</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:left">^</td><td style="text-align:left">匹配搜索字符串开始的位置。如“^abc”用于匹配以“abc”字符串开头的行。<br>如果用于中括号里面的第一个字符，则表示对字符集求反，如“[^abc]”用于匹配<br>除了以“a”或“b”或“c”以外的其它字符开头的行。</td></tr><tr><td style="text-align:left">$</td><td style="text-align:left">匹配搜索字符串结尾的位置。如“abc$”用于匹配以“abc”字符串结尾的行。</td></tr><tr><td style="text-align:left">\b</td><td style="text-align:left">锚定词首或词尾。如“\bhello”表示以“hello”开始的词。</td></tr><tr><td style="text-align:left">.</td><td style="text-align:left">匹配除换行符“\n”之外的任何单个字符。如“a.c”可以匹配“abc”或“a2c”等。</td></tr><tr><td style="text-align:left">?</td><td style="text-align:left">匹配零次或一次前面的字符或子表达式，等效于“{0,1}”。如“ab?c”可以匹配“abc”和“ac”。</td></tr><tr><td style="text-align:left"><em></em></td><td style="text-align:left">匹配零次或多次前面的字符或子表达式，等效于“{0,}”。如“abc”可以匹配“abc”和“ac”和“abbc”等。</td></tr><tr><td style="text-align:left">+</td><td style="text-align:left">匹配一次或多次前面的字符或子表达式，等效于“{1,}”。如“ab+c”可以匹配“abc”和“abbc”等。</td></tr><tr><td style="text-align:left">[ ]</td><td style="text-align:left">匹配中括号的开始和结尾。<br>如“[abc]”匹配“plain”中的“a”。<br>如“[a-z]”匹配26个小写英文字母。<br>如“[0-9]”匹配0到9的数字。</td></tr><tr><td style="text-align:left">{n}</td><td style="text-align:left">匹配前面的字符或子表达式正好n次。如“ab{2}c”匹配“abbc”。</td></tr><tr><td style="text-align:left">{n,}</td><td style="text-align:left">匹配前面的字符或子表达式至少n次。如“ab{2,}c”匹配“abbc”和“abbbc”等。</td></tr><tr><td style="text-align:left">{,m}</td><td style="text-align:left">匹配前面的字符或子表达式至多n次。如“ab{,2}c”匹配“ac”和“abc”和“abbc”。</td></tr><tr><td style="text-align:left">{n,m}</td><td style="text-align:left">匹配前面的字符或子表达式至少n次，至多m次。如“ab{2,3}c”匹配“abbc”和“abbbc”。</td></tr><tr><td style="text-align:left">\w</td><td style="text-align:left">匹配字母和数字，相当于“[0-9A-Za-z]”</td></tr><tr><td style="text-align:left">\W</td><td style="text-align:left">匹配非字母和数字，相当于“[^0-9A-Za-z]”</td></tr></tbody></table></p></td></tr></table>
+
+<p>6) 使用<code>-v, --invert-match</code>选项，可以反转查找：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps -ef | grep java | grep -v grep</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>查看“java”进程信息，并且将<code>grep java</code>行的信息排除掉。</p></td></tr></table>
+
+<p>7) 使用<code>-R, -r, --recursive</code>选项，可以从一个目录中的所有文件中搜索：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -r ERROR logs/</div></pre></td></tr></table></figure>
+<h3 id="23-find-命令"><a href="#23-find-命令" class="headerlink" title="23. find 命令"></a>23. find 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>用于查找系统的文件。它能帮助你快速的定位和找到你想要的文件。</p><p>语法：<code>find [查找的目录] [选项] [参数]</code></p></td></tr></table>
+
+<p>1) 使用<code>-name</code>选项，可以按文件的名称进行查找：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -name <span class="string">'*.log'</span></div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>在当前目录（“.”表示当前目录，<code>find</code>命令查找时，会对给定的目录以及该目录下所有的子目录都进行查找）下，查找“*.log”文件。</p><p><code>find</code>命令支持通配（<code>*</code>），为避免<code>*</code>被bash进行扩展，因此需要加引号。</p></td></tr></table>
+
+<p>2) 使用<code>-type</code>选项，可以按文件类型进行查找：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -<span class="built_in">type</span> d</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>常见的文件类型有：</p><p><table><thead><tr><th style="text-align:left">文件类型</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:left">f</td><td style="text-align:left">普通文件</td></tr><tr><td style="text-align:left">d</td><td style="text-align:left">目录</td></tr><tr><td style="text-align:left">l</td><td style="text-align:left">符号链接</td></tr></tbody></table></p></td></tr></table>
+
+<p>3) 使用<code>-mmin</code>选项（last modified minutes），可以查找在指定时间被更改过的文件或目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -name <span class="string">'*.log'</span> -mmin -3</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>-3</code>表示查找3分钟前。</p></td></tr></table>
+
+<p>4) 使用<code>-exec command {} \;</code>选项，可以执行一个任意的command命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -name <span class="string">'*.log'</span> -<span class="built_in">exec</span> cat &#123;&#125; \; &gt; logs.txt</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>该命令是用于将当前目录下的所有的log文件的内容拼接成一个数据流重定向到logs.txt文件中。</p><p>其中的<code>{}</code>是与<code>-exec</code>选项搭配使用的一个特殊符，它最终会被替换为<code>find</code>命令匹配到的每个文件的文件名称。</p></td></tr></table>
+
+<h3 id="24-su-命令"><a href="#24-su-命令" class="headerlink" title="24. su 命令"></a>24. su 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>用于切换用户身份。用户身份变更时，需要输入变更的用户账户密码。特殊的，root用户切换到其它用户账户时，不需要密码。<br>用户身份切换可以通过<code>ctrl + d</code>发送一个 exit 信号，用于快捷退出当前登录的用户账户，以返回切换前的用户身份。</p></td></tr></table>
+
+<p><code>su [user]</code>可以切换当前的用户身份。默认<code>su</code>是切换为root用户：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ su</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>它等效于：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ su root</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>切换为“testusr”用户：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ su testusr</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>切换用户身份后，不会改变用户所在的当前目录。<br>如切换用户前是在“/home/fanlychie/myconfig”目录下，切换用户后还是在“/home/fanlychie/myconfig”目录下。</p></td></tr></table>
+
+<p><code>su - [user]</code>切换当前的用户身份，并将工作目录改变为目标用户的“home”目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ su - testusr</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>例如切换用户前是在“/home/fanlychie/myconfig”目录下，切换用户后是在“/home/testusr”目录下。</p></td></tr></table>
+
+<h3 id="25-前台和后台任务"><a href="#25-前台和后台任务" class="headerlink" title="25. 前台和后台任务"></a>25. 前台和后台任务</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>后台进程也叫守护进程，是运行在系统后台的一种特殊的进程，它脱离了终端控制台的控制。<br>前台进程是用户使用有控制终端的进程，它通常以窗口或对话框的形式展现。</p></td></tr></table>
+
+<p>如果想要将一个进程放到后台去运行，只需在命令的末尾加<code>&amp;</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar spring-boot-application.jar &amp;</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>一般情况下，当用户退出终端时，用户启动的后台进程也会跟着退出。为了使进程可靠的在后台不间断的运行，可以使用<code>nohup command &amp;</code>。</p></td></tr></table>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ nohup java -jar spring-boot-application.jar &amp;</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>默认情况下，<code>nohup</code>命令会将标准输出和标准错误输出重定向到当前目录下的“nohub.out”文件中。<code>nohup</code>并不能让进程在后台运行，但能让进程忽略挂断信号。用户退出终端或网络断开的情况下，<code>nohup</code>进程不会退出。</p></td></tr></table>
+
+<p>当我们使用<code>nohup command &amp;</code>命令启动一个后台进程时，我们可能并不希望日志信息输出到前台或“nohub.out”文件中，特别是在使用脚本启动一个后台进程时。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ nohup java -jar spring-boot-application.jar &gt;/dev/null 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>&gt;/dev/null</code>中的：<br><code>&gt;</code>表示重定向到某个地方。默认是标准输出，即<code>&gt;</code>等效于<code>1&gt;</code>。<br><code>/dev/null</code>是系统的空设备文件，经常被用来当做垃圾箱使用。也有人把它比作“黑洞”，因为所有输出到这里的东西都会消失的无影无踪，在终端上也不会显示任何信息。</p></td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>2&gt;&amp;1</code>中的：<br><code>&gt;&amp;</code>是等同于的意思。<br><code>2&gt;&amp;1</code>则是表示将标准错误重定向到与标准输出相同的地方。</p></td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>总的来说，这条命令的言外之意就是在后台启动一个服务，服务启动输出的信息和错误信息都不要显示在终端。</p></td></tr></table>
+
+<p>上面涉及到的“1”和“2”是文件描述符，文件描述符是用来描述输入和输出的整数。最常见的文件描述符：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文档类型</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">文件描述符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">stdin</td>
+<td style="text-align:center">标准输入</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">stdout</td>
+<td style="text-align:center">标准输出</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">stderr</td>
+<td style="text-align:center">标准错误</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+<p>后台的任务（或称进程，或称作业）可以使用<code>jobs</code>命令来查看：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">jobs</span></div><div class="line">[1]-  Running    nohup java -jar spring-boot-application.jar &gt; /dev/null 2&gt;&amp;1 &amp;</div><div class="line">[2]+  Stopped    tail -f nohup.out</div></pre></td></tr></table></figure>
+<p>其中，<code>[num]</code>里面的数字表示的是任务序号，<code>+</code>号表示默认选择的任务。<code>-</code>号的任务需要通过任务序号来选择。</p>
+<p>使用<code>fg [num]</code>命令可以将一个后台进程切换到前台，若<code>fg</code>命令后面没有指定任务序号，表示切换至默认的任务，即带<code>+</code>号的任务：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">fg</span></div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>其等效于：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">fg</span> 2</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>通过使用组合键<code>ctrl + z</code>也可以将一个前台进程暂停并且放到后台中。比如通过<code>vi</code>编辑文件或通过<code>tail</code>查看文件的时候，<code>ctrl + z</code>将其放入后台后，可以非常方便的切换回来。</p>
+<p>命令<code>bg [num]</code>可以让一个后台暂停的进程变为继续运行。同样的，若<code>bg</code>命令后面没有指定任务序号，表示默认选择带<code>+</code>号的任务：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">bg</span></div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>其等效于：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">bg</span> 2</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>后台进程可以先切换至前台然后按<code>ctrl + c</code>强制中断杀死进程。也可以通过<code>kill %num</code>来杀死。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">kill</span> %2</div></pre></td></tr></table></figure>
+<h3 id="26-磁盘空间"><a href="#26-磁盘空间" class="headerlink" title="26. 磁盘空间"></a>26. 磁盘空间</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>系统的磁盘空间是一种有限的存储介质资源。当系统磁盘空间使用快要爆满时，我们需要删除或移走部分文件以腾出更多可用的磁盘空间。掌握如何去查看服务器的磁盘空间的使用情况这就显得很重要了。<code>df</code>和<code>du</code>是 Linux 系统中用于查看系统磁盘使用情况的两个重要命令。</p></td></tr></table>
+
+<p><code>df</code>（disk free，磁盘可用空间），用于查看服务器磁盘空间的使用情况：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ df -h</div><div class="line">Filesystem     Size    Used     Avail    Use%     Mounted on</div><div class="line">/dev/sda2      19G     3.1G     15G      18%      /</div><div class="line">tmpfs          238M    0        238M     0%       /dev/shm</div><div class="line">/dev/sda1      291M    34M      242M     13%      /boot</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>参数<code>-h, –human-readable</code>是使用易读格式（人类更易懂的）, 将数值自动转换为常见 M、G 等单位显示。</p></td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>其中，Size 是磁盘总的容量，Used 是已用的空间，Avail 是剩余可用的空间（重要），Use% 是已用的空间的百分比。</p></td></tr></table>
+
+<p><code>du</code>（disk usage，磁盘使用），用于查看文件或目录占用的磁盘空间大小：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ du -h logs</div><div class="line">81M	logs/app</div><div class="line">149M	logs</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>参数<code>-h, –human-readable</code>是使用易读格式（人类更易懂的）, 将数值自动转换为常见 M、G 等单位显示。</p></td></tr></table>
+
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>可以看出，logs目录总共占149M的磁盘空间。其中，logs/app目录共占81M，剩余的68M被logs根目录下的文件占用。如果想要查看各个文件占用的磁盘空间，可以追加使用<code>-a, –all</code>参数：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ du -ha logs</div><div class="line">332K	logs/demo1.log</div><div class="line">20K	logs/demo2.log</div><div class="line">68M	logs/demo3.log</div><div class="line">49M	logs/app/app-demo2.log</div><div class="line">33M	logs/app/app-demo1.log</div><div class="line">81M	logs/app</div><div class="line">149M	logs</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>参数<code>-s，--summarize</code>仅显示总计，如统计当前路径下所有的文件或目录占用的磁盘空间：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ du -sh *</div><div class="line">1.2G	apps</div><div class="line">149M	logs</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>如果只是想统计当前路径占用的磁盘空间可以使用<code>du -sh</code>（等效于：<code>du -sh .</code>）：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ du -sh</div><div class="line">1.3G	.</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<h3 id="27-内存空间"><a href="#27-内存空间" class="headerlink" title="27. 内存空间"></a>27. 内存空间</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>free</code>命令可用于查看系统内存的使用情况。</p></td></tr></table>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ free -h</div><div class="line">              total        used        free      shared  buff/cache   available</div><div class="line">Mem:            11G        6.7G        155M         75M        4.7G        4.4G</div><div class="line">Swap:          2.0G         20M        2.0G</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>参数<code>-h, –human-readable</code>是使用易读格式（人类更易懂的）, 将数值自动转换为常见 M、G 等单位显示。</p></td></tr></table>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">total</td>
+<td style="text-align:left">总的内存。</td>
+</tr>
+<tr>
+<td style="text-align:left">used</td>
+<td style="text-align:left">已使用的内存。</td>
+</tr>
+<tr>
+<td style="text-align:left">free</td>
+<td style="text-align:left">可用的内存。</td>
+</tr>
+<tr>
+<td style="text-align:left">shared</td>
+<td style="text-align:left">多个进程共享的内存。</td>
+</tr>
+<tr>
+<td style="text-align:left">buff/cache</td>
+<td style="text-align:left">缓冲区和缓存使用的内存。</td>
+</tr>
+<tr>
+<td style="text-align:left">available</td>
+<td style="text-align:left">可用的内存。当系统内存不足（没有足够的free内存可用时），就会从buff/cache中回收部分空间，以满足应用程序的需求。这是一个理想的值，它往往存在一些误差。</td>
+</tr>
+</tbody>
+</table>
+<p>第一行<code>Mem</code>表示物理内存。第二行<code>Swap</code>是交换空间，它是磁盘上的一块区域。当系统的物理内存吃紧时，Linux 就会将内存中不常用的数据存储到 swap 分区上，这样就能腾出一些内存空间来为其他应用程序服务。当系统需要用到 swap 分区上存储的数据时，Linux 再将这些数据调入内存中。这就是换入和换出。swap 分区可以在一定程度上缓解内存不足的情况，但是它需要读写磁盘数据，所以性能不是很高。</p>
+<h3 id="28-wc-命令"><a href="#28-wc-命令" class="headerlink" title="28. wc 命令"></a>28. wc 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>word count（单词统计）。</p></td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>用于统计文件或从标准设备读入的数据的行数、单词数和字符数。</p></td></tr></table>
+
+<p>参数<code>-c, --bytes</code>用于统计字符数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ wc -c zookeeper.out </div><div class="line">60669 zookeeper.out</div></pre></td></tr></table></figure>
+<p>参数<code>-w, --words</code>用于统计单词数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ wc -w zookeeper.out </div><div class="line">4169 zookeeper.out</div></pre></td></tr></table></figure>
+<p>参数<code>-l, --lines</code>用于统计行数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ wc -l zookeeper.out </div><div class="line">491 zookeeper.out</div></pre></td></tr></table></figure>
+<h3 id="29-netstat-命令"><a href="#29-netstat-命令" class="headerlink" title="29. netstat 命令"></a>29. netstat 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>用于查看系统的网络状态信息。</p></td></tr></table>
+
+<p>使用<code>-ant</code>组合选项，可以查看所有的TCP连接状态信息：</p>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>-a, –all</code>显示所有的socket链接<br><code>-n, –numeric</code>使用数字类型的IP地址显示<br><code>-t, –tcp</code>只显示TCP传输协议的链接</p></td></tr></table>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ netstat -ant</div><div class="line">Proto     Recv-Q     Send-Q     Local Address           Foreign Address        State</div><div class="line">tcp6      0          0          :::20818                :::*                   LISTEN</div><div class="line">tcp6      0          0          :::20809                :::*                   LISTEN</div><div class="line">tcp6      0          0          10.10.10.171:20818      10.10.10.170:55648     ESTABLISHED</div><div class="line">tcp6      0          0          10.10.10.171:20818      10.10.10.170:34580     ESTABLISHED</div><div class="line">tcp6      0          0          10.10.10.171:20809      10.10.10.176:26379     ESTABLISHED</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><table><thead><tr><th style="text-align:left">字段</th><th style="text-align:left">描述</th></tr></thead><tbody><tr><td style="text-align:left">Local Address</td><td style="text-align:left">本地地址和端口信息</td></tr><tr><td style="text-align:left">Foreign Address</td><td style="text-align:left">远程地址和端口信息</td></tr><tr><td style="text-align:left">State</td><td style="text-align:left">状态信息。常见的状态有：<br>LISTEN：本地监听的端口；<br>ESTABLISHED：远程访问本机服务的地址和端口信息；<br>TIME_WAIT：链接已挂断，socket在网络上等待结束；</td></tr></tbody></table></td></tr></table>
+
+<p>使用<code>-lntp</code>组合选项，可以查看系统监听端口的所有进程信息：</p>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>-l, –listening</code>只显示监听中的socket链接<br><code>-n, –numeric</code>使用数字类型的IP地址显示<br><code>-t, –tcp</code>只显示TCP传输协议的链接<br><code>-p, –program</code>显示正在使用此socket的进程PID和进程名称</p></td></tr></table>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ netstat -lntp</div><div class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name             </div><div class="line">tcp6       0      0 :::20811                :::*                    LISTEN      20369/java          </div><div class="line">tcp6       0      0 :::20813                :::*                    LISTEN      20465/java          </div><div class="line">tcp6       0      0 :::20815                :::*                    LISTEN      20489/java</div></pre></td></tr></table></figure>
+<p>查找某个端口被哪个进程占用：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ netstat -lntp | grep 8080</div><div class="line">tcp6       0      0 :::8080                 :::*                    LISTEN      7596/java</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>由此可见，8080端口被进程PID为7596的程序占用。然后可以通过<code>ps</code>命令查找出该进程所属的程序：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ps -ef | grep 7596</div><div class="line">joinpay   7596     1  0 7月09 ?       00:04:26 /usr/<span class="built_in">local</span>/jdk1.7.0_72/...</div></pre></td></tr></table></figure><br><br></span></td></tr></table>
+
+<p>统计某个端口的服务当前的链接数量。如统计“20818”端口：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ netstat -ant | grep <span class="string">":20818"</span> | wc -l</div><div class="line">21</div></pre></td></tr></table></figure>
+<h3 id="30-vi-命令"><a href="#30-vi-命令" class="headerlink" title="30. vi 命令"></a>30. vi 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>vi</code>是 Linux 系统中的一个强大的编辑器。可用于文本的写入、替换、删除、查找等。<br><code>vi</code>编辑器的三种模式：<br>1．命令模式：可以控制光标移动、字符或行等的删除或复制等操作；<br>2．插入模式：顾名思义就是插入文本，只有在该模式下才可以输入字符；<br>3．底行模式：可以设置编辑器环境、字符查找、文件保存和退出等操作；</p></td></tr></table>
+
+<p>在命令模式下可以通过按键进行：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">按键</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">j</td>
+<td style="text-align:left">光标向下移动（ ↓ ）</td>
+</tr>
+<tr>
+<td style="text-align:left">k</td>
+<td style="text-align:left">光标向上移动（ ↑ ）</td>
+</tr>
+<tr>
+<td style="text-align:left">h</td>
+<td style="text-align:left">光标向左移动（←）</td>
+</tr>
+<tr>
+<td style="text-align:left">l</td>
+<td style="text-align:left">光标向右移动（→）</td>
+</tr>
+<tr>
+<td style="text-align:left">gg</td>
+<td style="text-align:left">文首</td>
+</tr>
+<tr>
+<td style="text-align:left">G</td>
+<td style="text-align:left">文尾</td>
+</tr>
+<tr>
+<td style="text-align:left">nG</td>
+<td style="text-align:left">n是一个数字，定位到第n行</td>
+</tr>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left">行首（数字0）</td>
+</tr>
+<tr>
+<td style="text-align:left">^</td>
+<td style="text-align:left">行首</td>
+</tr>
+<tr>
+<td style="text-align:left">$</td>
+<td style="text-align:left">行尾</td>
+</tr>
+<tr>
+<td style="text-align:left">dd</td>
+<td style="text-align:left">删除光标所在的行</td>
+</tr>
+<tr>
+<td style="text-align:left">yy</td>
+<td style="text-align:left">复制光标所在的行</td>
+</tr>
+<tr>
+<td style="text-align:left">x</td>
+<td style="text-align:left">从光标高亮处（包括高亮处）开始向后（右）删除字符</td>
+</tr>
+<tr>
+<td style="text-align:left">X</td>
+<td style="text-align:left">从光标高亮处（不包括高亮处）开始向前（左）删除字符</td>
+</tr>
+<tr>
+<td style="text-align:left">p</td>
+<td style="text-align:left">将复制的内容粘贴在光标所在行的下一行</td>
+</tr>
+<tr>
+<td style="text-align:left">P</td>
+<td style="text-align:left">将复制的内容粘贴在光标所在行的上一行</td>
+</tr>
+<tr>
+<td style="text-align:left">u</td>
+<td style="text-align:left">还原动作</td>
+</tr>
+<tr>
+<td style="text-align:left">.</td>
+<td style="text-align:left">重复动作</td>
+</tr>
+<tr>
+<td style="text-align:left">?word</td>
+<td style="text-align:left">向上查找word字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">/word</td>
+<td style="text-align:left">向下查找word字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">n</td>
+<td style="text-align:left">同方向搜索（如果是“?”则是向上搜索，如果是“/”则是向下搜索）</td>
+</tr>
+<tr>
+<td style="text-align:left">N</td>
+<td style="text-align:left">反方向搜索（如果是“?”则是向下搜索，如果是“/”则是向上搜索）</td>
+</tr>
+</tbody>
+</table>
+<p>在命令模式下，通过以下的操作可以进入插入模式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">按键</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">i</td>
+<td style="text-align:left">在光标高亮处之前插入</td>
+</tr>
+<tr>
+<td style="text-align:left">I</td>
+<td style="text-align:left">在光标所在行的行首插入</td>
+</tr>
+<tr>
+<td style="text-align:left">a</td>
+<td style="text-align:left">在光标高亮处之后追加</td>
+</tr>
+<tr>
+<td style="text-align:left">A</td>
+<td style="text-align:left">在光标所在行的行尾插入</td>
+</tr>
+<tr>
+<td style="text-align:left">o</td>
+<td style="text-align:left">在光标所在行的下一行插入一个空行</td>
+</tr>
+<tr>
+<td style="text-align:left">O</td>
+<td style="text-align:left">在光标所在行的上一行插入一个空行</td>
+</tr>
+<tr>
+<td style="text-align:left">Esc</td>
+<td style="text-align:left">退出插入模式，回到命令模式</td>
+</tr>
+</tbody>
+</table>
+<p>在命令模式下，通过以下的操作可以进入底行模式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">按键</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">:w</td>
+<td style="text-align:left">保存</td>
+</tr>
+<tr>
+<td style="text-align:left">:q</td>
+<td style="text-align:left">退出</td>
+</tr>
+<tr>
+<td style="text-align:left">:w!</td>
+<td style="text-align:left">强制写入保存</td>
+</tr>
+<tr>
+<td style="text-align:left">:q!</td>
+<td style="text-align:left">强制退出</td>
+</tr>
+<tr>
+<td style="text-align:left">:wq</td>
+<td style="text-align:left">保存退出</td>
+</tr>
+<tr>
+<td style="text-align:left">:wq!</td>
+<td style="text-align:left">强制保存退出</td>
+</tr>
+<tr>
+<td style="text-align:left">:set nu</td>
+<td style="text-align:left">显示行号</td>
+</tr>
+<tr>
+<td style="text-align:left">:set nonu</td>
+<td style="text-align:left">不显示行号</td>
+</tr>
+<tr>
+<td style="text-align:left">:nohl</td>
+<td style="text-align:left">退出匹配的高亮显示</td>
+</tr>
+<tr>
+<td style="text-align:left">:s/表达式/替换字符/</td>
+<td style="text-align:left">替换当前行匹配到的第一个处</td>
+</tr>
+<tr>
+<td style="text-align:left">:s/表达式/替换字符/g</td>
+<td style="text-align:left">替换当前行匹配到的所有处</td>
+</tr>
+<tr>
+<td style="text-align:left">:%s/表达式/替换字符/g</td>
+<td style="text-align:left">替换文档中匹配到的所有处</td>
+</tr>
+<tr>
+<td style="text-align:left">ZZ</td>
+<td style="text-align:left">保存退出</td>
+</tr>
+<tr>
+<td style="text-align:left">ZQ</td>
+<td style="text-align:left">不保存退出</td>
+</tr>
+</tbody>
+</table>
+<p>编辑“hello.txt”文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vi hello.txt</div></pre></td></tr></table></figure>
+<table><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%;border:none"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;border:none"><p>其文件内容如下：</p><span class="cfigure"> <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hello world</div></pre></td></tr></table></figure><br><br><p>输入:<code>%s/o/O/g</code>可将全部的“o”替换成“O”。</p><br></span></td></tr></table>
+
+<p><code>vi</code>命令除了可以用来编辑文件之外，使用它来查看日志文件也是一个利器：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vi -R my.log</div></pre></td></tr></table></figure>
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p><code>-R</code>是只读模式，为避免不小心编辑到日志文件，最好加上此参数项。在<code>vi</code>编辑器里，你可以利用它强大的命令快捷的查看日志文件的内容。</p></td></tr></table>
+
+<h3 id="N-rpm-命令"><a href="#N-rpm-命令" class="headerlink" title="N. rpm 命令"></a>N. rpm 命令</h3><table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">RedHat Package Manager（RedHat Linux操作系统的软件包管理工具）。</td></tr></table>
+
+<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;">用于对“*.rpm”软件包进行安装、查询、卸载等。</td></tr></table>
+
+<h3 id="N-vi-命令"><a href="#N-vi-命令" class="headerlink" title="N. vi 命令"></a>N. vi 命令</h3><h3 id="01-命令执行控制"><a href="#01-命令执行控制" class="headerlink" title="01. 命令执行控制"></a>01. 命令执行控制</h3><p>使用<code>;</code>，<code>||</code>，<code>&amp;&amp;</code>分隔符，可以在一个命令行中执行多条命令。</p>
+<p><strong>[ ; ]</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ command1 ; command2 [ ; command3 ...]</div></pre></td></tr></table></figure>
+<p>command1执行不管成功与否，command2总是会继续执行。它相当于：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ command1</div><div class="line">$ command2</div></pre></td></tr></table></figure>
+<p>示例：进入目录，罗列指定字符开头的文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> logs/ ; ll spring-boot-demo*</div></pre></td></tr></table></figure>
+<p><strong>[ || ]</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ command1 || command2 [ || command3 ...]</div></pre></td></tr></table></figure>
+<p>command1执行失败时，command2才执行。command1执行成功时，command2不执行。即或逻辑。</p>
+<p>示例：关闭防火墙，如果操作失败，输出 fail。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ service iptables stop || <span class="built_in">echo</span> <span class="string">"fail"</span></div></pre></td></tr></table></figure>
+<p><strong>[ &amp;&amp; ]</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ command1 &amp;&amp; command2 [ &amp;&amp; command3 ...]</div></pre></td></tr></table></figure>
+<p>command1执行成功时，command2才执行。command1执行失败时，command2不执行。即与逻辑。</p>
+<p>示例：启动 Tomcat 应用，启动命令执行成功后，打开控制台查看日志。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./bin/startup.sh &amp;&amp; tail -f logs/catalina.out</div></pre></td></tr></table></figure>
+<h2 id="02-后台进程"><a href="#02-后台进程" class="headerlink" title="02. 后台进程"></a>02. 后台进程</h2><p>如果想要将一个进程放到后台去运行，只需在命令的末尾加<code>&amp;</code>。</p>
+<p>示例：启动服务，并让其在后台运行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar spring-boot-application.jar &amp;</div></pre></td></tr></table></figure>
+<p>一般情况下，当用户退出终端时，用户启动的后台进程也会跟着退出。为了使进程可靠的在后台不间断的运行，可以使用<code>nohup command &amp;</code>。</p>
+<p>示例：启动服务，并让其在后台不间断的运行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ nohup java -jar spring-boot-application.jar &amp;</div></pre></td></tr></table></figure>
+<p>默认情况下，<code>nohup</code>命令会将标准输出和标准错误输出重定向到当前目录下的<code>nohub.out</code>文件中。<code>nohup</code>并不能让进程在后台运行，但能让进程忽略挂断信号。用户退出终端或网络断开的情况下，<code>nohup</code>进程不会退出。</p>
+<h2 id="03-文件描述符"><a href="#03-文件描述符" class="headerlink" title="03. 文件描述符"></a>03. 文件描述符</h2><p>文件描述符是用来描述输入和输出的整数。最常见的文件描述符：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文档类型</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">文件描述符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">stdin</td>
+<td style="text-align:center">标准输入</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">stdout</td>
+<td style="text-align:center">标准输出</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">stderr</td>
+<td style="text-align:center">标准错误</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+<p>示例：启动服务，并让其在后台不挂断的运行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ nohup java -jar spring-boot-application.jar &gt;/dev/null 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<p>上面已经介绍了<code>nohup command &amp;</code>。我们这里主要来分析<code>&gt;/dev/null 2&gt;&amp;1</code>片段的含义和作用：</p>
+<ul>
+<li>第一部分：<code>&gt;</code>是重定向到某个地方。默认是标准输出，即<code>&gt;</code>等效于<code>1&gt;</code>。</li>
+<li>第二部分：<code>/dev/null</code>是系统的空设备文件，经常被用来当做垃圾箱使用。也有人把它比作<span style="font-family:sans-serif">“黑洞”</span>，为所有输出到这里的东西都会消失的无影无踪，在终端上也不会显示任何信息。</li>
+<li>第三部分：<code>&gt;&amp;</code>是等同于的意思。<code>2&gt;&amp;1</code>则是将标准错误重定向到与标准输出相同的地方。</li>
+</ul>
+<p>综上所述，这条命令的中心思想是：在后台运行服务，启动输出的信息和错误信息都不要显示在终端。</p>
+<h2 id="04-前后台任务互切"><a href="#04-前后台任务互切" class="headerlink" title="04. 前后台任务互切"></a>04. 前后台任务互切</h2><p>上面介绍了<code>&amp;</code>将进程放到后台去运行，使用<code>jobs</code>命令可查看后台进程：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">jobs</span></div><div class="line">[1]-  Running    nohup java -jar spring-boot-application.jar &gt; /dev/null 2&gt;&amp;1 &amp;</div><div class="line">[2]+  Stopped    tail -f nohup.out</div></pre></td></tr></table></figure>
+<p><code>[]</code>里面的数字表示的是任务序号，<code>+</code>号表示默认选择的任务。<code>-</code>号的任务需要通过任务序号来选择。</p>
+<p><code>fg [任务序号]</code>可以将一个后台进程切换到前台，若<code>fg</code>命令后面没有指定任务序号，表示切换至默认的任务，即带<code>+</code>号的任务：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">fg</span> 1</div></pre></td></tr></table></figure>
+<p>组合键<code>ctrl + z</code>也可以将一个前台进程放到后台并且暂停。比如通过<code>vi</code>编辑文件或通过<code>tail</code>查看文件的时候，<code>ctrl + z</code>将其放入后台后，可以非常方便的切换回来。</p>
+<p><code>bg [任务序号]</code>可以让一个后台暂停的进程变为继续运行。同样的，若<code>bg</code>命令后面没有指定任务序号，表示默认选择带<code>+</code>号的任务：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">bg</span> 1</div></pre></td></tr></table></figure>
+<p>后台进程可以先切换至前台然后按<code>ctrl + c</code>强制中断杀死进程。也可以通过<code>kill %任务序号</code>来杀死。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">kill</span> %2</div></pre></td></tr></table></figure>
+<h2 id="05-管道"><a href="#05-管道" class="headerlink" title="05. 管道"></a>05. 管道</h2><p>管道<span style="font-family:sans-serif">“|”</span>可以将上一个命令的标准输出传递到下一个命令，并作为下一个命令的标准输入。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ command1 | command2 [ | command3 ...]</div></pre></td></tr></table></figure>
+<p>查看目录下的文件，并显示行号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ ll | cat -n</div><div class="line">  1	total 40</div><div class="line">  2	drwxr-xr-x. 2 fanlychie fanlychie 4096 Nov  5 00:24 Desktop</div><div class="line">  3	drwxr-xr-x. 2 fanlychie fanlychie 4096 Nov  5 00:23 Documents</div><div class="line">  4	drwxr-xr-x. 2 fanlychie fanlychie 4096 Nov  5 00:23 Downloads</div></pre></td></tr></table></figure>
+<h2 id="06-空格"><a href="#06-空格" class="headerlink" title="06. 空格"></a>06. 空格</h2><p>在 shell 编程中，空格是一个分隔符。一个常见的错误是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">name = fanlychie</div><div class="line"><span class="built_in">echo</span> <span class="variable">$name</span></div></pre></td></tr></table></figure>
+<p>执行的时候就会报：<code>line 2: name: command not found</code>。原因是<code>=</code>两边有空格，shell 会认为空格前面是一个命令，因此会报命令找不到的错误。</p>
+<p>在 shell 编程中，空格的用法常见的有：</p>
+<ul>
+<li>命令和选项之间必须有空格；</li>
+<li>赋值符号<code>=</code>两边不能有空格；</li>
+<li>测试语句<code>[</code>的两边要有空格，<code>]</code>的左边要有空格。如<code>if [ condition ]</code>；</li>
+<li>分隔符<code>;</code>、<code>||</code>、<code>&amp;&amp;</code>两边的空格可有可无；</li>
+<li>管道<code>|</code>两边的空格可有可无；</li>
+</ul>
+<h2 id="07-引号"><a href="#07-引号" class="headerlink" title="07. 引号"></a>07. 引号</h2><p>当操作一个字符串时，如果该字符串中含有空格，那么，空格前面的字符就会被当成命令来执行。被引号包裹起来的字符串，shell 会将它当成一个普通的字符串对待，而不会去解析成命令来执行。</p>
+<p><strong>单引号</strong></p>
+<p>单引号<code>&#39;&#39;</code>包裹的内容是所见即所得。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">sayhi=<span class="string">'hello world'</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$sayhi</span></div></pre></td></tr></table></figure>
+<p>执行结果：<code>hello world</code></p>
+<p>单引号里面引用的变量无效（所见即所得，任何变量都不会被替换）。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">sayhi=<span class="string">'hello world'</span></div><div class="line"><span class="built_in">echo</span> <span class="string">'You have one new message: $sayhi'</span></div></pre></td></tr></table></figure>
+<p>执行结果：<code>You have one new message: $sayhi</code></p>
+<p><strong>双引号</strong></p>
+<p>双引号<code>&quot;&quot;</code>包裹的内容，可以引用外部定义的变量。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">sayhi=<span class="string">"hello world"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"You have one new message: <span class="variable">$sayhi</span>"</span></div></pre></td></tr></table></figure>
+<p>执行结果：<code>You have one new message: hello world</code></p>
+<p><strong>反引号</strong></p>
+<p>反引号<code>``</code>（键盘左上角Esc正下方的键）包裹的内容，可以用于存储命令的输出，即命令替换。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">echo</span> <span class="string">"curr time: `date`"</span></div></pre></td></tr></table></figure>
+<p>执行结果：<code>curr time: Sat Nov 11 14:17:15 UTC 2017</code></p>
+<h2 id="10-文本搜索"><a href="#10-文本搜索" class="headerlink" title="10. 文本搜索"></a>10. 文本搜索</h2><p>文本搜索能力很重要。它能帮助你从大量的数据中快速定位和找到你想要的数据。常用的是通过<code>grep</code>命令完成。语法：<code>grep [OPTIONS] PATTERN [FILE...]</code></p>
+<p>示例：查找日志文件中，所有出现<span style="font-family:sans-serif">“ERROR”</span>字符串的地方：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep ERROR access.log</div></pre></td></tr></table></figure>
+<p>示例：查找日志文件中，所有出现<span style="font-family:sans-serif">“ERROR”</span>字符串的地方，并打印行号：</p>
+<p>参数：-n, --line-number</p>
+<p>释义：搜索的结果显示文本在文件中的行号</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -n ERROR access.log</div></pre></td></tr></table></figure>
+<p>示例：查找日志文件中，所有出现“ERROR”字符串的地方，并打印行号高亮显示：</p>
+<p>参数：--color</p>
+<p>释义：匹配的文本会被不同颜色高亮显示</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -n --color ERROR access.log</div></pre></td></tr></table></figure>
+<p>示例：查找目录下所有的日志文件中，所有出现<span style="font-family:sans-serif">“ERROR”</span>字符串的地方，并打印行号高亮显示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -n --color ERROR *.<span class="built_in">log</span></div></pre></td></tr></table></figure>
+<p>示例：查找日志文件中，所有出现<span style="font-family:sans-serif">“ERROR”</span>或<span style="font-family:sans-serif">“WARN”</span>字符串的地方，并打印行号高亮显示：</p>
+<p>参数：-e, --regexp</p>
+<p>释义：允许指定多个不同的搜索字符串</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -n --color -e ERROR -e WARN access.log</div></pre></td></tr></table></figure>
+<p>示例：查找日志文件中，所有出现<span style="font-family:sans-serif">“Exception”</span>字符串的地方，并打印行号高亮显示：</p>
+<p>参数：-E, --extended-regexp</p>
+<p>释义：允许搜索串中使用正则表达式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -En --color <span class="string">'\b\w+Exception\b'</span> access.log</div></pre></td></tr></table></figure>
+<p><code>egrep</code>等效于<code>grep -E</code>。可以在搜索串中使用正则表达式来匹配。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ egrep -n --color <span class="string">'\b\w+Exception\b'</span> access.log</div></pre></td></tr></table></figure>
+<p>示例：查找日志文件中，最近出现<span style="font-family:sans-serif">“Exception”</span>字符串的10个地方，并打印行号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ egrep -n <span class="string">'\b\w+Exception\b'</span> access.log | tail</div></pre></td></tr></table></figure>
+<p>附正则表达式表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">元字符</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">^</td>
+<td style="text-align:left">匹配搜索字符串开始的位置。如“^abc”用于匹配以“abc”字符串开头的行。<br>如果用于中括号里面的第一个字符，则表示对字符集求反，如“[^abc]”用于匹配<br>除了以“a”或“b”或“c”以外的其它字符开头的行。</td>
+</tr>
+<tr>
+<td style="text-align:left">$</td>
+<td style="text-align:left">匹配搜索字符串结尾的位置。如“abc$”用于匹配以“abc”字符串结尾的行。</td>
+</tr>
+<tr>
+<td style="text-align:left">.</td>
+<td style="text-align:left">匹配除换行符“\n”之外的任何单个字符。如“a.c”可以匹配“abc”或“a2c”等。</td>
+</tr>
+<tr>
+<td style="text-align:left">?</td>
+<td style="text-align:left">匹配零次或一次前面的字符或子表达式，等效于“{0,1}”。如“ab?c”可以匹配“abc”和“ac”。</td>
+</tr>
+<tr>
+<td style="text-align:left">*</td>
+<td style="text-align:left">匹配零次或多次前面的字符或子表达式，等效于“{0,}”。如“ab*c”可以匹配“abc”和“ac”和“abbc”等。</td>
+</tr>
+<tr>
+<td style="text-align:left">+</td>
+<td style="text-align:left">匹配一次或多次前面的字符或子表达式，等效于“{1,}”。如“ab+c”可以匹配“abc”和“abbc”等。</td>
+</tr>
+<tr>
+<td style="text-align:left">[]</td>
+<td style="text-align:left">匹配中括号的开始和结尾。<br>如“[abc]”匹配“plain”中的“a”。<br>如“[a-z]”匹配26个小写英文字母。<br>如“[0-9]”匹配0到9的数字。</td>
+</tr>
+<tr>
+<td style="text-align:left">{n}</td>
+<td style="text-align:left">匹配前面的字符或子表达式正好n次。如“ab{2}c”匹配“abbc”。</td>
+</tr>
+<tr>
+<td style="text-align:left">{n,}</td>
+<td style="text-align:left">匹配前面的字符或子表达式至少n次。如“ab{2,}c”匹配“abbc”和“abbbc”等。</td>
+</tr>
+<tr>
+<td style="text-align:left">{,m}</td>
+<td style="text-align:left">匹配前面的字符或子表达式至多n次。如“ab{,2}c”匹配“ac”和“abc”和“abbc”。</td>
+</tr>
+<tr>
+<td style="text-align:left">{n,m}</td>
+<td style="text-align:left">匹配前面的字符或子表达式至少n次，至多m次。如“ab{2,3}c”匹配“abbc”和“abbbc”。</td>
+</tr>
+<tr>
+<td style="text-align:left">\w</td>
+<td style="text-align:left">匹配字母和数字，相当于“[0-9A-Za-z]”</td>
+</tr>
+<tr>
+<td style="text-align:left">\W</td>
+<td style="text-align:left">匹配非字母和数字，相当于“[^0-9A-Za-z]”</td>
+</tr>
+</tbody>
+</table>
+<p>示例：从标准输入中搜索出现<span style="font-family:sans-serif">“java”</span>字符的地方：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ps -ef | grep java</div><div class="line">root  1807  1  0  Nov11 ?  00:01:38 /usr/<span class="built_in">local</span>/jdk1.8.0_144/bin/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=<span class="literal">true</span> -DJENKINS_HOME=/var/lib/jenkins -jar /usr/lib/jenkins/jenkins.war --logfile=/var/<span class="built_in">log</span>/jenkins/jenkins.log --webroot=/var/cache/jenkins/war --daemon --httpPort=8080 --debug=5 --handlerCountMax=100 --handlerCountMaxIdle=20</div><div class="line">500   4621  4164  0  00:23 pts/2  00:00:00 grep java</div></pre></td></tr></table></figure>
+<p><code>ps</code>是用来查看进程信息，后续会讲到。看回上面输出的最后一行，通常情况下，它不是我们想要的，我们可以使用<code>-v</code>（--invert-match，反转匹配。即除了匹配外的其他所有行）参数将它过滤掉：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ps -ef | grep java | grep -v grep</div><div class="line">root  1807  1  0  Nov11 ?  00:01:38 /usr/<span class="built_in">local</span>/jdk1.8.0_144/bin/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=<span class="literal">true</span> -DJENKINS_HOME=/var/lib/jenkins -jar /usr/lib/jenkins/jenkins.war --logfile=/var/<span class="built_in">log</span>/jenkins/jenkins.log --webroot=/var/cache/jenkins/war --daemon --httpPort=8080 --debug=5 --handlerCountMax=100 --handlerCountMaxIdle=20</div></pre></td></tr></table></figure>
+<p>示例：递归搜索目录下的所有文件中出现<span style="font-family:sans-serif">“Exception”</span>的地方，并打印行号高亮显示：</p>
+<p>参数：-R, -r, --recursive</p>
+<p>释义：从给定的目录开始递归所有的子目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ egrep -rn --color <span class="string">'\b\w+Exception\b'</span></div></pre></td></tr></table></figure>
+<h2 id="11-文件搜索"><a href="#11-文件搜索" class="headerlink" title="11. 文件搜索"></a>11. 文件搜索</h2><p>文件搜索的能力也很重要。它能帮助你快速的找到你想要的文件。常用的是通过<code>find</code>命令完成的。</p>
+<p>示例：查找目录下的某个文件：</p>
+<p>参数：-name</p>
+<p>释义：根据文件的名称搜索</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ find . -name <span class="string">'logging.properties'</span></div><div class="line">./conf/logging.properties</div></pre></td></tr></table></figure>
+<p>示例：使用通配符查找目录下的所有的.properties文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -name <span class="string">'*.properties'</span></div></pre></td></tr></table></figure>
+<p>示例：查看目录下的所有的子目录：</p>
+<p>参数：-type</p>
+<p>释义：根据文件的类型搜索，常用的d（directory，目录）、f（regular file，文件）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -<span class="built_in">type</span> d</div></pre></td></tr></table></figure>
+<p>示例：查看目录下的所有的文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -<span class="built_in">type</span> f</div></pre></td></tr></table></figure>
+<p>示例：查找3分钟之内有流量进来的日志文件：</p>
+<p>参数：-mmin（最后一次修改文件的时间）</p>
+<p>释义：最近一次文件内容被修改的时间</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -name <span class="string">'*.log'</span> -mmin -3</div></pre></td></tr></table></figure>
+<p>示例：高级用法，执行一个命令。</p>
+<p>参数：-exec command {} \;</p>
+<p>释义：执行一个任意的command命令。</p>
+<p>备注：<code>{}</code>是一个与<code>-exec</code>搭配使用的特殊符，它会被替换为<code>find</code>命令匹配到的每个文件的文件名称。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find . -<span class="built_in">type</span> f -name <span class="string">'*.log'</span> -<span class="built_in">exec</span> cat &#123;&#125; \; &gt; demo.txt</div></pre></td></tr></table></figure>
+<p>达到的效果就是，将当前所有的log文件的内容拼接成一个数据流重定向到demo.txt文件中。</p>
+<h2 id="12-进程信息"><a href="#12-进程信息" class="headerlink" title="12. 进程信息"></a>12. 进程信息</h2><p>当前系统运行的所有进程信息都可以用<code>ps</code>命令来查看，搭配<code>kill</code>命令可以随时杀死某个进程。</p>
+<p>示例：查看当前系统所有的进程信息，常用的组合参数是<code>-ef</code>或<code>aux</code>（注意参数前面没有<code>-</code>）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ps -ef</div><div class="line">UID   PID    PPID  C   STIME   TTY     TIME        CMD</div><div class="line">500   2878   1     0   12:37   pts/0   00:00:24    /usr/<span class="built_in">local</span>/jdk1.8.0_144/bin/java -Djava.util.logging.config.file=/home/fanlychie/applications/apache-tomcat-8.0.45/conf/logging.properties</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">UID</td>
+<td style="text-align:left">进程所属的用户ID</td>
+</tr>
+<tr>
+<td style="text-align:center">PID</td>
+<td style="text-align:left">进程ID</td>
+</tr>
+<tr>
+<td style="text-align:center">PPID</td>
+<td style="text-align:left">进程的父ID</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:left">CPU 使用比率</td>
+</tr>
+<tr>
+<td style="text-align:center">STIME</td>
+<td style="text-align:left">进程的启动时间</td>
+</tr>
+<tr>
+<td style="text-align:center">TTY</td>
+<td style="text-align:left">开始此进程的终端设备。<span style="font-family:sans-serif">“?”</span>表示是系统启动的与终端无关。<span style="font-family:sans-serif">“tty1”</span>至<span style="font-family:sans-serif">“tty6”</span>表示是本机上登录者程序。<span style="font-family:sans-serif">“pts/0”</span>等，则表示为由网络连接进主机的程序。</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME</td>
+<td style="text-align:left">进程使用的 CPU 总时间</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:left">启动进程的命令和参数</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ps aux</div><div class="line">USER  PID    %CPU  %MEM   VSZ      RSS    TTY     STAT   START  TIME  COMMAND</div><div class="line">500   2878   0.1   18.3   2161124  89300  pts/0   Sl     12:37  0:27  /usr/<span class="built_in">local</span>/jdk1.8.0_144/bin/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=<span class="literal">true</span> -DJENKINS_HOME=/var/lib/jenkins</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:left">进程的拥有者</td>
+</tr>
+<tr>
+<td style="text-align:center">PID</td>
+<td style="text-align:left">进程ID</td>
+</tr>
+<tr>
+<td style="text-align:center">%CPU</td>
+<td style="text-align:left">进程占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">%MEM</td>
+<td style="text-align:left">进程占用的内存的百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">VSZ</td>
+<td style="text-align:left">进程使用的虚拟内存大小，单位：KB</td>
+</tr>
+<tr>
+<td style="text-align:center">RSS</td>
+<td style="text-align:left">进程占用的固定内存大小，单位：KB</td>
+</tr>
+<tr>
+<td style="text-align:center">TTY</td>
+<td style="text-align:left">开始此进程的终端设备。“?”表示是系统启动的与终端无关。<span style="font-family:sans-serif">“tty1”</span>至<span style="font-family:sans-serif">“tty6”</span>表示是本机上登入者程序。<span style="font-family:sans-serif">“pts/0”</span>等，则表示为由网络连接进主机的程序。</td>
+</tr>
+<tr>
+<td style="text-align:center">STAT</td>
+<td style="text-align:left">进程的状态。常见的状态有：<br>R：正在运行或可运行状态；<br>S：处于休眠状态，等待被唤醒；<br>Z：僵尸进程，程序已终止，进程无法正常退出；<br>T：已停止或处于被追踪状态；<br>D：不可中断，一般是在等待I/O；<br>&lt;：优先级高的进程；<br>N：优先级低的进程；<br>s ：进程领导者，在它之下有子进程；<br>l：多线程的；</td>
+</tr>
+<tr>
+<td style="text-align:center">START</td>
+<td style="text-align:left">进程的启动时间</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME</td>
+<td style="text-align:left">进程使用的 CPU 总时间</td>
+</tr>
+<tr>
+<td style="text-align:center">COMMAND</td>
+<td style="text-align:left">启动进程的命令和参数</td>
+</tr>
+</tbody>
+</table>
+<p>小结：<code>ps</code>命令的参数项非常多，掌握常用的参数组合项即可。如果只是查看进程的PID或PPID信息可选用<code>ps -ef</code>；如果要查看进程的PID和占用系统的内存和CPU信息可选用<code>ps aux</code>。</p>
+<div style="margin:0 0 -8px">&nbsp;</div>
+
+<p>示例：使用<code>ps</code>命令列出的进程信息会比较多，可以通过管道结合<code>more</code>或<code>less</code>命令翻页查看：</p>
+<p>提示：<code>less</code>命令可以通过键盘的PageUp键（↑）和PageDown键（↓）上下翻页，按q键退出。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps -ef | less</div></pre></td></tr></table></figure>
+<p>示例：自定义显示的进程信息的字段，参数组合-eo：</p>
+<p>释义：pid,pcpu,pmem,cmd是别名，分别对应PID,%CPU,%MEM,CMD。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ps -eo pid,pcpu,pmem,cmd</div><div class="line">PID    %CPU    %MEM    CMD</div><div class="line"> 1     0.0     0.1    /sbin/init</div><div class="line"> 2     0.0     0.0    [kthreadd]</div></pre></td></tr></table></figure>
+<p>示例：查看所有的进程并按CPU降序排序：</p>
+<p>参数：--sort</p>
+<p>释义：排序字段</p>
+<p>排序：-pcpu表示按%CPU降序，+pcpu表示按%CPU升序，由于+是默认的，因此可简写为pcpu</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps aux --sort -pcpu</div></pre></td></tr></table></figure>
+<p>示例：自定义显示的进程信息的字段并按CPU降序排序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps -eo pid,pcpu,pmem,cmd --sort -pcpu</div></pre></td></tr></table></figure>
+<p>示例：找出最耗CPU的10个进程信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps aux --sort -pcpu | head</div></pre></td></tr></table></figure>
+<p>示例：查看所有的进程并按内存降序排序：</p>
+<p>疑惑：像%CPU一样用别名来排序无效，这里借助管道通过sort命令来排序</p>
+<p>参数：此为sort的参数，-r降序（若没有此参数，sort默认采用升序的顺序来排序），-n按数值来排序，-k列的索引（第一列的索引值为1，以此类推）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps aux | sort -nrk 4</div></pre></td></tr></table></figure>
+<p>示例：自定义显示的进程信息的字段并按内存降序排序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps -eo pid,pcpu,pmem,cmd | sort -nrk 3</div></pre></td></tr></table></figure>
+<p>示例：找出最耗内存的10个进程信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps -eo pid,pcpu,pmem,cmd | sort -nrk 3 | head</div></pre></td></tr></table></figure>
+<h2 id="12-杀死进程"><a href="#12-杀死进程" class="headerlink" title="12. 杀死进程"></a>12. 杀死进程</h2><p>通常情况下，残忍的杀死一个进程我们经常会使用<code>kill</code>命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">kill</span> -9 2878</div></pre></td></tr></table></figure>
+<p>该命令的中心思想是用来强行杀死PID为2878的进程。kill是用来终止进程的信号。-9是一个信号编号，表示强行杀死。除此之外，常见的信号编号还有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号编号</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">当按下组合键“Ctrl + c”时会发出该信号</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:left">强行杀死</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:left">终止进程默认发送的信号</td>
+</tr>
+<tr>
+<td style="text-align:center">20</td>
+<td style="text-align:left">当按下组合键“Ctrl + z”时会发出该信号</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-top-命令"><a href="#13-top-命令" class="headerlink" title="13. top 命令"></a>13. top 命令</h2><p><code>top</code>命令可以实时的监控系统中各个进程的资源占用情况，经常用于服务器性能监控和分析。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ top</div></pre></td></tr></table></figure>
+<p><code>top</code>列出的信息内容非常丰富（部分信息与ps相似，不再赘述），默认每隔3秒钟自动刷新一次：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/shell3.png" alt=""></p>
+<p><code>top</code>命令在运行中的时候，可以通过一些按键来控制显示的信息结果，常用的有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号编号</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Shift + p</td>
+<td style="text-align:left">按%CPU排序结果</td>
+</tr>
+<tr>
+<td style="text-align:center">Shift + m</td>
+<td style="text-align:left">按%MEM排序结果</td>
+</tr>
+<tr>
+<td style="text-align:center">Shift + n</td>
+<td style="text-align:left">按PID排序结果</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">数字1，查看每个核的CPU使用情况</td>
+</tr>
+</tbody>
+</table>
+<p>首先来看前5行信息的内容：</p>
+<ul>
+<li>第一行，系统的统计信息：<ul>
+<li><code>22:35:29 up 26 days, 13:33</code>表示系统连续运行的时间；</li>
+<li><code>1 user</code>表示当前登录系统的用户数；</li>
+<li><code>load average: 0.04, 0.03, 0.05</code>表示系统分别在1、5、15分钟内的平均负载；</li>
+</ul>
+</li>
+<li>第二行，进程的统计信息：<ul>
+<li><code>133 total</code>表示进程的总数；</li>
+<li><code>1 running</code>表示正在运行的进程数；</li>
+<li><code>132 sleeping</code>表示休眠的进程数；</li>
+<li><code>0 stopped</code>表示停止的进程数；</li>
+<li><code>0 zombie</code>表示僵尸进程数；</li>
+</ul>
+</li>
+<li>第三行，CPU的统计信息：<ul>
+<li><code>0.2 us</code>表示用户占用的CPU百分比；</li>
+<li><code>0.2 sy</code>表示内核占用的CPU百分比；</li>
+<li><code>99.6 id</code>表示空闲的CPU百分比；</li>
+<li>其余不一一列举了…</li>
+</ul>
+</li>
+<li>第四行，内存的统计信息：<ul>
+<li><code>12139564 total</code>表示物理内存的总大小；</li>
+<li><code>1866952 free</code>表示空闲可用的物理内存总大小；</li>
+<li><code>6600492 used</code>表示已经使用的物理内存总大小；</li>
+<li><code>3672120 buff/cache</code>表示缓冲内存的总大小；</li>
+</ul>
+</li>
+<li>第五行，交换分区的统计信息：<ul>
+<li><code>2097148 total</code>表示交换分区的总大小；</li>
+<li><code>2062220 free</code>表示空闲可用的交换分区的大小；</li>
+<li><code>34928 used</code>表示已经使用的交换分区的大小；</li>
+</ul>
+</li>
+</ul>
+<p>示例：单独跟踪某个进程的运行状态：</p>
+<p>参数：-d</p>
+<p>释义：每隔多少秒刷新一次</p>
+<p>参数：-p</p>
+<p>释义：进程的ID</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ top -d 1 -p 12515</div></pre></td></tr></table></figure>
+<p>有时候，我们经常会看到CPU的使用率占比超过100%。你莫要惊慌，这是因为<code>top</code>是按照单个CPU核数来计算的。如果一台服务器的CPU核数为4核，那么，该服务器的CPU使用率占比最高可达到400%。</p>
+<div style="margin:0 0 -8px">&nbsp;</div>
+
+<p>内存是真内存！你看到剩余多少就是多少，没有更多了。如果系统剩余物理内存不是很足了，那就要引起注意了。Linux系统有一个OOM-killer（Out Of Memory killer）机制。当Linux内核检测到系统内存不足的时候，就会触发OOM-killer来挑选一个最耗内存的进程并杀掉这个进程以求释放一些内存出来。</p>
+<div style="margin:0 0 -8px">&nbsp;</div>
+
+<p>除了内存和CPU，top还有一个地方很直观的反应出当前系统的性能指标，那就是第一行的load average系统平均负载。0.00~1.00之间的数值表示系统状况良好。超过1.00表示系统已经超出负荷快要不堪重负了。而实际上，我们也经常会看到服务器平均负载超过1.00的情况。这也跟服务器的CPU核数有关。如果一台服务器的CPU核数为4核，那么，该服务器的平均负载能力可达到4.00。事实上，当系统平均负载达到70%左右时，你就应该有所行动，在事情变得更糟糕之前，去分析其造成的原因。分析的焦点应放在后两项的数值，因为第一项是1分钟内的平均负载，时间太短，一瞬间的高并发导致该值大幅度上涨是很有可能的。作为一个程序猿，对top的心得言尽于此。</p>
+<h2 id="14-硬盘使用情况"><a href="#14-硬盘使用情况" class="headerlink" title="14. 硬盘使用情况"></a>14. 硬盘使用情况</h2><p>掌握如何去查看服务器的硬盘空间使用情况以及在硬盘空间捉襟见肘如何去查找大文件也很重要。特别是对于一些吃硬盘的应用，比如文件系统、索引检索应用等。</p>
+<p>示例：查看服务器硬盘空间使用情况：</p>
+<p>命令：df</p>
+<p>释义：disk free，磁盘可用空间</p>
+<p>参数：-h, --human-readable</p>
+<p>释义：易读格式, 指的是数值后面的单位，如：M、G 等</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ df -h</div><div class="line">Filesystem     Size    Used     Avail    Use%     Mounted on</div><div class="line">/dev/sda2      19G     3.1G     15G      18%      /</div><div class="line">tmpfs          238M    0        238M     0%       /dev/shm</div><div class="line">/dev/sda1      291M    34M      242M     13%      /boot</div></pre></td></tr></table></figure>
+<p>一般只看第一行就行，其它涉及Linux文件系统方面的知识有兴趣可以自行谷歌百度，这里不作描述。Size是磁盘容量，Used是已用的空间，Avail是剩余可用的空间（重要），Use%是已用的空间的百分比。</p>
+<p>示例：查看文件或目录占用的磁盘空间大小：</p>
+<p>命令：du</p>
+<p>释义：disk usage，磁盘使用</p>
+<p>参数：-h, --human-readable</p>
+<p>释义：易读格式, 指的是数值后面的单位，如：M、G 等</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ du -h logs</div><div class="line">81M	logs/app</div><div class="line">149M	logs</div></pre></td></tr></table></figure>
+<p>可以看出，logs目录总共占149M的磁盘空间。其中，logs/app目录共占81M，剩余的68M被logs根目录下的文件占用。如果想要查看各个文件占用的磁盘空间，可以追加使用-a, --all参数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ du -ha logs</div><div class="line">332K	logs/demo1.log</div><div class="line">20K	logs/demo2.log</div><div class="line">68M	logs/demo3.log</div><div class="line">49M	logs/app/app-demo2.log</div><div class="line">33M	logs/app/app-demo1.log</div><div class="line">81M	logs/app</div><div class="line">149M	logs</div></pre></td></tr></table></figure>
+<p>示例：找出目录下最大的10个文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ find . -<span class="built_in">type</span> f -<span class="built_in">exec</span> du -b &#123;&#125; \; | sort -nrk 1 | head</div><div class="line">70938260       ./demo3.log</div><div class="line">50838254       ./app/app-demo2.log</div><div class="line">33759270       ./app/app-demo1.log</div><div class="line">336939         ./demo1.log</div><div class="line">17510          ./demo2.log</div></pre></td></tr></table></figure>
+<p>由于是要按数值大小排序，故这里不能使用-h参数，-b, --bytes是统计字节数，这样排序才准确。</p>
+<p>查看目录的磁盘大小<br>du -sh *</p>
+<h2 id="15-网络链接"><a href="#15-网络链接" class="headerlink" title="15. 网络链接"></a>15. 网络链接</h2><p>还在为系统链接不了网络而烦恼？还在为系统自动获取IP每次客户端链接终端都要修改IP地址而烦恼？</p>
+<p>为你虚拟机的Linux操作系统设置静态IP！【工具：VMware；操作系统：CentOS6（CentOS7类似）】</p>
+<p>在顶部菜单中选择编辑–&gt;虚拟网络编辑器</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/vmware_001.png" alt=""></p>
+<div style="margin:0 0 -8px">&nbsp;</div>
+
+<p>在 NAT 设置中查看网关IP：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/vmware_002.png" alt=""></p>
+<div style="margin:0 0 -8px">&nbsp;</div>
+
+<p>在 DHCP 设置中查看子网掩码、广播地址、子网IP段：</p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/vmware_003.png" alt=""></p>
+<p>虚拟机Linux系统的网络适配器选择NAT模式。CentOS操作系统网卡的名称通常是以ifcfg-xxx的方式命名，你也可以使用ifconfig命令来查看系统的网卡名称。CentOS6的网卡名称通常是ifcfg-eth0。编辑网卡信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vi /etc/sysconfig/network-scripts/ifcfg-eth0</span></div></pre></td></tr></table></figure>
+<p>CentOS6 配置：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="string">DEVICE="eth0"</span></div><div class="line"><span class="string">BOOTPROTO="static"</span></div><div class="line"><span class="string">HWADDR="00:0C:29:66:3F:AB"</span></div><div class="line"><span class="string">ONBOOT="yes"</span></div><div class="line"><span class="string">UUID="96bcd1e9-5921-4cf9-bc0e-7c4b9d80e215"</span></div><div class="line"><span class="string">IPADDR=192.168.139.129</span></div><div class="line"><span class="string">NETMASK=255.255.255.0</span></div><div class="line"><span class="string">GATEWAY=192.168.139.2</span></div><div class="line"><span class="string">DNS1=192.168.139.2</span></div></pre></td></tr></table></figure></p>
+<p>CentOS7 配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">...</span> <span class="string">...</span></div><div class="line"><span class="string">BOOTPROTO="static"</span></div><div class="line"><span class="string">IPADDR0=192.168.139.129</span></div><div class="line"><span class="string">PREFIX0=24</span></div><div class="line"><span class="string">GATEWAY0=192.168.139.2</span></div><div class="line"><span class="string">DNS1=192.168.139.2</span></div><div class="line"><span class="string">DNS2=8.8.8.8</span></div></pre></td></tr></table></figure>
+<p>网卡配置信息主要修改BOOTPROTO为static，以及添加后面几行的配置，DNS的值保持和网关一致。</p>
+<p>重启网络服务：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># service network restart</span></div></pre></td></tr></table></figure>
+<p>验证网络是否可用（如果能ping通，说明网络可用）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ping baidu.com</div></pre></td></tr></table></figure>
+<h2 id="16-网络状态"><a href="#16-网络状态" class="headerlink" title="16. 网络状态"></a>16. 网络状态</h2><p>如果想查看系统的网络状态信息，可以使用<code>netstat</code>命令。</p>
+<p>参数：–numeric , -n</p>
+<p>释义：使用数字类型的IP地址显示</p>
+<p>参数：-a, –all</p>
+<p>释义：显示所有经过TCP建立链接的Socket</p>
+<p>参数：-t, –tcp</p>
+<p>释义：只显示TCP传输协议的连线</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ netstat -ant</div><div class="line">Proto     Recv-Q     Send-Q     Local Address           Foreign Address        State</div><div class="line">tcp6      0          0          :::20818                :::*                   LISTEN</div><div class="line">tcp6      0          0          :::20809                :::*                   LISTEN</div><div class="line">tcp6      0          0          10.10.10.171:20818      10.10.10.170:55648     ESTABLISHED</div><div class="line">tcp6      0          0          10.10.10.171:20818      10.10.10.170:34580     ESTABLISHED</div><div class="line">tcp6      0          0          10.10.10.171:20809      10.10.10.176:26379     ESTABLISHED</div></pre></td></tr></table></figure>
+<p>这里主要来介绍后面的三列信息内容：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Local Address</td>
+<td style="text-align:left">本地地址和端口信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Foreign Address</td>
+<td style="text-align:left">远程地址和端口信息</td>
+</tr>
+<tr>
+<td style="text-align:left">State</td>
+<td style="text-align:left">状态信息。常见的状态有：<br>LISTEN：本地监听的端口；<br>ESTABLISHED：远程访问本机服务的地址和端口信息；<br>TIME-WAIT：链接已挂断，socket在网络上等待结束；</td>
+</tr>
+</tbody>
+</table>
+<p>示例：统计某个端口的服务当前的链接数量：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ $ netstat -ant | grep <span class="string">":20818"</span> | wc -l</div><div class="line">21</div></pre></td></tr></table></figure>
+<h2 id="5-数值运算"><a href="#5-数值运算" class="headerlink" title="5. 数值运算"></a>5. 数值运算</h2><p>高高兴兴的写脚本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">n1=1</div><div class="line">n2=2</div><div class="line">result=n1+n2</div><div class="line"><span class="built_in">echo</span> <span class="string">"n1 + n2 = <span class="variable">$result</span>"</span></div></pre></td></tr></table></figure>
+<p>执行结果：<code>n1 + n2 = n1+n2</code>（一脸懵逼有没有o(╯□╰)o）</p>
+<p>在shell中，给变量赋予数字类型的值最终也是以字符串的方式存储的，如果想要让它们变得像数字一样能够进行数值运算，可以采用以下的方法。</p>
+<h3 id="5-1-let"><a href="#5-1-let" class="headerlink" title="5.1 let"></a>5.1 let</h3><p>使用<code>let</code>作数值运算时，变量名前不需要加<code>$</code>符号，适用于整数运算：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">let</span> result=n1+n2</div><div class="line"><span class="built_in">let</span> result++</div><div class="line"><span class="built_in">let</span> result--</div><div class="line"><span class="built_in">let</span> result+=1</div><div class="line"><span class="built_in">let</span> result-=1</div></pre></td></tr></table></figure>
+<h3 id="5-2"><a href="#5-2" class="headerlink" title="5.2 $[ ]"></a>5.2 $[ ]</h3><p>使用<code>$[ ]</code>作数值运算时，变量名前不需要加<code>$</code>符号，<code>[]</code>里面可以有空格，适用于整数运算：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">result=$[ n1 + n2 ]</div></pre></td></tr></table></figure>
+<h3 id="5-3"><a href="#5-3" class="headerlink" title="5.3 $(( ))"></a>5.3 $(( ))</h3><p>使用<code>$(( ))</code>作数值运算时，变量名前不需要加<code>$</code>符号，<code>(())</code>里面可以有空格，适用于整数运算：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">result=$(( n1 + n2 ))</div></pre></td></tr></table></figure>
+<h3 id="5-4-expr"><a href="#5-4-expr" class="headerlink" title="5.4 expr"></a>5.4 expr</h3><p>使用<code>expr</code>作数值运算时，变量名前需要加<code>$</code>符号，适用于整数运算：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">result=`expr <span class="variable">$n1</span> + <span class="variable">$n2</span>`</div></pre></td></tr></table></figure>
+<h3 id="5-5-bc"><a href="#5-5-bc" class="headerlink" title="5.5 bc"></a>5.5 bc</h3><p>以上列举的方法都只适用于整数。如果要对小数进行运算，可以使用<code>bc</code>（数值运算的高级工具）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">n1=1.234</div><div class="line">n2=2</div><div class="line">result=`<span class="built_in">echo</span> <span class="string">"<span class="variable">$n1</span> * <span class="variable">$n2</span>"</span> | bc`</div><div class="line"><span class="built_in">echo</span> <span class="string">"n1 * n2 = <span class="variable">$result</span>"</span></div></pre></td></tr></table></figure>
+<p>除此之外，你还可以使用<code>scale</code>来指定需要保留的小数位数，中间用定界符分号来隔开：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">result=`<span class="built_in">echo</span> <span class="string">"scale=2; <span class="variable">$n1</span> * <span class="variable">$n2</span> / 1"</span> | bc`</div></pre></td></tr></table></figure>
+<p>注：<code>scale</code>只对除法、取余、乘幂有效，对乘法无效，所以上例除以了一个1来达到效果。</p>
+</div><div class="tags"><a href="/tags/Linux/">Linux</a></div><div class="post-share"></div><div class="post-nav"><a href="/post/mysql57-setup.html" class="pre">MySQL5.7 安装</a><a href="/post/fastdfs-client.html" class="next">FastDFS 客户端工具类</a></div><div id="comments"><div id="SOHUCS" sid="post/linux-commands.html"></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-cd-命令"><span class="toc-text">1. cd 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pwd-命令"><span class="toc-text">2. pwd 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-mkdir-命令"><span class="toc-text">3. mkdir 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-ls-命令"><span class="toc-text">4. ls 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-rm-命令"><span class="toc-text">5. rm 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-mv-命令"><span class="toc-text">6. mv 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-chmod-命令"><span class="toc-text">7. chmod 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-chown-命令"><span class="toc-text">8. chown 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-cp-命令"><span class="toc-text">9. cp 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-scp-命令"><span class="toc-text">10. scp 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-cat-命令"><span class="toc-text">11. cat 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-more-命令"><span class="toc-text">12. more 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-less-命令"><span class="toc-text">13. less 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-head-命令"><span class="toc-text">14. head 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-tail-命令"><span class="toc-text">15. tail 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-tar-命令"><span class="toc-text">16. tar 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-ping-命令"><span class="toc-text">17. ping 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-ssh-命令"><span class="toc-text">17. ssh 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-管道命令"><span class="toc-text">18. 管道命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-ps-命令"><span class="toc-text">19. ps 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-kill-命令"><span class="toc-text">20. kill 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-top-命令"><span class="toc-text">21. top 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-grep-命令"><span class="toc-text">22. grep 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-find-命令"><span class="toc-text">23. find 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-su-命令"><span class="toc-text">24. su 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-前台和后台任务"><span class="toc-text">25. 前台和后台任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-磁盘空间"><span class="toc-text">26. 磁盘空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#27-内存空间"><span class="toc-text">27. 内存空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-wc-命令"><span class="toc-text">28. wc 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#29-netstat-命令"><span class="toc-text">29. netstat 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-vi-命令"><span class="toc-text">30. vi 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N-rpm-命令"><span class="toc-text">N. rpm 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N-vi-命令"><span class="toc-text">N. vi 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#01-命令执行控制"><span class="toc-text">01. 命令执行控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-后台进程"><span class="toc-text">02. 后台进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-文件描述符"><span class="toc-text">03. 文件描述符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-前后台任务互切"><span class="toc-text">04. 前后台任务互切</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-管道"><span class="toc-text">05. 管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-空格"><span class="toc-text">06. 空格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-引号"><span class="toc-text">07. 引号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-文本搜索"><span class="toc-text">10. 文本搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-文件搜索"><span class="toc-text">11. 文件搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-进程信息"><span class="toc-text">12. 进程信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-杀死进程"><span class="toc-text">12. 杀死进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-top-命令"><span class="toc-text">13. top 命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-硬盘使用情况"><span class="toc-text">14. 硬盘使用情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-网络链接"><span class="toc-text">15. 网络链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-网络状态"><span class="toc-text">16. 网络状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-数值运算"><span class="toc-text">5. 数值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-let"><span class="toc-text">5.1 let</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2"><span class="toc-text">5.2 $[ ]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3"><span class="toc-text">5.3 $(( ))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-expr"><span class="toc-text">5.4 expr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-bc"><span class="toc-text">5.5 bc</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/post/springmvc-dubbo-mybatis-with-cat.html">springmvc+dubbo+mybatis 接入大众点评 CAT 监控平台</a></li><li class="post-list-item"><a class="post-list-link" href="/post/cat-setup.html">搭建大众点评CAT监控平台</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-select-optimization.html">MySQL 查询优化</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-index.html">MySQL 索引</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-explain.html">MySQL Explain 分析 SQL 的执行计划</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-query-cache.html">MySQL 查询缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql57-resolve-cmd-net-command.html">解决命令行无法关闭和启动MySQL服务的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql57-setup.html">MySQL5.7 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/post/linux-commands.html">程序员必知必会的 Linux Shell 命令</a></li><li class="post-list-item"><a class="post-list-link" href="/post/fastdfs-client.html">FastDFS 客户端工具类</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/缓存/" style="font-size: 15px;">缓存</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/开发工具包/" style="font-size: 15px;">开发工具包</a> <a href="/tags/Dubbo/" style="font-size: 15px;">Dubbo</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/Eclipse/" style="font-size: 15px;">Eclipse</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/表达式/" style="font-size: 15px;">表达式</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Java8/" style="font-size: 15px;">Java8</a> <a href="/tags/CAS/" style="font-size: 15px;">CAS</a> <a href="/tags/工具类/" style="font-size: 15px;">工具类</a> <a href="/tags/Tomcat/" style="font-size: 15px;">Tomcat</a> <a href="/tags/FastDFS/" style="font-size: 15px;">FastDFS</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/ActiveMQ/" style="font-size: 15px;">ActiveMQ</a> <a href="/tags/Memcached/" style="font-size: 15px;">Memcached</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/网络爬虫/" style="font-size: 15px;">网络爬虫</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Solr/" style="font-size: 15px;">Solr</a> <a href="/tags/RabbitMQ/" style="font-size: 15px;">RabbitMQ</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 15px;">Thymeleaf</a> <a href="/tags/Zookeeper/" style="font-size: 15px;">Zookeeper</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">08月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">07月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">04月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">03月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">11月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">09月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">08月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">07月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">06月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">05月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">04月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">02月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">01月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">09月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">01月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">12月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">11月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">10月 2015</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> | <a href="/atom.xml">订阅</a> |<span>主题<a rel="nofollow" target="_blank" href="https://hexo.io/zh-cn/"> Hexo</a><a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake</a> |</span><span>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4e375539c063ce29112e53dea9f27aae";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._config = { showScore: true };
+(function(){ 
+  var appid = 'cyt5nPNL8'; 
+  var conf = '5fe2e421f26b9cd1b7c459f7417c85b6'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+  if (width < 960) { 
+    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } 
+  else { 
+    var loadJs=function(d,a){
+      var b=document.createElement("script");b.setAttribute("type","text/javascript");
+      b.setAttribute("charset","UTF-8");
+      b.setAttribute("src",d);
+      if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+      nodes.appendChild(b)
+    };
+    loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+  } 
+  var loadCss = function(cssString){  
+    var style=document.createElement("style");  
+    style.setAttribute("type", "text/css");  
+    if(style.styleSheet){// IE  
+        style.styleSheet.cssText = cssString;  
+    } else {// w3c  
+        var cssText = document.createTextNode(cssString);  
+        style.appendChild(cssText);  
+    }
+    nodes.appendChild(style);
+  }
+  window.onload=function(){loadCss('.module-hot-topic, .module-cmt-float-bar { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .cbox-prompt-w span.prompt-empty-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w .form-text-w span.text-null, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w a.comment-link-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w span.comment-text-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w div.service-wrap-w a:hover, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w span.wrap-name-w, #SOHUCS #SOHU_MAIN .module-cmt-list .action-click-gw span.click-disable-eg a em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li div.title-name-gw, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number .comment-number span.cy-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number span.comment-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active, #SOHUCS #SOHU_MAIN .module-cmt-list .msg-wrap-gw .wrap-action-gw .action-click-gw span a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .picture-box-gw div.box-action-gw a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-action-gw .action-click-gw span a:hover em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-user-gw span.user-name-gw a { color: #40759b !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-r, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-l, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-r { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-l { background: #FFF !important; top: -2px !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-function-w .uploading-wrapper-dw div.wrapper-image-dw, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-main, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w div.form-text-w, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-list .module-cmt-box .post-wrap-w div.post-wrap-main { border: 1px solid #e6e6e6 !important; border-radius: 20px 20px 20px 20px; margin: 0 !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw { width: 130px !important; height: 34px !important; line-height: 33px !important; font-size: 17px !important; background: transparent !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw:before { content: "发表评论"; display: block; border-radius: 20px; width: 100%; height: 100%; color: #FFF; background: #5483b1; -webkit-box-shadow: 0 -1px 4px #5483b1 inset; box-shadow: 0 -1px 10px #5483b1 inset; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a:hover .btn-fw:before { color: #40759b; background: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li{ background: none !important; border-bottom: 1px solid #e6e6e6; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active { border: 1px solid #e6e6e6; border-radius: 10px 10px 0 0; border-bottom: none; } #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li .title-name-gw div.title-name-gw-tag { background: #5483b1 !important; border-radius: 3px; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type div.cmt-list-border { background-color: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item{ border: 1px solid #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo { text-align: center; line-height: 40px; border-radius: 50% !important; background: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo:before { content: "畅"; font-size: 22px; color: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text, #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text i { color: #5483b1 !important; }#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w{background:#FFF !important;}');};
+})();</script><script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script></body></html>

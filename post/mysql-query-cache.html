@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="fanlychie,范忠云,範宗雲,java,技术,博客"><meta name="baidu-site-verification" content="bQjF64X3Ym"><meta name="keywords" content="fanlychie,范忠云,java,技术,博客,spring,mvc,cloud"><title>MySQL 查询缓存 | 範宗雲</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">MySQL 查询缓存</h1><a id="logo" href="/.">範宗雲</a><p class="description">一路走，一路学。面朝大海，望眼欲穿！</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="请输入搜索关键字 ..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">MySQL 查询缓存</h1><div class="post-meta"><span class="date">2018-03-23</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/post/mysql-query-cache.html#comments" class="comment-count"><i id="changyan_parti_unit" data-xid="post/mysql-query-cache.html"></i>留言</a></div><div class="post-content"><h3 id="1-版本信息"><a href="#1-版本信息" class="headerlink" title="1. 版本信息"></a>1. 版本信息</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">VERSION</span>();</div><div class="line">+<span class="comment">------------+</span></div><div class="line">| version()  |</div><div class="line">+<span class="comment">------------+</span></div><div class="line">| 5.7.21-log |</div><div class="line">+<span class="comment">------------+</span></div></pre></td></tr></table></figure>
+<h3 id="2-查询缓存参数"><a href="#2-查询缓存参数" class="headerlink" title="2. 查询缓存参数"></a>2. 查询缓存参数</h3><p>可以使用以下命令来查看MySQL查询缓存相关的系统参数配置：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SHOW</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'%query_cache%'</span>;</div><div class="line">+<span class="comment">------------------------------+---------+</span></div><div class="line">| Variable_name                | Value   |</div><div class="line">+<span class="comment">------------------------------+---------+</span></div><div class="line">| have_query_cache             | YES     |</div><div class="line">| query_cache_limit            | 1048576 |</div><div class="line">| query_cache_min_res_unit     | 4096    |</div><div class="line">| query_cache_size             | 1048576 |</div><div class="line">| query_cache_type             | OFF     |</div><div class="line">| query_cache_wlock_invalidate | OFF     |</div><div class="line">+<span class="comment">------------------------------+---------+</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">have_query_cache</td>
+<td style="text-align:left">表明查询缓存是否可用。当使用标准的MySQL二进制文件时，该项的值始终会显示YES，即使查询缓存已经关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left">query_cache_limit</td>
+<td style="text-align:left">缓存单条查询结果的最大空间容量值。超出则不会缓存此次查询的结果。默认是1M (1048576(B)/1024/1024=1M)。</td>
+</tr>
+<tr>
+<td style="text-align:left">query_cache_min_res_unit</td>
+<td style="text-align:left">分配缓存区大小的最小单位。当查询的结果被缓存时，MySQL不会一次性将结果缓存到一个大的块中，而是每次分配一块该值大小的空间，使用完之后再分配另外一块，以此类推。<br>默认是4KB (4096(B)/1024=4KB)。注意事项：<br>1) 该参数值如果设置的过大，可能会造成大量的空间未能被完全使用，而产生内存碎片。<br>2) 该参数值如果设置的太小，又可能会增加内存分配次数，进而产生时间上的消耗。</td>
+</tr>
+<tr>
+<td style="text-align:left">query_cache_size</td>
+<td style="text-align:left">查询缓存空间的大小。该值设置的如果不是1024的整数倍，MySQL自动调整降低最小量以达到1024的倍数。如果设置为0，则会禁用查询缓存。</td>
+</tr>
+<tr>
+<td style="text-align:left">query_cache_type</td>
+<td style="text-align:left">查询缓存的类型。可以用来控制查询缓存的开和关。<br> 1) 0或OFF表示关闭查询缓存；<br>2) 1或ON表示开启查询缓存；<br>3) 2或DEMAND时：<br><span style="padding-left:14px">&nbsp;</span>a) 当SELECT语句中出现SQL_NO_CACHE关键字时则不缓存；<br><span style="padding-left:34px">&nbsp;</span>select SQL_NO_CACHE id, name from tb;<br><span style="padding-left:14px">&nbsp;</span>b) 当出现SQL_CACHE关键字则缓存（默认是SQL_CACHE）。<br><span style="padding-left:34px">&nbsp;</span>select SQL_CACHE id, name from tb;</td>
+</tr>
+<tr>
+<td style="text-align:left">query_cache_wlock_invalidate</td>
+<td style="text-align:left">当写锁发生在表上的时，是否先失效该表相关的查询缓存。<br>1) 设置为true，失效该表相关的查询缓存；<br>2) 设置为false，仍然允许读取该表相关的查询缓存；</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-查询缓存性能参数"><a href="#3-查询缓存性能参数" class="headerlink" title="3. 查询缓存性能参数"></a>3. 查询缓存性能参数</h3><p>可以使用以下命令来查看查询缓存的性能参数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SHOW</span> <span class="keyword">STATUS</span> <span class="keyword">LIKE</span> <span class="string">'Qcache%'</span>;</div><div class="line">+<span class="comment">-------------------------+---------+</span></div><div class="line">| Variable_name           | Value   |</div><div class="line">+<span class="comment">-------------------------+---------+</span></div><div class="line">| Qcache_free_blocks      | 1       |</div><div class="line">| Qcache_free_memory      | 1029312 |</div><div class="line">| Qcache_hits             | 2       |</div><div class="line">| Qcache_inserts          | 2       |</div><div class="line">| Qcache_lowmem_prunes    | 0       |</div><div class="line">| Qcache_not_cached       | 1       |</div><div class="line">| Qcache_queries_in_cache | 2       |</div><div class="line">| Qcache_total_blocks     | 6       |</div><div class="line">+<span class="comment">-------------------------+---------+</span></div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Qcache_free_blocks</td>
+<td style="text-align:left">查询缓存中的空闲内存块的数量。如果数值较大，说明有内存碎片产生。可以使用FLUSH QUERY CACHE命令对查询缓存中的内存块进行整理。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_free_memory</td>
+<td style="text-align:left">查询缓存中的空闲内存大小。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_hits</td>
+<td style="text-align:left">缓存命中的次数。每次命中，该数值+1。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_inserts</td>
+<td style="text-align:left">添加到查询缓存中的查询数量。每新缓存一个查询结果，该数值+1。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_lowmem_prunes</td>
+<td style="text-align:left">查询缓存可用空间不足时而删除的已缓存的查询的数量。如果数值较大，说明查询缓存的内存空间不足，或产生了大量的内存碎片。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_not_cached</td>
+<td style="text-align:left">非缓存查询的数量。每个查询的结果如果不能被缓存，该数值+1。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_queries_in_cache</td>
+<td style="text-align:left">查询缓存中的总的查询数量。</td>
+</tr>
+<tr>
+<td style="text-align:left">Qcache_total_blocks</td>
+<td style="text-align:left">查询缓存中的块的数量。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-查询缓存的开启和关闭"><a href="#4-查询缓存的开启和关闭" class="headerlink" title="4. 查询缓存的开启和关闭"></a>4. 查询缓存的开启和关闭</h3><p>MySQL5.7 默认没有开启查询缓存。如果需要开启查询缓存，找到安装目录下的<code>my.ini</code>(Windows)配置文件，添加如下配置，然后重启 MySQL 服务。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[mysqld]</div><div class="line">... ...</div><div class="line">... ...</div><div class="line">query_cache_type=1</div></pre></td></tr></table></figure>
+<p>或者使用命令行方式，该方式需要退出客户端再登录，才看得见状态改变：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> query_cache_type=<span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p><code>set GLOBAL</code>的变更是全局的，如果只想将变更应用于当前的会话，可是使用<code>set SESSION</code>的方式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SET</span> <span class="keyword">SESSION</span> query_cache_type=<span class="number">1</span>;</div></pre></td></tr></table></figure>
+<h3 id="5-使用查询缓存"><a href="#5-使用查询缓存" class="headerlink" title="5. 使用查询缓存"></a>5. 使用查询缓存</h3><p>MySQL 的查询缓存对查询语句的大小写是敏感的，只有当两个查询语句完全一致时，才会命中缓存。</p>
+<p>第一次查询一张100万条数据的表，耗时1.63秒：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT COUNT(*) FROM emp;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|  1000000 |</div><div class="line">+----------+</div><div class="line">1 row in set (1.63 sec)</div></pre></td></tr></table></figure>
+<p>第二次查询同一张表，耗时为0，可见是直接命中查询缓存：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT COUNT(*) FROM emp;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|  1000000 |</div><div class="line">+----------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>第三次查询将<code>SELECT</code>改写成<code>select</code>，耗时1.57秒，可见并没有命中缓存：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select COUNT(*) FROM emp;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|  1000000 |</div><div class="line">+----------+</div><div class="line">1 row in set (1.57 sec)</div></pre></td></tr></table></figure>
+<h3 id="6-整理查询缓存"><a href="#6-整理查询缓存" class="headerlink" title="6. 整理查询缓存"></a>6. 整理查询缓存</h3><p>用于对查询缓存的内存块进行整理，减少内存碎片：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FLUSH</span> <span class="keyword">QUERY</span> <span class="keyword">CACHE</span>;</div></pre></td></tr></table></figure>
+<h3 id="6-清除查询缓存"><a href="#6-清除查询缓存" class="headerlink" title="6. 清除查询缓存"></a>6. 清除查询缓存</h3><p>用于清除所有缓存的查询缓存结果：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RESET</span> <span class="keyword">QUERY</span> <span class="keyword">CACHE</span>;</div></pre></td></tr></table></figure></div><div class="tags"><a href="/tags/数据库/">数据库</a></div><div class="post-share"></div><div class="post-nav"><a href="/post/mysql-explain.html" class="pre">MySQL Explain 分析 SQL 的执行计划</a><a href="/post/mysql57-resolve-cmd-net-command.html" class="next">解决命令行无法关闭和启动MySQL服务的问题</a></div><div id="comments"><div id="SOHUCS" sid="post/mysql-query-cache.html"></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-版本信息"><span class="toc-text">1. 版本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-查询缓存参数"><span class="toc-text">2. 查询缓存参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-查询缓存性能参数"><span class="toc-text">3. 查询缓存性能参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-查询缓存的开启和关闭"><span class="toc-text">4. 查询缓存的开启和关闭</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-使用查询缓存"><span class="toc-text">5. 使用查询缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-整理查询缓存"><span class="toc-text">6. 整理查询缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-清除查询缓存"><span class="toc-text">6. 清除查询缓存</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/post/springmvc-dubbo-mybatis-with-cat.html">springmvc+dubbo+mybatis 接入大众点评 CAT 监控平台</a></li><li class="post-list-item"><a class="post-list-link" href="/post/cat-setup.html">搭建大众点评CAT监控平台</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-select-optimization.html">MySQL 查询优化</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-index.html">MySQL 索引</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-explain.html">MySQL Explain 分析 SQL 的执行计划</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql-query-cache.html">MySQL 查询缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql57-resolve-cmd-net-command.html">解决命令行无法关闭和启动MySQL服务的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/post/mysql57-setup.html">MySQL5.7 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/post/linux-commands.html">程序员必知必会的 Linux Shell 命令</a></li><li class="post-list-item"><a class="post-list-link" href="/post/fastdfs-client.html">FastDFS 客户端工具类</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/缓存/" style="font-size: 15px;">缓存</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/开发工具包/" style="font-size: 15px;">开发工具包</a> <a href="/tags/Dubbo/" style="font-size: 15px;">Dubbo</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/Eclipse/" style="font-size: 15px;">Eclipse</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/表达式/" style="font-size: 15px;">表达式</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Java8/" style="font-size: 15px;">Java8</a> <a href="/tags/CAS/" style="font-size: 15px;">CAS</a> <a href="/tags/工具类/" style="font-size: 15px;">工具类</a> <a href="/tags/Tomcat/" style="font-size: 15px;">Tomcat</a> <a href="/tags/FastDFS/" style="font-size: 15px;">FastDFS</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/ActiveMQ/" style="font-size: 15px;">ActiveMQ</a> <a href="/tags/Memcached/" style="font-size: 15px;">Memcached</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/网络爬虫/" style="font-size: 15px;">网络爬虫</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Solr/" style="font-size: 15px;">Solr</a> <a href="/tags/RabbitMQ/" style="font-size: 15px;">RabbitMQ</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 15px;">Thymeleaf</a> <a href="/tags/Zookeeper/" style="font-size: 15px;">Zookeeper</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">08月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">07月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">04月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">03月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">11月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">09月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">08月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">07月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">06月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">05月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">04月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">02月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">01月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">09月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">01月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">12月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">11月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">10月 2015</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> | <a href="/atom.xml">订阅</a> |<span>主题<a rel="nofollow" target="_blank" href="https://hexo.io/zh-cn/"> Hexo</a><a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake</a> |</span><span>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?4e375539c063ce29112e53dea9f27aae";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._config = { showScore: true };
+(function(){ 
+  var appid = 'cyt5nPNL8'; 
+  var conf = '5fe2e421f26b9cd1b7c459f7417c85b6'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+  if (width < 960) { 
+    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } 
+  else { 
+    var loadJs=function(d,a){
+      var b=document.createElement("script");b.setAttribute("type","text/javascript");
+      b.setAttribute("charset","UTF-8");
+      b.setAttribute("src",d);
+      if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+      nodes.appendChild(b)
+    };
+    loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+  } 
+  var loadCss = function(cssString){  
+    var style=document.createElement("style");  
+    style.setAttribute("type", "text/css");  
+    if(style.styleSheet){// IE  
+        style.styleSheet.cssText = cssString;  
+    } else {// w3c  
+        var cssText = document.createTextNode(cssString);  
+        style.appendChild(cssText);  
+    }
+    nodes.appendChild(style);
+  }
+  window.onload=function(){loadCss('.module-hot-topic, .module-cmt-float-bar { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .cbox-prompt-w span.prompt-empty-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w .form-text-w span.text-null, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w a.comment-link-w, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w span.comment-text-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w div.service-wrap-w a:hover, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w span.wrap-name-w, #SOHUCS #SOHU_MAIN .module-cmt-list .action-click-gw span.click-disable-eg a em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li div.title-name-gw, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number .comment-number span.cy-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number span.comment-number, #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active, #SOHUCS #SOHU_MAIN .module-cmt-list .msg-wrap-gw .wrap-action-gw .action-click-gw span a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .picture-box-gw div.box-action-gw a:hover, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-action-gw .action-click-gw span a:hover em.icon-name-bg, #SOHUCS #SOHU_MAIN .module-cmt-list .wrap-user-gw span.user-name-gw a { color: #40759b !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-r, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-l, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-r { display: none !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-l { background: #FFF !important; top: -2px !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-function-w .uploading-wrapper-dw div.wrapper-image-dw, #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-main, #SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w div.form-text-w, #SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login, #SOHUCS #SOHU_MAIN .module-cmt-list .module-cmt-box .post-wrap-w div.post-wrap-main { border: 1px solid #e6e6e6 !important; border-radius: 20px 20px 20px 20px; margin: 0 !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw { width: 130px !important; height: 34px !important; line-height: 33px !important; font-size: 17px !important; background: transparent !important; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw:before { content: "发表评论"; display: block; border-radius: 20px; width: 100%; height: 100%; color: #FFF; background: #5483b1; -webkit-box-shadow: 0 -1px 4px #5483b1 inset; box-shadow: 0 -1px 10px #5483b1 inset; } #SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a:hover .btn-fw:before { color: #40759b; background: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li{ background: none !important; border-bottom: 1px solid #e6e6e6; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active { border: 1px solid #e6e6e6; border-radius: 10px 10px 0 0; border-bottom: none; } #SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li .title-name-gw div.title-name-gw-tag { background: #5483b1 !important; border-radius: 3px; } #SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type div.cmt-list-border { background-color: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item{ border: 1px solid #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo { text-align: center; line-height: 40px; border-radius: 50% !important; background: #e6e6e6 !important; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo:before { content: "畅"; font-size: 22px; color: #FFF; } #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text, #SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text i { color: #5483b1 !important; }#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w{background:#FFF !important;}');};
+})();</script><script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script></body></html>

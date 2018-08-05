@@ -667,19 +667,6 @@ body {
   position: relative;
   text-align: center;
 }
-.post .post-content .code-title {
-  margin-bottom: -40px;
-  padding: 4px 0 0 15px;
-  color: #ffb4b4;
-  background-color: #f7f8f8;
-  border-radius: 5px;
-  box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -khtml-user-select: none;
-  user-select: none;
-}
 .post .post-content blockquote p,
 .post .post-content .stressed p {
   margin: 0;
@@ -724,19 +711,55 @@ body {
 .post .post-content ul {
   margin: 0px 0 8px -10px;
 }
-.post .tags {
+.post .post-content .code-title {
+  margin-bottom: -34px;
+  padding: 4px 0 0 15px;
+  color: #ffb4b4;
+  background-color: #f7f8f8;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+.post .post-content .tips {
+  line-height: 1.1em;
+  padding-top: 15px;
+  margin: 1em 0;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+  margin-top: 0;
+  padding-bottom: 15px;
+  padding-left: 49px;
+  background: #f7f8f8 url("../img/bulb_icon.png") no-repeat 15px 5px;
+}
+.post .post-content .cmtbl {
+  line-height: 20px;
+}
+.cmtbl td {
+  border: none;
+}
+.cmtbl td img {
+  margin-left: -6px;
+}
+.cfigure br {
+  display: none;
+}
+.tags {
   padding-bottom: 0.5em;
   text-align: right;
 }
-.post .tags a {
+.tags a {
   margin-right: 0.5em;
 }
-.post .tags a:before {
+.tags a:before {
   font-family: "iconfont" !important;
   content: "\e008";
   padding-right: 0.3em;
 }
-.post .post-share::after {
+.post-share::after {
   content: ' ';
   display: block;
   clear: both;
