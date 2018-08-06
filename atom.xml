@@ -88,7 +88,7 @@
     <link href="http://yoursite.com/post/cat-setup.html"/>
     <id>http://yoursite.com/post/cat-setup.html</id>
     <published>2018-07-27T23:38:36.000Z</published>
-    <updated>2018-08-05T09:28:50.492Z</updated>
+    <updated>2018-08-06T03:22:04.447Z</updated>
     
     <content type="html"><![CDATA[<table class="cmtbl"><tr><td style="border-right:1px solid #e2dfdf!important;width:5.2%"><img src="../img/info.png" style="width:18px"></td><td style="padding-left:18px;width:94.8%;"><p>CAT（Central Application Tracking）是基于Java开发的实时应用监控平台，包括实时应用监控，业务监控。关于CAT的具体介绍可移步到<a href="https://github.com/dianping/cat" target="_blank" rel="external">CAT官网</a>进行查阅。</p></td></tr></table>
 
@@ -198,7 +198,10 @@
 <p><img src="../img/cat-cluster.png"></p>
 <h5 id="3-5-客户端路由设置"><a href="#3-5-客户端路由设置" class="headerlink" title="3.5 客户端路由设置"></a>3.5 客户端路由设置</h5><p><code>10.10.10.121</code>作为控制台服务，只需配置这台即可。</p>
 <p>依次打开<code>配置 --&gt; 全局告警配置 --&gt; 客户端路由</code>修改<code>id</code>为<code>CAT</code>部署的服务器<code>ip</code>：</p>
-<p><img src="../img/cat-router-cluster.png"></p>
+<p><img src="https://raw.githubusercontent.com/fanlychie/mdimg/master/cat-alert-router-cluster.png" alt=""></p>
+<p>其中<code>10.10.10.121</code>作为备份，正常情况下不作为消费机（即不起消费数据的作用），仅当<code>CAT</code>集群中的其它节点（如这里的<code>10.10.10.122</code>、<code>10.10.10.123</code>节点）都挂掉之后才会对数据进行消费。</p>
+<p>该配置会自动同步到<code>CAT</code>集群中的其它节点（如这里的<code>10.10.10.122</code>、<code>10.10.10.123</code>节点）。</p>
+<p>配置完成后，重启<code>10.10.10.121</code>服务器的<code>CAT</code>应用容器（即重启<code>tomcat</code>）。</p>
 ]]></content>
     
     <summary type="html">

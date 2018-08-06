@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/post/cat-setup.html</loc>
+    
+    <lastmod>2018-08-06T03:22:04.447Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/post/thymeleaf.html</loc>
     
     <lastmod>2018-08-05T15:38:29.136Z</lastmod>
@@ -145,13 +152,6 @@
     <loc>http://yoursite.com/post/dubbo-admin-setup.html</loc>
     
     <lastmod>2018-08-05T15:35:51.051Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/post/cat-setup.html</loc>
-    
-    <lastmod>2018-08-05T09:28:50.492Z</lastmod>
     
   </url>
   

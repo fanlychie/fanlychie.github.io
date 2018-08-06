@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/cat-setup.html</loc>
+    <lastmod>2018-08-06T03:22:04.447Z</lastmod>
+    <data>
+        <display>
+        <title>搭建大众点评CAT监控平台</title>
+        <pubTime>2018-07-27T23:38:36.000Z</pubTime>
+        
+        <tag>监控</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/thymeleaf.html</loc>
     <lastmod>2018-08-05T15:38:29.136Z</lastmod>
     <data>
@@ -354,23 +371,6 @@
         <pubTime>2017-07-25T14:20:38.000Z</pubTime>
         
         <tag>Dubbo</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/post/cat-setup.html</loc>
-    <lastmod>2018-08-05T09:28:50.492Z</lastmod>
-    <data>
-        <display>
-        <title>搭建大众点评CAT监控平台</title>
-        <pubTime>2018-07-27T23:38:36.000Z</pubTime>
-        
-        <tag>监控</tag>
          
          
            
