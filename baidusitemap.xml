@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://yoursite.com/post/springmvc-dubbo-mybatis-with-cat.html</loc>
+    <lastmod>2018-08-06T03:34:24.266Z</lastmod>
+    <data>
+        <display>
+        <title>springmvc+dubbo+mybatis 接入大众点评 CAT 监控平台</title>
+        <pubTime>2018-08-04T23:38:36.000Z</pubTime>
+        
+        <tag>监控</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/post/cat-setup.html</loc>
     <lastmod>2018-08-06T03:22:04.447Z</lastmod>
     <data>
@@ -29,23 +46,6 @@
         <pubTime>2017-04-03T18:32:29.000Z</pubTime>
         
         <tag>Thymeleaf</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/post/springmvc-dubbo-mybatis-with-cat.html</loc>
-    <lastmod>2018-08-05T15:38:16.980Z</lastmod>
-    <data>
-        <display>
-        <title>springmvc+dubbo+mybatis 接入大众点评 CAT 监控平台</title>
-        <pubTime>2018-08-04T23:38:36.000Z</pubTime>
-        
-        <tag>监控</tag>
          
          
            

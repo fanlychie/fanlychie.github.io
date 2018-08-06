@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/post/springmvc-dubbo-mybatis-with-cat.html</loc>
+    
+    <lastmod>2018-08-06T03:34:24.266Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/post/cat-setup.html</loc>
     
     <lastmod>2018-08-06T03:22:04.447Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>http://yoursite.com/post/thymeleaf.html</loc>
     
     <lastmod>2018-08-05T15:38:29.136Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/post/springmvc-dubbo-mybatis-with-cat.html</loc>
-    
-    <lastmod>2018-08-05T15:38:16.980Z</lastmod>
     
   </url>
   
